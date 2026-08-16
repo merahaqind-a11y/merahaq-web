@@ -1,0 +1,24 @@
+{
+  "summary": "Verified all 6 requested UI changes on Mera Haq Astro site (Hindi default). Vitest full suite 86/86 passed. Browser checks at 1440x900 confirm: (1) Impact section no longer contains data-testid='impact-failures' nor the Hindi text 'जो काम नहीं आया'; (2) Hero section background at (100,400) is rgb(255,245,248) = pink-050, covering the left side of the viewport; (3) data-testid='sunie' removed from hero; (4) data-testid='hero-escape' removed, only data-testid='hero-cta' present pointing to /shuru; (5) hero image present with both pink-050→transparent gradient overlays (w-[45%] + w-24) inside [data-testid='hero-art']. Visual screenshot confirms the image blends smoothly into the pink section on its left edge.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/merahaq-web/tests/deck.spec.ts", "/app/merahaq-web/tests/i18n.spec.ts", "/app/merahaq-web/tests/tokens.spec.ts"],
+  "action_items": [],
+  "critical_code_review_comments": [],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "All requested UI removals and hero pink-050 background/gradient blending are verified. Vitest 86/86 stable. No open issues from this iteration.",
+  "verification_details": {
+    "vitest": "86/86 passed",
+    "hero_bg_at_100_400": "rgb(255,245,248) on section.bg-pink-050",
+    "hero_cta_href": "/shuru",
+    "gradient_overlays_in_hero_art": 2
+  }
+}
