@@ -1,0 +1,24 @@
+---
+/**
+ * Loads the GSAP choreography on idle, after first paint, home route only.
+ *
+ * Dynamic import means GSAP + ScrollTrigger never enter the bundle for /shuru or the
+ * card pages, and never block the hero from painting on a throttled connection. If the
+ * import never resolves — dead network, blocked bundle — the page is already complete
+ * and readable, because every animated element is authored in its final state and
+ * animated FROM a variant, never TO one.
+ */
+---
+
+<script>
+  const load = () => {
+    void import('../../lib/motion').then((m) => m.initHomeMotion());
+  };
+
+  if ('requestIdleCallback' in window) {
+    (window as unknown as { requestIdleCallback: (cb: () => void, o?: { timeout: number }) => void })
+      .requestIdleCallback(load, { timeout: 2000 });
+  } else {
+    setTimeout(load, 1200);
+  }
+</script>

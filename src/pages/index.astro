@@ -3,6 +3,14 @@ import Base from '../layouts/Base.astro';
 import Header from '../components/chrome/Header.astro';
 import HelplineStrip from '../components/chrome/HelplineStrip.astro';
 import Hero from '../components/home/Hero.astro';
+import HowTo from '../components/home/HowTo.astro';
+import Value from '../components/home/Value.astro';
+import Impact from '../components/home/Impact.astro';
+import CardGallery from '../components/home/CardGallery.astro';
+import Features from '../components/home/Features.astro';
+import Faq from '../components/home/Faq.astro';
+import Footer from '../components/home/Footer.astro';
+import HomeMotion from '../components/home/HomeMotion.astro';
 
 const lang = 'hi' as const;
 ---
@@ -15,14 +23,25 @@ const lang = 'hi' as const;
   <Header lang={lang} showLogin />
   <HelplineStrip lang={lang} />
 
+  {/* Order is fixed and asserted by test: hero → howto → value → impact →
+      cards → features → faq → footer. */}
   <main id="main">
     <Hero lang={lang} />
+    <HowTo lang={lang} />
+    <Value lang={lang} />
+    <Impact lang={lang} />
+    <CardGallery lang={lang} />
+    <Features lang={lang} />
+    <Faq lang={lang} />
   </main>
+
+  <Footer lang={lang} />
+  <HomeMotion />
 </Base>
 
 <script>
-  // F-14: reveal the returning-visitor link only if a deck actually exists. Kept out
-  // of the static HTML so the page is byte-identical for every visitor and nothing
+  // F-14: reveal the returning-visitor link only when a deck actually exists. Kept out
+  // of the static HTML so the page is byte-identical for every visitor, and nothing
   // about her is baked into what the server sends.
   import { hasDeck } from '../lib/prefs';
 

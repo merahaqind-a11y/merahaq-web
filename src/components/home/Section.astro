@@ -1,0 +1,67 @@
+---
+import type { Lang } from '../../lib/types';
+import { t } from '../../lib/i18n';
+
+interface Props {
+  id: string;
+  headingKey: string;
+  subKey?: string;
+  lang?: Lang;
+  /** The one dark chapter. Exactly one section on the page may set this. */
+  dark?: boolean;
+  tint?: boolean;
+  /** Renders the giant rounded sheet corners where a light sheet meets the dark chapter. */
+  sheet?: boolean;
+  class?: string;
+}
+
+const { id, headingKey, subKey, lang = 'hi', dark = false, tint = false, sheet = false, class: cls = '' } = Astro.props;
+---
+
+{
+  /* Flat hierarchy by design: every section heading is the same size. No section
+     outranks another — appropriate for a product where each route is equally valid.
+     Hierarchy below this level is carried by weight and colour, never by size. */
+}
+<section
+  data-section={id}
+  class:list={[
+    'relative px-5 py-16 sm:py-24',
+    dark && 'bg-ink text-surface',
+    tint && !dark && 'bg-pink-050',
+    !dark && !tint && 'bg-surface',
+    sheet && 'rounded-t-[var(--radius-sheet)]',
+    cls,
+  ]}
+  aria-labelledby={`${id}-heading`}
+>
+  <div class="mx-auto max-w-6xl">
+    <h2
+      id={`${id}-heading`}
+      class:list={[
+        'shirorekha text-section leading-tight font-bold',
+        dark ? 'text-surface' : 'text-ink',
+      ]}
+      style="--shirorekha-width:3.5rem"
+      data-i18n={headingKey}
+      data-anim="section-heading"
+    >
+      {t(headingKey, lang)}
+    </h2>
+
+    {
+      subKey && (
+        <p
+          class:list={['mt-3 max-w-2xl text-lead', dark ? 'text-surface/80' : 'text-muted']}
+          data-i18n={subKey}
+        >
+          {t(subKey, lang)}
+        </p>
+      )
+    }
+
+    <div class="mt-10">
+      <slot />
+    </div>
+  </div>
+</section>

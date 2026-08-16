@@ -283,6 +283,177 @@
   "lang.short.hinglish": { "hi": "Hg", "hinglish": "Hg", "en": "Hg" },
   "lang.short.en": { "hi": "EN", "hinglish": "EN", "en": "EN" },
 
+  "howto.heading": { "hi": "कैसे चलता है", "hinglish": "Kaise chalta hai", "en": "How it works" },
+  "howto.1.title": { "hi": "5 छोटे सवाल", "hinglish": "5 chhote sawaal", "en": "Five short questions" },
+  "howto.1.body": {
+    "hi": "सिर्फ़ दबाना है। कोई नाम नहीं, कोई नंबर नहीं।",
+    "hinglish": "Sirf dabana hai. Koi naam nahin, koi number nahin.",
+    "en": "Tap-only. No name, no phone number, no form."
+  },
+  "howto.2.title": { "hi": "आपके 5 कार्ड", "hinglish": "Aapke 5 card", "en": "Your five cards" },
+  "howto.2.body": {
+    "hi": "दस में से वे पाँच, जो आपके काम के हैं।",
+    "hinglish": "Das mein se woh paanch, jo aapke kaam ke hain.",
+    "en": "The five of the ten that matter most to you."
+  },
+  "howto.3.title": { "hi": "एक कदम आज", "hinglish": "Ek kadam aaj", "en": "One step today" },
+  "howto.3.body": {
+    "hi": "हर कार्ड पर एक छोटा काम और एक मुफ़्त नंबर।",
+    "hinglish": "Har card par ek chhota kaam aur ek muft number.",
+    "en": "Every card ends in one quiet action and a free number."
+  },
+
+  "value.claim": { "hi": "जानकारी नहीं — रास्ता", "hinglish": "Jaankari nahin — raasta", "en": "Not information — a route" },
+  "value.sub": {
+    "hi": "बताना आसान है। रास्ता दिखाना मुश्किल।",
+    "hinglish": "Batana aasan hai. Raasta dikhana mushkil.",
+    "en": "Explaining a right is easy. Getting you to help is not."
+  },
+  "value.1.title": { "hi": "वकील ने जाँचा है", "hinglish": "Vakil ne jaancha hai", "en": "Checked by a lawyer" },
+  "value.1.body": {
+    "hi": "हर कार्ड पर समीक्षा करने वाले का नाम और तारीख़ है।",
+    "hinglish": "Har card par sameeksha karne waale ka naam aur tareekh hai.",
+    "en": "Every card carries the reviewing lawyer's name and the date it was checked."
+  },
+  "value.2.title": { "hi": "कोई लॉग-इन नहीं", "hinglish": "Koi log-in nahin", "en": "No login, nothing saved" },
+  "value.2.body": {
+    "hi": "आपके जवाब कहीं नहीं जाते। कुछ सेव नहीं होता।",
+    "hinglish": "Aapke jawab kahin nahin jaate. Kuchh save nahin hota.",
+    "en": "Your answers never leave the phone, and nothing about you is stored."
+  },
+  "value.3.title": { "hi": "डेटा ख़त्म हो तब भी", "hinglish": "Data khatam ho tab bhi", "en": "Works without data" },
+  "value.3.body": {
+    "hi": "एक बार खुलने के बाद कार्ड और नंबर बिना नेट चलते हैं।",
+    "hinglish": "Ek baar khulne ke baad card aur number bina net chalte hain.",
+    "en": "After the first visit the cards and the numbers work with no connection."
+  },
+  "value.4.title": { "hi": "सारे नंबर मुफ़्त", "hinglish": "Saare number muft", "en": "Every number is free" },
+  "value.4.body": {
+    "hi": "वकील का पैसा सरकार देती है। आपसे कुछ नहीं लगता।",
+    "hinglish": "Vakil ka paisa sarkar deti hai. Aapse kuchh nahin lagta.",
+    "en": "Legal aid is paid for by the state. It costs you nothing."
+  },
+
+  "impact.heading": { "hi": "असर — अब तक क्या हुआ", "hinglish": "Asar — ab tak kya hua", "en": "Impact — what has happened" },
+  "impact.sub": {
+    "hi": "छोटा और सच्चा, बड़ा और खोखला से बेहतर है।",
+    "hinglish": "Chhota aur sachcha, bada aur khokhla se behtar hai.",
+    "en": "Small and real beats large and hollow."
+  },
+  "impact.1": { "hi": "महिलाएँ जिन तक पहुँचे", "hinglish": "Mahilayein jin tak pahunche", "en": "Women reached in person" },
+  "impact.2": { "hi": "कार्ड डाउनलोड हुए", "hinglish": "Card download hue", "en": "Cards downloaded" },
+  "impact.3": { "hi": "कार्ड छपे और बाँटे गए", "hinglish": "Card chhape aur baante gaye", "en": "Cards printed and handed out" },
+  "impact.4": { "hi": "सत्र हुए", "hinglish": "Satra hue", "en": "Sessions run" },
+  "impact.5": { "hi": "अपने नाम के खाते खुले", "hinglish": "Apne naam ke khaate khule", "en": "Accounts opened in her own name" },
+  "impact.pending": {
+    "hi": "पहला सत्र अभी होना बाकी है। तब तक कोई संख्या नहीं।",
+    "hinglish": "Pehla satra abhi hona baaki hai. Tab tak koi sankhya nahin.",
+    "en": "The first session has not run yet, so there are no numbers to show."
+  },
+  "impact.method": {
+    "hi": "गिनती का तरीक़ा हम खुलकर बताते हैं।",
+    "hinglish": "Ginti ka tareeka hum khulkar batate hain.",
+    "en": "We publish how each number is counted."
+  },
+  "impact.failures": { "hi": "जो काम नहीं आया", "hinglish": "Jo kaam nahin aaya", "en": "What did not work" },
+  "impact.failuresBody": {
+    "hi": "यहाँ हम वह भी लिखेंगे जो नहीं चला। यही तो असली बात है।",
+    "hinglish": "Yahaan hum woh bhi likhenge jo nahin chala. Yahi toh asli baat hai.",
+    "en": "What failed gets published here too, not buried. That is the whole point."
+  },
+
+  "gallery.heading": { "hi": "दस हक़, दस कार्ड", "hinglish": "Das haq, das card", "en": "Ten rights, ten cards" },
+  "gallery.sub": {
+    "hi": "सवालों के बाद पाँच चुने जाते हैं। दसों हमेशा खुले रहते हैं।",
+    "hinglish": "Sawaalon ke baad paanch chune jaate hain. Doson hamesha khule rehte hain.",
+    "en": "The questions pick five for you. All ten stay open to everyone, always."
+  },
+
+  "features.heading": { "hi": "और क्या-क्या है", "hinglish": "Aur kya-kya hai", "en": "What else is here" },
+  "features.audio.title": { "hi": "हर पन्ना सुन सकती हैं", "hinglish": "Har panna sun sakti hain", "en": "Listen to every page" },
+  "features.audio.body": {
+    "hi": "पढ़ना ज़रूरी नहीं। आँखें बंद करके भी पूरा कार्ड समझ आएगा।",
+    "hinglish": "Padhna zaroori nahin. Aankhein band karke bhi poora card samajh aayega.",
+    "en": "Reading is optional. Every card can be understood with your eyes closed."
+  },
+  "features.share.title": { "hi": "WhatsApp पर भेजें", "hinglish": "WhatsApp par bhejein", "en": "Send on WhatsApp" },
+  "features.share.body": {
+    "hi": "एक दबाने में कार्ड और आवाज़, दोनों किसी बहन तक।",
+    "hinglish": "Ek dabane mein card aur aawaz, dono kisi behen tak.",
+    "en": "One tap sends the card and its voice note together to another woman."
+  },
+  "features.print.title": { "hi": "छाप कर रख लें", "hinglish": "Chhaap kar rakh lein", "en": "Print it out" },
+  "features.print.body": {
+    "hi": "A5 कार्ड, जो फ़ोन के बाहर भी काम आता है।",
+    "hinglish": "A5 card, jo phone ke bahar bhi kaam aata hai.",
+    "en": "An A5 card that survives outside the phone entirely."
+  },
+  "features.offline.title": { "hi": "बिना नेट भी", "hinglish": "Bina net bhi", "en": "Works offline" },
+  "features.offline.body": {
+    "hi": "मदद के नंबर तब भी खुलेंगे जब डेटा ख़त्म हो।",
+    "hinglish": "Madad ke number tab bhi khulenge jab data khatam ho.",
+    "en": "The help numbers open even when the data has run out."
+  },
+  "features.lang.title": { "hi": "तीन भाषाएँ", "hinglish": "Teen bhashayein", "en": "Three languages" },
+  "features.lang.body": {
+    "hi": "हिंदी, हिंग्लिश और अंग्रेज़ी — कभी भी बदल लें।",
+    "hinglish": "Hindi, Hinglish aur angrezi — kabhi bhi badal lein.",
+    "en": "Hindi, Hinglish and English, switchable from any page at any moment."
+  },
+  "features.exit.title": { "hi": "तुरंत बंद करें", "hinglish": "Turant band karein", "en": "Leave instantly" },
+  "features.exit.body": {
+    "hi": "ऊपर दाईं तरफ़ का ✘ दबाते ही यह पन्ना चला जाता है।",
+    "hinglish": "Upar daayi taraf ka ✘ dabate hi yeh panna chala jata hai.",
+    "en": "The ✘ at the top right leaves this page the instant you press it."
+  },
+
+  "faq.heading": { "hi": "आम सवाल", "hinglish": "Aam sawaal", "en": "Common questions" },
+  "faq.1.q": { "hi": "क्या यह मुफ़्त है?", "hinglish": "Kya yeh muft hai?", "en": "Is this free?" },
+  "faq.1.a": {
+    "hi": "हाँ, पूरी तरह। जिन नंबरों पर हम भेजते हैं, वे भी मुफ़्त हैं।",
+    "hinglish": "Haan, poori tarah. Jin numberon par hum bhejte hain, woh bhi muft hain.",
+    "en": "Yes, completely. So are the helplines and the legal aid we point you to."
+  },
+  "faq.2.q": { "hi": "क्या मेरा नाम पूछा जाएगा?", "hinglish": "Kya mera naam poochha jayega?", "en": "Will you ask for my name?" },
+  "faq.2.a": {
+    "hi": "नहीं। न नाम, न नंबर, न कोई फ़ॉर्म। कभी नहीं।",
+    "hinglish": "Nahin. Na naam, na number, na koi form. Kabhi nahin.",
+    "en": "No. No name, no phone number, no form — not at any point."
+  },
+  "faq.3.q": { "hi": "फ़ोन में क्या सेव होता है?", "hinglish": "Phone mein kya save hota hai?", "en": "What gets saved on my phone?" },
+  "faq.3.a": {
+    "hi": "सिर्फ़ आपके पाँच कार्ड के नाम। आपके जवाब कहीं नहीं रखे जाते।",
+    "hinglish": "Sirf aapke paanch card ke naam. Aapke jawab kahin nahin rakhe jaate.",
+    "en": "Only which five cards you were shown. Your answers are never stored, anywhere."
+  },
+  "faq.4.q": { "hi": "क्या यह सलाह है?", "hinglish": "Kya yeh salaah hai?", "en": "Is this legal advice?" },
+  "faq.4.a": {
+    "hi": "नहीं। यह जानकारी है। सलाह के लिए 15100 पर मुफ़्त वकील मिलता है।",
+    "hinglish": "Nahin. Yeh jaankari hai. Salaah ke liye 15100 par muft vakil milta hai.",
+    "en": "No, this is information. For advice, 15100 connects you to a free lawyer."
+  },
+  "faq.5.q": { "hi": "क्या यह वकील ने देखा है?", "hinglish": "Kya yeh vakil ne dekha hai?", "en": "Has a lawyer checked this?" },
+  "faq.5.a": {
+    "hi": "हर कार्ड की कानूनी समीक्षा होती है। नाम और तारीख़ नीचे लिखी रहती है।",
+    "hinglish": "Har card ki kanooni sameeksha hoti hai. Naam aur tareekh neeche likhi rehti hai.",
+    "en": "Every card is legally reviewed, with the reviewer's name and date at the foot of the page."
+  },
+  "faq.6.q": { "hi": "क्या मैं यह किसी और को भेज सकती हूँ?", "hinglish": "Kya main yeh kisi aur ko bhej sakti hoon?", "en": "Can I send this to someone else?" },
+  "faq.6.a": {
+    "hi": "हाँ, ज़रूर भेजिए। हर कार्ड WhatsApp पर एक दबाने में चला जाता है।",
+    "hinglish": "Haan, zaroor bhejiye. Har card WhatsApp par ek dabane mein chala jata hai.",
+    "en": "Please do. Every card sends on WhatsApp in a single tap."
+  },
+
+  "footer.rights": { "hi": "हक़", "hinglish": "Haq", "en": "Rights" },
+  "footer.help": { "hi": "मदद", "hinglish": "Madad", "en": "Help" },
+  "footer.about": { "hi": "इस काम के बारे में", "hinglish": "Is kaam ke baare mein", "en": "About this work" },
+  "footer.tagline": {
+    "hi": "हर योजना का पता न हो, पर हर हक़ का पता हो।",
+    "hinglish": "Har yojana ka pata na ho, par har haq ka pata ho.",
+    "en": "You may not know every scheme. You should know every right."
+  },
+
   "storage.blocked": {
     "hi": "यह फ़ोन कार्ड याद नहीं रखेगा।",
     "hinglish": "Yeh phone card yaad nahin rakhega.",

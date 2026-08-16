@@ -1,0 +1,133 @@
+---
+import { t } from '../../lib/i18n';
+import type { Lang } from '../../lib/types';
+import { VERIFIED_ON_DISPLAY } from '../../lib/cards';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'hi' } = Astro.props;
+
+const REVIEWER = import.meta.env['PUBLIC_REVIEWER_NAME'] || '—';
+
+const RIGHTS_LINKS = [
+  { href: '/shuru', key: 'menu.diagnostic' },
+  { href: '/sabhi-card', key: 'menu.allCards' },
+  { href: '/aapke-card', key: 'menu.myCards' },
+];
+const ABOUT_LINKS = [
+  { href: '/hamare-baare-mein', key: 'menu.about' },
+  { href: '/asar', key: 'menu.impact' },
+];
+const NUMBERS = ['181', '112', '15100', '14454'] as const;
+---
+
+{
+  /* The angled wedge into the dark footer — the Verdant Civic move. A clip-path, not a
+     border, so it costs nothing and scales to any width. */
+}
+<div class="h-12 bg-ink [clip-path:polygon(0_100%,100%_0,100%_100%)]" aria-hidden="true"></div>
+
+<footer data-section="footer" class="bg-ink px-5 pt-4 pb-12 text-surface">
+  <div class="mx-auto max-w-6xl">
+    <p class="max-w-lg text-lead text-surface/90" data-i18n="footer.tagline">
+      {t('footer.tagline', lang)}
+    </p>
+
+    <div class="mt-10 grid gap-8 sm:grid-cols-3">
+      <nav aria-labelledby="foot-rights">
+        <h2 id="foot-rights" class="text-[0.9375rem] font-bold text-pink-200" data-i18n="footer.rights">
+          {t('footer.rights', lang)}
+        </h2>
+        <ul class="mt-3 grid">
+          {
+            RIGHTS_LINKS.map(({ href, key }) => (
+              <li>
+                <a
+                  href={href}
+                  class="flex tap items-center text-surface/85 no-underline hover:underline"
+                  data-i18n={key}
+                >
+                  {t(key, lang)}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="foot-help">
+        <h2 id="foot-help" class="text-[0.9375rem] font-bold text-pink-200" data-i18n="footer.help">
+          {t('footer.help', lang)}
+        </h2>
+        <ul class="mt-3 grid">
+          {
+            NUMBERS.map((n) => (
+              <li>
+                <a
+                  href={`tel:${n}`}
+                  data-testid={`foot-tel-${n}`}
+                  class="flex tap items-center gap-3 text-surface/85 no-underline hover:underline"
+                >
+                  <span class="mono font-bold text-surface">{n}</span>
+                  <span class="text-[0.9375rem]" data-i18n={`helpline.${n}`}>
+                    {t(`helpline.${n}`, lang)}
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a
+              href="/madad"
+              class="flex tap items-center text-surface/85 no-underline hover:underline"
+              data-i18n="menu.madad"
+            >
+              {t('menu.madad', lang)}
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="foot-about">
+        <h2 id="foot-about" class="text-[0.9375rem] font-bold text-pink-200" data-i18n="footer.about">
+          {t('footer.about', lang)}
+        </h2>
+        <ul class="mt-3 grid">
+          {
+            ABOUT_LINKS.map(({ href, key }) => (
+              <li>
+                <a
+                  href={href}
+                  class="flex tap items-center text-surface/85 no-underline hover:underline"
+                  data-i18n={key}
+                >
+                  {t(key, lang)}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+
+    {
+      /* The legal gate line, on every rights surface, never optional. The reviewer name
+         is an em dash until the written sign-off email exists (Build Manual Part I). */
+    }
+    <div class="mt-12 border-t border-surface/15 pt-6 text-[0.9375rem] text-surface/70">
+      <p>
+        <span class="font-bold text-surface" data-i18n="footer.disclaimer">
+          {t('footer.disclaimer', lang)}
+        </span>
+        <span class="mx-2" aria-hidden="true">·</span>
+        <span data-i18n="footer.reviewer">{t('footer.reviewer', lang)}</span>: {REVIEWER}
+        <span class="mx-2" aria-hidden="true">·</span>
+        <span data-i18n="footer.verified">{t('footer.verified', lang)}</span>:
+        <span class="mono">{VERIFIED_ON_DISPLAY[lang]}</span>
+      </p>
+      <p class="mt-3" data-i18n="footer.noTracking">{t('footer.noTracking', lang)}</p>
+      <p class="mt-3 max-w-2xl" data-i18n="sharedPhone">{t('sharedPhone', lang)}</p>
+    </div>
+  </div>
+</footer>
