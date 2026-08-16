@@ -1,0 +1,88 @@
+---
+/**
+ * UF-8 — the panic flow. Fixed top-right on EVERY screen, identical position, always.
+ *
+ * The handler is an inline head script bound at capture phase, deliberately NOT an
+ * island. She may tap this the instant the page paints, mid-animation, with the menu
+ * open, with audio playing, with the network gone — it must never wait for a framework
+ * to hydrate. Latency target is under 100 ms.
+ *
+ * `location.replace` rather than `assign`, and `history.replaceState` first, so the
+ * back button cannot return to this page.
+ *
+ * We never claim this makes her safe. /madad and /hamare-baare-mein say plainly that
+ * the site may still appear in browser history and that she should use Private mode or
+ * clear it afterwards. Honest words, not clever technology — anything cleverer costs
+ * build days and can fail silently.
+ */
+---
+
+<button
+  type="button"
+  id="mh-quick-exit"
+  data-testid="quick-exit"
+  aria-label="बंद करें"
+  translate="no"
+  class="fixed end-3 top-3 z-90 grid tap place-items-center rounded-action border border-border
+         bg-surface text-ink shadow-header"
+>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M6 6l12 12M18 6L6 18"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"></path>
+  </svg>
+</button>
+
+<script is:inline>
+  (function () {
+    var NEUTRAL = 'https://www.google.com';
+
+    function exit(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      // Sound is exposure. Kill every source before anything else.
+      try {
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+      } catch (_) {}
+      try {
+        var a = document.getElementsByTagName('audio');
+        for (var i = 0; i < a.length; i++) {
+          a[i].pause();
+          a[i].removeAttribute('src');
+          a[i].load();
+        }
+      } catch (_) {}
+      // Remove this page from the stack, then leave without adding an entry.
+      try {
+        history.replaceState(null, '', NEUTRAL);
+      } catch (_) {}
+      location.replace(NEUTRAL);
+    }
+
+    // Capture phase, on document, so it fires before any island handler and works
+    // even if hydration never happens (blocked bundle, dead network, JS disabled
+    // mid-load). Bound once, at parse time.
+    document.addEventListener(
+      'click',
+      function (e) {
+        var t = e.target;
+        if (t && t.closest && t.closest('#mh-quick-exit')) exit(e);
+      },
+      true,
+    );
+
+    // Keyboard escape for a facilitator demoing on a laptop. Shift+Escape is
+    // deliberately awkward so it is never hit by accident mid-flow.
+    document.addEventListener(
+      'keydown',
+      function (e) {
+        if (e.key === 'Escape' && e.shiftKey) exit(e);
+      },
+      true,
+    );
+  })();
+</script>

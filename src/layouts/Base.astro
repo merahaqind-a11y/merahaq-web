@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+import QuickExit from '../components/chrome/QuickExit.astro';
+import type { Lang } from '../lib/types';
+
+interface Props {
+  title: string;
+  lang?: Lang;
+  /**
+   * Rights and diagnostic surfaces. Two consequences, both load-bearing:
+   * the DRAFT banner renders, and machine translation is blocked (D9).
+   */
+  rights?: boolean;
+  description?: string;
+}
+
+const { title, lang = 'hi', rights = false, description } = Astro.props;
+
+// Hindi and Hinglish are the same spoken language in different scripts, so both
+// declare hi — screen readers and browser TTS pick the right voice either way (F-110 r7).
+const htmlLang = lang === 'en' ? 'en' : 'hi';
+---
+
+<!doctype html>
+<html
+  lang={htmlLang}
+  data-mh-lang={lang}
+  translate={rights ? 'no' : undefined}
+  class={rights ? 'notranslate' : undefined}
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="theme-color" content="#1F2A44" />
+
+    {
+      /* Owner decision D9. Chrome will otherwise machine-translate rights content on an
+         English-locale browser — it rewrites <html lang> to "en", wraps every text node,
+         and silently replaces legally-reviewed statute references and «यह सही नहीं है»
+         verdicts with unreviewed output. That is exactly what the legal gate exists to
+         prevent, and we already ship an authored English track via the language pill,
+         which is strictly better than a machine translation. It also protects the lang
+         attribute that drives TTS voice selection and the Mukta 700 emphasis ceiling.
+         Home and institutional pages stay translatable. */
+    }
+    {rights && <meta name="google" content="notranslate" />}
+
+    {
+      /* No referrer to any outbound portal, ever. Every card links to government sites;
+         none of them needs to learn where she came from. */
+    }
+    <meta name="referrer" content="no-referrer" />
+
+    {
+      /* Preload only what the first paint needs. Mukta 400 carries every Hindi word on
+         the page; Montserrat carries the Latin and the numerals fall back to mono. */
+    }
+    <link
+      rel="preload"
+      href="/fonts/mukta-devanagari-400.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/montserrat-latin-wght.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <slot name="head" />
+  </head>
+
+  <body data-rights={rights ? 'true' : undefined}>
+    <a class="skip-link" href="#main">मुख्य सामग्री पर जाएँ</a>
+    <QuickExit />
+    <slot />
+  </body>
+</html>
