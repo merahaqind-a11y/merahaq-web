@@ -1,0 +1,324 @@
+---
+import { t } from '../../lib/i18n';
+import type { Lang } from '../../lib/types';
+import { CARDS, VERIFIED_ON_DISPLAY, type CardMeta } from '../../lib/cards';
+import { body } from '../../content/cards';
+import SunieButton from '../chrome/SunieButton.astro';
+import CardIcon from './CardIcon.astro';
+import DraftBanner from '../chrome/DraftBanner.astro';
+
+interface Props {
+  card: CardMeta;
+  lang?: Lang;
+}
+const { card, lang = 'hi' } = Astro.props;
+
+const b = body(card.id);
+const track = b[lang];
+const reviewer = import.meta.env['PUBLIC_REVIEWER_NAME'] || '—';
+
+const HELPLINE_LABEL: Record<string, string> = {
+  '181': 'helpline.181',
+  '112': 'helpline.112',
+  '15100': 'helpline.15100',
+  '14454': 'helpline.14454',
+  '1930': 'helpline.1930',
+  '14448': 'helpline.14448',
+  '14490': 'helpline.14490',
+};
+
+/**
+ * Fixed template, same order on all ten cards. Sameness is what makes the set feel
+ * trustworthy — she learns the shape once and then knows where to look on every card.
+ *
+ *   सुनिए (FIRST interactive element on the page — Build Manual D4, non-negotiable)
+ *   → कानून क्या कहता है
+ *   → असली ज़िंदगी में  (red-tinted, each Don't ending in its verdict)
+ *   → सँभाल कर रखें
+ *   → एक कदम आज        (exactly ONE, pink, zero radius + 3px rule so it survives a photocopy)
+ *   → कहाँ जाएँ          (blue, tel:, portals in a new tab)
+ *   → share / PDF
+ *   → यह भी जानिए
+ *   → disclaimer + reviewer + verified-on
+ */
+---
+
+<article class="pb-16">
+  <DraftBanner lang={lang} />
+
+  {/* ── title band ─────────────────────────────────────────────────────────── */}
+  <header class="relative overflow-hidden bg-pink-050 px-5 pt-8 pb-10">
+    <div class="bloom" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-3xl">
+      <span class="grid size-14 place-items-center rounded-card bg-surface text-pink-700 shadow-header">
+        <CardIcon name={card.icon} size={30} />
+      </span>
+      <h1
+        class="shirorekha mt-5 text-app-display leading-tight font-bold text-ink sm:text-section"
+        style="--shirorekha-width:3.5rem"
+        data-card-title={card.id}
+      >
+        {card.title[lang]}
+      </h1>
+      <p class="mt-3 max-w-xl text-lead text-muted" data-card-summary={card.id}>
+        {card.summary[lang]}
+      </p>
+
+      {/* सुनिए is the FIRST interactive element. For this user audio is not an
+          accessibility feature, it is the primary channel. */}
+      <div class="mt-6">
+        <SunieButton lang={lang} target={card.slug} size="lg" />
+      </div>
+    </div>
+  </header>
+
+  <div class="mx-auto max-w-3xl px-5">
+    {/* ── कानून क्या कहता है ───────────────────────────────────────────────── */}
+    <section class="pt-12" aria-labelledby={`${card.slug}-kanoon`}>
+      <h2
+        id={`${card.slug}-kanoon`}
+        class="shirorekha text-app-title font-bold text-ink"
+        style="--shirorekha-width:2.5rem"
+        data-i18n="card.kanoon"
+      >
+        {t('card.kanoon', lang)}
+      </h2>
+      <ul class="mt-5 grid gap-4">
+        {
+          track.kanoon.map((line) => (
+            <li class="flex gap-3 text-text">
+              <span class="mt-2.5 size-2 shrink-0 rounded-pill bg-blue-600" aria-hidden="true" />
+              <span>{line}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* ── असली ज़िंदगी में — red tint, each line carrying its verdict ────────── */}
+    <section class="pt-12" aria-labelledby={`${card.slug}-asli`}>
+      <h2
+        id={`${card.slug}-asli`}
+        class="shirorekha text-app-title font-bold text-ink"
+        style="--shirorekha-width:2.5rem"
+        data-i18n="card.asli"
+      >
+        {t('card.asli', lang)}
+      </h2>
+      <ul class="mt-5 grid gap-3">
+        {
+          track.asli.map((line) => (
+            <li class="border-s-[3px] border-red-700 bg-red-050 px-4 py-3 text-text">{line}</li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* ── सँभाल कर रखें ────────────────────────────────────────────────────── */}
+    <section class="pt-12" aria-labelledby={`${card.slug}-sambhaal`}>
+      <h2
+        id={`${card.slug}-sambhaal`}
+        class="shirorekha text-app-title font-bold text-ink"
+        style="--shirorekha-width:2.5rem"
+        data-i18n="card.sambhaal"
+      >
+        {t('card.sambhaal', lang)}
+      </h2>
+      <ul class="mt-5 grid gap-3">
+        {
+          track.sambhaal.map((line) => (
+            <li class="flex gap-3 border-s-[3px] border-green-700 bg-green-050 px-4 py-3 text-text">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="mt-0.5 shrink-0 text-green-700">
+                <path d="M4.5 12.5l5 5 10-11" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span>{line}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* ── एक कदम आज — exactly ONE per card ────────────────────────────────────
+        Zero radius and a 3px rule, deliberately: PRD §5.7 r5 requires this box to stay
+        distinguishable when printed greyscale on a cheap laser printer, by border
+        weight rather than colour. A rounded tint does not survive a photocopy. */}
+    <section class="pt-12" aria-labelledby={`${card.slug}-ekkadam`}>
+      <div class="border-s-[6px] border-pink-600 bg-pink-050 px-5 py-6" data-testid="ek-kadam">
+        <h2
+          id={`${card.slug}-ekkadam`}
+          class="text-[0.9375rem] font-bold tracking-wide text-pink-700 uppercase"
+          data-i18n="card.ekKadam"
+        >
+          {t('card.ekKadam', lang)}
+        </h2>
+        <p class="mt-2 text-app-title leading-snug font-bold text-ink">{track.ekKadam}</p>
+      </div>
+    </section>
+
+    {/* ── कहाँ जाएँ — the authority block ─────────────────────────────────────── */}
+    <section class="pt-12" aria-labelledby={`${card.slug}-kahaan`}>
+      <div class="border-s-[6px] border-blue-600 bg-blue-050 px-5 py-6">
+        <h2
+          id={`${card.slug}-kahaan`}
+          class="text-[0.9375rem] font-bold tracking-wide text-blue-800 uppercase"
+          data-i18n="card.kahaan"
+        >
+          {t('card.kahaan', lang)}
+        </h2>
+        <p class="mt-2 leading-relaxed font-bold text-ink">{track.authority.office}</p>
+        <p class="mt-2 text-muted">
+          <span data-i18n="card.askFor">{t('card.askFor', lang)}</span>: {track.authority.askFor}
+        </p>
+
+        <ul class="mt-5 grid gap-2">
+          {
+            b.numbers.map((n) => (
+              <li>
+                <a
+                  href={`tel:${n.replace(/[^0-9+]/g, '')}`}
+                  data-testid={`card-tel-${n}`}
+                  class="flex tap-lg items-center gap-3 rounded-action bg-surface px-4 text-blue-600 no-underline"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                  </svg>
+                  <span class="mono text-[1.125rem] font-bold">{n}</span>
+                  {HELPLINE_LABEL[n] && (
+                    <span class="text-[0.9375rem] text-muted" data-i18n={HELPLINE_LABEL[n]}>
+                      {t(HELPLINE_LABEL[n]!, lang)}
+                    </span>
+                  )}
+                  <span class="mono ms-auto text-[0.875rem] font-bold text-blue-600" data-i18n="helpline.press">
+                    {t('helpline.press', lang)}
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        {
+          b.portals.length > 0 && (
+            <ul class="mt-3 flex flex-wrap gap-2">
+              {b.portals.map((p) => (
+                <li>
+                  <a
+                    href={p.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mono inline-flex tap items-center gap-1 rounded-action border border-blue-600/30
+                           bg-surface px-3 text-[0.875rem] text-blue-600 no-underline"
+                  >
+                    {p.label}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </section>
+
+    {/* ── share / print ──────────────────────────────────────────────────────── */}
+    <section class="grid gap-3 pt-10 sm:grid-cols-2">
+      <button
+        type="button"
+        data-share={card.slug}
+        data-testid="card-share"
+        class="flex tap-lg items-center justify-center gap-2 rounded-action border-2 border-ink
+               bg-surface px-5 font-bold text-ink"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M12 15V3M8 7l4-4 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span data-i18n="card.share">{t('card.share', lang)}</span>
+      </button>
+      <a
+        href={`/pdf/${card.slug}.pdf`}
+        download
+        data-testid="card-pdf"
+        class="flex tap-lg items-center justify-center gap-2 rounded-action border-2 border-ink
+               bg-surface px-5 font-bold text-ink no-underline"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 3v12M8 11l4 4 4-4M4 20h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span data-i18n="card.pdf">{t('card.pdf', lang)}</span>
+      </a>
+    </section>
+
+    {/* ── यह भी जानिए — every card within two taps of anywhere (F-33) ────────── */}
+    <section class="pt-12" aria-labelledby={`${card.slug}-also`}>
+      <h2
+        id={`${card.slug}-also`}
+        class="text-[0.9375rem] font-bold tracking-wide text-muted uppercase"
+        data-i18n="card.alsoKnow"
+      >
+        {t('card.alsoKnow', lang)}
+      </h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+        {
+          card.crossLinks.map((id) => (
+            <li>
+              <a
+                href={`/card/${CARDS[id].slug}`}
+                class="flex h-full tap items-center gap-3 rounded-card border border-border bg-surface
+                       px-4 py-3 text-ink no-underline"
+              >
+                <CardIcon name={CARDS[id].icon} size={22} />
+                <span class="font-bold" data-card-title={id}>
+                  {CARDS[id].title[lang]}
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* ── footer: the legal gate line, on every rights page, never optional ──── */}
+    <footer class="mt-12 border-t border-border pt-6 text-[0.9375rem] text-muted">
+      <p>
+        <span class="font-bold text-ink" data-i18n="footer.disclaimer">
+          {t('footer.disclaimer', lang)}
+        </span>
+        <span class="mx-2" aria-hidden="true">·</span>
+        <span data-i18n="footer.reviewer">{t('footer.reviewer', lang)}</span>: {reviewer}
+        <span class="mx-2" aria-hidden="true">·</span>
+        <span data-i18n="footer.verified">{t('footer.verified', lang)}</span>:
+        <span class="mono">{VERIFIED_ON_DISPLAY[lang]}</span>
+      </p>
+    </footer>
+  </div>
+</article>
+
+<script>
+  // F-30. Web Share with a wa.me fallback, then copy-to-clipboard. The link points at
+  // the DIAGNOSTIC, not this card: the recipient's need is almost certainly different
+  // from the sender's, and dropping her on someone else's card wastes the forward.
+  // The source tag rides in the fragment so it never reaches a server log.
+  document.addEventListener('click', async (ev) => {
+    const btn = (ev.target as HTMLElement).closest<HTMLElement>('[data-share]');
+    if (!btn) return;
+    const slug = btn.dataset['share']!;
+    const title = document.querySelector<HTMLElement>('h1')?.textContent?.trim() ?? '';
+    const summary =
+      document.querySelector<HTMLElement>('[data-card-summary]')?.textContent?.trim() ?? '';
+    const url = `${location.origin}/shuru#s=${slug}`;
+    const text = `${title}\n${summary}\n${url}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, text });
+        return;
+      }
+    } catch {
+      /* she dismissed the sheet — not an error */
+    }
+    const wa = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(wa, '_blank', 'noopener,noreferrer');
+  });
+</script>

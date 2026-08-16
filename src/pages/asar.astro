@@ -1,0 +1,110 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/chrome/Header.astro';
+import HelplineStrip from '../components/chrome/HelplineStrip.astro';
+import Footer from '../components/home/Footer.astro';
+import { t } from '../lib/i18n';
+
+const lang = 'hi' as const;
+
+/**
+ * F-81. Five honest numbers, the counting method, and what did not work.
+ *
+ * Every number here is an em dash, because no pilot session has run. The PRD is
+ * explicit that invented numbers are forbidden, and the Build Manual is blunter:
+ * small and real is the entire brand. A placeholder that says «—» and explains why
+ * is honest; a plausible-looking number is a lie that gets quoted back at you.
+ */
+const STATS = [
+  { key: 'impact.1', value: null, method: 'सत्र में मौजूद महिलाओं की गिनती, उसी दिन नोट की गई।' },
+  { key: 'impact.2', value: null, method: 'सर्वर पर कुल डाउनलोड — बिना कुकी, बिना पहचान।' },
+  { key: 'impact.3', value: null, method: 'छपे हुए कार्ड जो हाथ में दिए गए।' },
+  { key: 'impact.4', value: null, method: 'पूरे हुए सत्र, चाहे कितने भी छोटे हों।' },
+  { key: 'impact.5', value: null, method: '30 दिन बाद एक न्यूट्रल WhatsApp सवाल का जवाब।' },
+];
+---
+
+<Base title="असर — मेरा हक़" lang={lang}>
+  <Header lang={lang} showLogin />
+  <HelplineStrip lang={lang} />
+
+  <main id="main">
+    <section class="bg-ink px-5 pt-12 pb-16 text-surface">
+      <div class="mx-auto max-w-4xl">
+        <h1
+          class="shirorekha text-section leading-tight font-bold text-surface"
+          style="--shirorekha-width:3.5rem"
+          data-i18n="impact.heading"
+        >
+          {t('impact.heading', lang)}
+        </h1>
+        <p class="mt-4 max-w-2xl text-lead text-surface/80" data-i18n="impact.sub">
+          {t('impact.sub', lang)}
+        </p>
+
+        <dl class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            STATS.map((s) => (
+              <div class="border-t border-surface/15 pt-5">
+                <dd class="mono text-stat leading-none font-bold text-pink-200">
+                  {s.value ?? '—'}
+                </dd>
+                <dt class="mt-3 font-bold text-surface" data-i18n={s.key}>
+                  {t(s.key, lang)}
+                </dt>
+                <p class="mt-2 text-[0.9375rem] text-surface/60">{s.method}</p>
+              </div>
+            ))
+          }
+        </dl>
+
+        <p class="mt-12 max-w-2xl text-lead text-surface/80" data-i18n="impact.pending">
+          {t('impact.pending', lang)}
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-surface px-5 py-16">
+      <div class="mx-auto max-w-3xl">
+        <h2
+          class="shirorekha text-app-display font-bold text-ink"
+          style="--shirorekha-width:2.5rem"
+          data-i18n="impact.failures"
+        >
+          {t('impact.failures', lang)}
+        </h2>
+        <p class="mt-6 text-lead text-text" data-i18n="impact.failuresBody">
+          {t('impact.failuresBody', lang)}
+        </p>
+        <p class="mt-4 text-muted">
+          जब पहला सत्र होगा, यहाँ वह भी लिखा जाएगा जो काम नहीं आया — कौन सा सवाल
+          उलझाता है, कौन सा शब्द समझ नहीं आता, कौन सा कार्ड कोई नहीं खोलता।
+        </p>
+      </div>
+    </section>
+
+    <section class="bg-bg px-5 py-16">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="shirorekha text-app-display font-bold text-ink" style="--shirorekha-width:2.5rem">
+          हम क्या नहीं गिनते
+        </h2>
+        <ul class="mt-6 grid gap-3 text-text">
+          <li class="flex gap-3">
+            <span class="mt-2.5 size-2 shrink-0 rounded-pill bg-red-700" aria-hidden="true"></span>
+            <span>पेज व्यू। कितने लोग आए, यह सफलता नहीं है।</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-2.5 size-2 shrink-0 rounded-pill bg-red-700" aria-hidden="true"></span>
+            <span>किसी का नाम, नंबर या जवाब। हम रखते ही नहीं।</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-2.5 size-2 shrink-0 rounded-pill bg-red-700" aria-hidden="true"></span>
+            <span>किसने कौन सा कार्ड खोला। कार्ड की कुल गिनती, बस।</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <Footer lang={lang} />
+</Base>

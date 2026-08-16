@@ -1,0 +1,36 @@
+---
+import { t } from '../../lib/i18n';
+import type { Lang } from '../../lib/types';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'hi' } = Astro.props;
+
+/**
+ * Owner decision D1. While PUBLIC_LEGAL_SIGNOFF is false, every rights surface says so.
+ *
+ * The Build Manual is unambiguous: no rights card publishes without the lawyer's
+ * written sign-off. Rather than hold the whole build behind that email, the content
+ * ships with the fact stated plainly. Set PUBLIC_LEGAL_SIGNOFF=true and
+ * PUBLIC_REVIEWER_NAME once the sign-off exists and this disappears site-wide,
+ * including from the generated PDFs and share images.
+ */
+const signedOff = import.meta.env['PUBLIC_LEGAL_SIGNOFF'] === 'true';
+---
+
+{
+  !signedOff && (
+    <p
+      data-testid="draft-banner"
+      class="flex items-center justify-center gap-2 bg-red-050 px-4 py-2 text-center text-[0.9375rem]
+             font-bold text-red-700"
+      role="status"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="shrink-0">
+        <path d="M12 8v5M12 16.5v.01M10.3 3.9L2.6 17.4A2 2 0 004.3 20.4h15.4a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span data-i18n="draft.banner">{t('draft.banner', lang)}</span>
+    </p>
+  )
+}

@@ -27,13 +27,35 @@ const NUMBERS = ['181', '15100'] as const;
         <a
           href={`tel:${n}`}
           data-testid={`tel-${n}`}
-          class="tap-lg flex flex-1 flex-col items-center justify-center rounded-action border
-                 border-blue-600/25 bg-surface px-3 py-1 leading-tight text-blue-600 no-underline
-                 sm:max-w-56 sm:flex-none sm:flex-row sm:items-baseline sm:gap-2"
+          class="tap-lg flex flex-1 items-center gap-2.5 rounded-action border border-blue-600/25
+                 bg-surface px-3 py-1.5 leading-tight text-blue-600 no-underline sm:max-w-64 sm:flex-none"
         >
-          <span class="mono text-[1.25rem] font-bold tracking-tight">{n}</span>
-          <span class="text-[0.8125rem] text-muted" data-i18n={`helpline.${n}`}>
-            {t(`helpline.${n}`, lang)}
+          <span
+            class="grid size-9 shrink-0 place-items-center rounded-pill bg-blue-050 text-blue-600"
+            aria-hidden="true"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span class="min-w-0 leading-tight">
+            <span class="mono block text-[1.125rem] font-bold tracking-tight">{n}</span>
+            <span class="block truncate text-[0.8125rem] text-ink" data-i18n={`helpline.${n}`}>
+              {t(`helpline.${n}`, lang)}
+            </span>
+            {/* The call hint is reassurance, not information — it is the first thing to
+                go when the strip has to stay out of the way of the question. */}
+            <span
+              class="hidden text-[0.8125rem] text-muted sm:block"
+              data-i18n="helpline.callHint"
+            >
+              {t('helpline.callHint', lang)}
+            </span>
           </span>
         </a>
       ))

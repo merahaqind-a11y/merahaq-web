@@ -61,6 +61,8 @@
   "exit.label": { "hi": "बंद करें", "hinglish": "Band karein", "en": "Close" },
   "skip.toMain": { "hi": "मुख्य सामग्री पर जाएँ", "hinglish": "Mukhya saamagri par jaayein", "en": "Skip to main content" },
   "helpline.press": { "hi": "दबाएँ", "hinglish": "Dabayein", "en": "Call" },
+  "helpline.callHint": { "hi": "फ़ोन करें", "hinglish": "Phone karein", "en": "Tap to call" },
+  "exit.hint": { "hi": "सुरक्षित बाहर निकलें", "hinglish": "Surakshit bahar niklein", "en": "Leave safely" },
   "helpline.181": { "hi": "महिला हेल्पलाइन", "hinglish": "Mahila helpline", "en": "Women's helpline" },
   "helpline.112": { "hi": "पुलिस — तुरंत मदद", "hinglish": "Police — turant madad", "en": "Police — emergency" },
   "helpline.15100": { "hi": "मुफ़्त वकील", "hinglish": "Muft vakil", "en": "Free lawyer" },
@@ -362,6 +364,7 @@
     "en": "What failed gets published here too, not buried. That is the whole point."
   },
 
+  "gallery.counter": { "hi": "कार्ड", "hinglish": "card", "en": "cards" },
   "gallery.heading": { "hi": "दस हक़, दस कार्ड", "hinglish": "Das haq, das card", "en": "Ten rights, ten cards" },
   "gallery.sub": {
     "hi": "सवालों के बाद पाँच चुने जाते हैं। दसों हमेशा खुले रहते हैं।",

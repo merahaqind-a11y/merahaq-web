@@ -1,0 +1,63 @@
+---
+import wordmark from '../../assets/wordmark.json';
+
+interface Props {
+  /** Header lockup, or the large hero mark. */
+  variant?: 'lockup' | 'mark';
+  class?: string;
+}
+const { variant = 'lockup', class: cls = '' } = Astro.props;
+
+/**
+ * The Mera Haq logo, split into its two natural halves.
+ *
+ * The supplied file is a single 273 KB SVG that wraps a 2048×2048 JPEG of the mark and
+ * a vector «मेरा हक़» wordmark on top of it. Shipping that as-is would put a quarter of
+ * a megabyte in the header of a site built for a throttled 2G evening.
+ *
+ * So: the wordmark stays vector (it is a real path, it costs ~4 KB, and it inherits
+ * currentColor so it works on light and dark chapters alike), and the mark is extracted,
+ * knocked out to transparency, re-tinted to --pink-700 and shipped as a 96px and 560px
+ * WebP — 8 KB and 44 KB. Same logo, two orders of magnitude cheaper.
+ */
+---
+
+{
+  variant === 'lockup' ? (
+    <a
+      href="/"
+      data-testid="logo"
+      aria-label="मेरा हक़ — मुख्य पन्ना"
+      class:list={['flex tap shrink-0 items-center gap-2 no-underline', cls]}
+    >
+      <img
+        src="/images/mark-96.webp"
+        width="34"
+        height="40"
+        alt=""
+        aria-hidden="true"
+        class="h-9 w-auto shrink-0"
+        decoding="async"
+      />
+      <svg
+        viewBox={wordmark.viewBox}
+        class="h-7 w-auto text-pink-700"
+        role="img"
+        aria-label="मेरा हक़"
+      >
+        <path d={wordmark.d} fill="currentColor" />
+      </svg>
+    </a>
+  ) : (
+    <img
+      src="/images/mark-560.webp"
+      width="560"
+      height="651"
+      alt=""
+      aria-hidden="true"
+      class:list={['w-full max-w-none', cls]}
+      loading="lazy"
+      decoding="async"
+    />
+  )
+}

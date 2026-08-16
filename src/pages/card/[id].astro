@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/chrome/Header.astro';
+import HelplineStrip from '../../components/chrome/HelplineStrip.astro';
+import CardTemplate from '../../components/card/CardTemplate.astro';
+import { CARD_LIST, type CardMeta } from '../../lib/cards';
+
+export function getStaticPaths() {
+  return CARD_LIST.map((card) => ({ params: { id: card.slug }, props: { card } }));
+}
+
+interface Props {
+  card: CardMeta;
+}
+const { card } = Astro.props;
+const lang = 'hi' as const;
+---
+
+{
+  /* Prerendered with zero hydration. With JavaScript off this page is still completely
+     readable and every phone number still dials — which is the entire point of UF-15.
+     `rights` blocks machine translation of legally-reviewed content (D9). */
+}
+<Base title={`${card.title.hi} — मेरा हक़`} lang={lang} rights description={card.summary.hi}>
+  <Header lang={lang} />
+  <HelplineStrip lang={lang} />
+  <main id="main">
+    <CardTemplate card={card} lang={lang} />
+  </main>
+</Base>

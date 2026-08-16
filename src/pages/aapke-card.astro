@@ -1,0 +1,160 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/chrome/Header.astro';
+import HelplineStrip from '../components/chrome/HelplineStrip.astro';
+import DraftBanner from '../components/chrome/DraftBanner.astro';
+import HaqCard from '../components/card/HaqCard.astro';
+import { CARD_LIST } from '../lib/cards';
+import { t } from '../lib/i18n';
+
+const lang = 'hi' as const;
+---
+
+<Base title="आपके कार्ड — मेरा हक़" lang={lang} rights>
+  <Header lang={lang} />
+  <HelplineStrip lang={lang} />
+  <DraftBanner lang={lang} />
+
+  <main id="main" class="relative overflow-hidden px-5 pt-6 pb-16">
+    <div class="bloom" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-6xl">
+      {/* Two tabs, neutral names. Never anything that labels her situation. */}
+      <div class="flex gap-1 rounded-pill bg-bg p-1" role="tablist" data-testid="deck-tabs">
+        <button
+          type="button"
+          role="tab"
+          data-tab="mine"
+          data-testid="tab-mine"
+          aria-selected="true"
+          class="flex tap min-w-0 flex-1 items-center justify-center rounded-pill px-3 font-bold
+                 text-muted aria-selected:bg-surface aria-selected:text-ink"
+          data-i18n="tab.mine">{t('tab.mine', lang)}</button
+        >
+        <button
+          type="button"
+          role="tab"
+          data-tab="all"
+          data-testid="tab-all"
+          aria-selected="false"
+          class="flex tap min-w-0 flex-1 items-center justify-center rounded-pill px-3 font-bold
+                 text-muted aria-selected:bg-surface aria-selected:text-ink"
+          data-i18n="tab.all">{t('tab.all', lang)}</button
+        >
+      </div>
+
+      {/* Her deck. Rendered client-side from the stored OUTPUT deck — never from her
+          answers, which are not stored anywhere. */}
+      <section data-panel="mine" class="mt-8">
+        <h1 class="sr-only" data-i18n="tab.mine">{t('tab.mine', lang)}</h1>
+        <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-deck-list data-testid="deck-list"></ul>
+
+        <p class="mt-10 hidden text-lead text-muted" data-empty data-testid="deck-empty">
+          <span data-i18n="s0.title">{t('s0.title', lang)}</span>
+        </p>
+        <a
+          href="/shuru"
+          data-empty-cta
+          class="mt-4 hidden tap-lg w-fit items-center justify-center rounded-action bg-pink-600 px-8
+                 text-[1.25rem] font-bold text-surface no-underline"
+          data-i18n="cta.primary">{t('cta.primary', lang)}</a
+        >
+      </section>
+
+      {/* All ten, static in the HTML so this page still works with JS off. */}
+      <section data-panel="all" class="mt-8" hidden>
+        <h2 class="sr-only" data-i18n="tab.all">{t('tab.all', lang)}</h2>
+        <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            CARD_LIST.map((card) => (
+              <li class="flex">
+                <HaqCard card={card} lang={lang} universal={card.role === 'universal'} compact />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .sr-only {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+  import { readPrefs, writePrefs } from '../lib/prefs';
+  import { CARDS, CARD_ORDER } from '../lib/cards';
+  import { UI } from '../lib/i18n';
+  import type { CardId, Lang } from '../lib/types';
+
+  const FOUNDATION: CardId[] = ['C6', 'C7', 'C2', 'C1', 'C8'];
+
+  /**
+   * A deck can arrive in the fragment (`#d=C2,C6,C1,C3,C8&v=2`) from the WhatsApp bot.
+   * The fragment never reaches a server, which is the point of putting it there.
+   *
+   * UF-15: unknown or malformed IDs fall back to the foundation deck, SILENTLY. She is
+   * never shown an error — an error message here would be both useless to her and a
+   * signal to anyone reading over her shoulder that something went wrong.
+   */
+  function deckFromFragment(): CardId[] | null {
+    const m = location.hash.match(/d=([^&]+)/);
+    if (!m?.[1]) return null;
+    const ids = decodeURIComponent(m[1]).split(',').map((s) => s.trim().toUpperCase());
+    const valid = ids.filter((id): id is CardId => (CARD_ORDER as readonly string[]).includes(id));
+    return valid.length === 5 ? valid : FOUNDATION;
+  }
+
+  const lang = (document.documentElement.dataset['mhLang'] ?? 'hi') as Lang;
+  const fromFragment = deckFromFragment();
+  if (fromFragment) writePrefs({ deck: fromFragment });
+
+  const deck = readPrefs().deck;
+  const list = document.querySelector<HTMLElement>('[data-deck-list]')!;
+
+  if (deck.length === 5) {
+    for (const id of deck) {
+      const card = CARDS[id];
+      const li = document.createElement('li');
+      li.className = 'flex';
+      li.innerHTML = `
+        <a href="/card/${card.slug}" class="flex h-full w-full flex-col gap-3 rounded-card border border-pink-200 bg-pink-050 p-5 text-ink no-underline">
+          <span class="flex items-center justify-between gap-2">
+            <span class="grid size-10 place-items-center rounded-pill bg-surface text-pink-700 font-bold mono"></span>
+          </span>
+          <h3 class="text-app-title font-bold leading-snug" data-card-title="${id}"></h3>
+          <p class="text-[0.9375rem] leading-relaxed text-muted" data-card-summary="${id}"></p>
+          <span class="mt-auto font-bold text-pink-700" data-i18n="card.open"></span>
+        </a>`;
+      li.querySelector('.mono')!.textContent = String(deck.indexOf(id) + 1);
+      li.querySelector('[data-card-title]')!.textContent = card.title[lang];
+      li.querySelector('[data-card-summary]')!.textContent = card.summary[lang];
+      li.querySelector('[data-i18n]')!.textContent = UI['card.open']![lang];
+      list.append(li);
+    }
+  } else {
+    // No deck yet — offer the questions rather than an empty screen.
+    document.querySelector<HTMLElement>('[data-empty]')?.classList.remove('hidden');
+    const cta = document.querySelector<HTMLElement>('[data-empty-cta]');
+    cta?.classList.remove('hidden');
+    cta?.classList.add('flex');
+  }
+
+  // tabs
+  const panels = document.querySelectorAll<HTMLElement>('[data-panel]');
+  for (const tab of Array.from(document.querySelectorAll<HTMLElement>('[data-tab]'))) {
+    tab.addEventListener('click', () => {
+      for (const t2 of Array.from(document.querySelectorAll<HTMLElement>('[data-tab]'))) {
+        t2.setAttribute('aria-selected', String(t2 === tab));
+      }
+      for (const p of Array.from(panels)) p.hidden = p.dataset['panel'] !== tab.dataset['tab'];
+    });
+  }
+</script>

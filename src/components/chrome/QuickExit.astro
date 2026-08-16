@@ -28,23 +28,40 @@
 }
 <div class="pointer-events-none fixed inset-x-0 top-0 z-90">
   <div class="mx-auto flex max-w-6xl justify-end px-3 pt-3">
-    <button
-      type="button"
-      id="mh-quick-exit"
-      data-testid="quick-exit"
-      aria-label="बंद करें"
-      translate="no"
-      class="pointer-events-auto grid tap place-items-center rounded-action border border-border
-             bg-surface text-ink shadow-header"
-    >
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d="M6 6l12 12M18 6L6 18"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"></path>
-      </svg>
-    </button>
+    <div class="group pointer-events-auto relative">
+      <button
+        type="button"
+        id="mh-quick-exit"
+        data-testid="quick-exit"
+        aria-label="सुरक्षित बाहर निकलें"
+        translate="no"
+        class="grid tap place-items-center rounded-action border border-border bg-surface text-ink
+               shadow-header"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M6 6l12 12M18 6L6 18"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"></path>
+        </svg>
+      </button>
+
+      {
+        /* What this button does is not obvious from a ✘, and getting it wrong in a
+           hurry is the worst possible moment to be guessing. The label appears on
+           hover and on keyboard focus — never on tap, where it would just delay her. */
+      }
+      <span
+        class="pointer-events-none absolute end-0 top-full mt-1 hidden w-max max-w-[11rem] rounded-action
+               bg-ink px-3 py-2 text-end text-[0.8125rem] leading-snug text-surface
+               group-hover:block group-focus-within:block"
+        role="tooltip"
+        aria-hidden="true"
+      >
+        सुरक्षित बाहर निकलें
+      </span>
+    </div>
   </div>
 </div>
 

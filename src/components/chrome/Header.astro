@@ -2,6 +2,7 @@
 import { t, LANGS } from '../../lib/i18n';
 import type { Lang } from '../../lib/types';
 import MenuOverlay from './MenuOverlay.astro';
+import Logo from './Logo.astro';
 
 interface Props {
   lang?: Lang;
@@ -25,49 +26,59 @@ const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' 
          supports-[not(backdrop-filter:blur(0))]:bg-surface"
   data-testid="header"
 >
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-2">
-  <button
-    type="button"
-    data-testid="menu-toggle"
-    aria-label={t('menu.open', lang)}
-    aria-expanded="false"
-    aria-controls="mh-menu"
-    class="grid tap place-items-center rounded-action text-ink"
-  >
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M4 7h16M4 12h16M4 17h16"
-        stroke="currentColor"
-        stroke-width="2.2"
-        stroke-linecap="round"></path>
-    </svg>
-  </button>
+  <div class="mx-auto flex max-w-6xl items-center gap-2 px-3 py-2">
+    <Logo />
+
+    <button
+      type="button"
+      data-testid="menu-toggle"
+      aria-label={t('menu.open', lang)}
+      aria-expanded="false"
+      aria-controls="mh-menu"
+      class="grid tap shrink-0 place-items-center rounded-action text-ink"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M4 7h16M4 12h16M4 17h16"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"></path>
+      </svg>
+    </button>
 
   {
     /* Language is a first decision, not a settings-menu item — hence top-centre and
        not inside ☰. Positioned so it never competes with the two safety controls. */
   }
-  <div
-    class="flex items-center gap-1 rounded-pill bg-bg p-1"
-    data-testid="lang-pill"
-    role="group"
-    aria-label={t('lang.label', lang)}
-  >
     {
-      LANGS.map((l) => (
-        <button
-          type="button"
-          data-lang={l}
-          data-testid={`lang-${l}`}
-          aria-pressed={l === lang ? 'true' : 'false'}
-          class="min-h-12 rounded-pill px-3 text-[0.9375rem] font-bold text-muted
-                 aria-pressed:bg-surface aria-pressed:text-ink"
-        >
-          {SHORT[l]}
-        </button>
-      ))
+      /* Full language names, not two-letter codes. «हिं / Hg / EN» asks a woman who
+         reads slowly to decode an abbreviation before she can even choose how to read
+         the page. The short form only appears where there is genuinely no room. */
     }
-  </div>
+    <div
+      class="mx-auto flex items-center gap-1 rounded-pill bg-bg p-1"
+      data-testid="lang-pill"
+      role="group"
+      aria-label={t('lang.label', lang)}
+    >
+      {
+        LANGS.map((l) => (
+          <button
+            type="button"
+            data-lang={l}
+            data-testid={`lang-${l}`}
+            aria-pressed={l === lang ? 'true' : 'false'}
+            class="min-h-12 rounded-pill px-3 text-[0.9375rem] font-bold whitespace-nowrap text-muted
+                   aria-pressed:bg-surface aria-pressed:text-ink aria-pressed:shadow-header"
+          >
+            <span class="hidden sm:inline" data-i18n={`lang.${l}`}>
+              {t(`lang.${l}`, lang)}
+            </span>
+            <span class="sm:hidden">{SHORT[l]}</span>
+          </button>
+        ))
+      }
+    </div>
 
   {
     /* Login is hidden below `sm` and surfaced in the ☰ menu instead. On a 360px header
@@ -82,11 +93,17 @@ const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' 
           <a
             href="/login"
             data-testid="login-header"
-            data-i18n="login.header"
-            class="me-14 hidden tap shrink-0 place-items-center rounded-action px-3 text-[0.9375rem]
-                   font-bold whitespace-nowrap text-ink no-underline sm:grid"
+            class="me-14 hidden tap shrink-0 items-center gap-2 rounded-action px-3 text-[0.9375rem]
+                   font-bold whitespace-nowrap text-ink no-underline sm:inline-flex"
           >
-            {t('login.header', lang)}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M12 12a4 4 0 100-8 4 4 0 000 8zM4.5 20a7.5 7.5 0 0115 0"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"></path>
+            </svg>
+            <span data-i18n="login.header">{t('login.header', lang)}</span>
           </a>
         )
       }

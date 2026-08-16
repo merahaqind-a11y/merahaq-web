@@ -26,10 +26,16 @@ const { card, lang = 'hi', tilt = 0, universal = false, compact = false } = Astr
      card rotated behind, the face counter-rotated on top. Fixed delta, never random —
      inconsistent angles are what make this pattern look accidental. */
 }
+{
+  /* h-full + a min-height is what keeps the deck looking like a DECK. Without it every
+     card is as tall as its own summary happens to be, and a row of them reads as
+     ragged rather than as a set. The parent gives each cell equal height; this makes
+     the card fill it. */
+}
 <article
   class:list={[
-    'group relative isolate',
-    compact ? 'w-full' : 'w-[15.5rem] shrink-0',
+    'group relative isolate flex h-full min-h-56 flex-col',
+    compact ? 'w-full' : 'w-[16.5rem] shrink-0',
   ]}
   data-testid={`haq-card-${card.slug}`}
   style={`--tilt:${tilt}deg`}
