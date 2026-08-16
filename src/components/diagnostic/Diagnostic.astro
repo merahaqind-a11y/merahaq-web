@@ -314,7 +314,9 @@ const { lang = 'hi' } = Astro.props;
     const dots = root.querySelector<HTMLElement>('[data-testid="progress-dots"]')!;
     const back = root.querySelector<HTMLButtonElement>('[data-back]')!;
 
-    const lang = (document.documentElement.dataset['mhLang'] ?? 'hi') as Lang;
+    // Read fresh every time — she can switch language at any point, including on the
+    // reveal screen, and the switch must not lose anything.
+    const currentLang = (): Lang => (document.documentElement.dataset['mhLang'] ?? 'hi') as Lang;
 
     function show(next: Screen, pushHistory = true): void {
       if (pushHistory && next !== current) history.push(current);
@@ -397,14 +399,17 @@ const { lang = 'hi' } = Astro.props;
 
         const title = document.createElement('span');
         title.className = 'font-bold text-ink';
-        title.textContent = card.title[lang];
+        // Tagged so the language switch rewrites it in place, like every other string.
+        title.dataset['cardTitle'] = card.id;
+        title.textContent = card.title[currentLang()];
         li.append(title);
 
         if (card.role === 'universal') {
           const tag = document.createElement('span');
           tag.className =
             'ms-auto rounded-pill bg-green-050 px-2 py-1 text-[0.75rem] font-bold text-green-700';
-          tag.textContent = UI['s7.universal']![lang];
+          tag.dataset['i18n'] = 's7.universal';
+          tag.textContent = UI['s7.universal']![currentLang()];
           li.append(tag);
         }
         list.append(li);
@@ -420,7 +425,8 @@ const { lang = 'hi' } = Astro.props;
       if (storageBlocked()) {
         const note = document.createElement('p');
         note.className = 'mt-4 text-[0.9375rem] text-muted';
-        note.textContent = UI['storage.blocked']![lang];
+        note.dataset['i18n'] = 'storage.blocked';
+        note.textContent = UI['storage.blocked']![currentLang()];
         list.after(note);
       }
     }

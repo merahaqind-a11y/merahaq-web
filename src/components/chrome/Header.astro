@@ -1,6 +1,7 @@
 ---
 import { t, LANGS } from '../../lib/i18n';
 import type { Lang } from '../../lib/types';
+import MenuOverlay from './MenuOverlay.astro';
 
 interface Props {
   lang?: Lang;
@@ -92,3 +93,89 @@ const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' 
     </div>
   </div>
 </header>
+
+<MenuOverlay lang={lang} />
+
+<script>
+  import { initLang } from '../../lib/lang';
+  import { readPrefs, writePrefs, clearPrefs, hasDeck } from '../../lib/prefs';
+
+  // ── language pill ───────────────────────────────────────────────────────────
+  initLang();
+
+  // ── menu overlay ────────────────────────────────────────────────────────────
+  const menu = document.getElementById('mh-menu');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-testid="menu-toggle"]');
+
+  /**
+   * Deactivate the page behind a modal — but NEVER the quick exit. It lives in its own
+   * rail outside <main>, precisely so it stays reachable while anything is open. §5.5 r5
+   * is explicit that ✘ keeps working while the menu is up.
+   */
+  function setBackgroundInert(on: boolean): void {
+    for (const sel of ['header', 'main', 'footer']) {
+      const el = document.querySelector<HTMLElement>(sel);
+      if (el) el.inert = on;
+    }
+    document.body.style.overflow = on ? 'hidden' : '';
+  }
+
+  function openMenu(open: boolean): void {
+    if (!menu || !toggle) return;
+    menu.hidden = !open;
+    menu.classList.toggle('hidden', !open);
+    menu.classList.toggle('block', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    setBackgroundInert(open);
+    if (open) menu.querySelector<HTMLElement>('[data-menu-close]')?.focus();
+    else toggle.focus();
+  }
+
+  toggle?.addEventListener('click', () => openMenu(menu?.hidden ?? true));
+  menu?.querySelector('[data-menu-close]')?.addEventListener('click', () => openMenu(false));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !e.shiftKey && menu && !menu.hidden) openMenu(false);
+  });
+
+  // Deck-only rows (आपके कार्ड, सवाल दोबारा करें) appear only once a deck exists, so
+  // the menu a first-time visitor sees is identical to everyone else's.
+  if (hasDeck()) {
+    for (const li of Array.from(document.querySelectorAll<HTMLElement>('[data-deck-only]'))) {
+      li.hidden = false;
+    }
+  }
+
+  // ── mute (F-06) ─────────────────────────────────────────────────────────────
+  const muteBtn = document.querySelector<HTMLButtonElement>('[data-menu-mute]');
+  function paintMute(): void {
+    muteBtn?.setAttribute('aria-pressed', String(readPrefs().muted));
+  }
+  paintMute();
+  muteBtn?.addEventListener('click', () => {
+    writePrefs({ muted: !readPrefs().muted });
+    paintMute();
+    document.dispatchEvent(new CustomEvent('mh:mutechange'));
+  });
+
+  // ── reset (§5.5 r4 — confirms first) ────────────────────────────────────────
+  const confirmEl = document.querySelector<HTMLElement>('[data-reset-confirm]');
+  function showConfirm(open: boolean): void {
+    if (!confirmEl) return;
+    confirmEl.hidden = !open;
+    confirmEl.classList.toggle('hidden', !open);
+    confirmEl.classList.toggle('grid', open);
+    // The confirm opens on top of the menu, so the menu is deactivated too — but the
+    // quick exit, in its own rail, is not.
+    if (menu) menu.inert = open;
+    setBackgroundInert(true);
+    if (open) confirmEl.querySelector<HTMLElement>('[data-reset-no]')?.focus();
+  }
+  document.querySelector('[data-menu-reset]')?.addEventListener('click', () => showConfirm(true));
+  document.querySelector('[data-reset-no]')?.addEventListener('click', () => showConfirm(false));
+  document.querySelector('[data-reset-yes]')?.addEventListener('click', () => {
+    const lang = readPrefs().lang;
+    clearPrefs();
+    writePrefs({ lang }); // her language choice is a preference, not part of the deck
+    location.href = '/shuru';
+  });
+</script>

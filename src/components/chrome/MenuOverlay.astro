@@ -1,0 +1,168 @@
+---
+import { t } from '../../lib/i18n';
+import type { Lang } from '../../lib/types';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'hi' } = Astro.props;
+
+/**
+ * F-02 / §5.5. Eight items, in this order, with neutral labels — nothing here may
+ * describe or label her situation.
+ *
+ * Full-screen overlay, never a dropdown: targets must be thumb-sized, 56px rows,
+ * single line, no truncation.
+ *
+ * `deck` items appear only when a deck exists, so the menu of a first-time visitor is
+ * identical to everyone else's.
+ *
+ * The quick exit stays visible and functional while this is open (§5.5 r5). That is
+ * why the overlay sits at z-50 and the exit rail at z-90 — a test asserts it.
+ */
+const ITEMS = [
+  { key: 'menu.diagnostic', href: '/shuru', deckOnly: false, icon: 'M5 12h14M13 6l6 6-6 6' },
+  { key: 'menu.allCards', href: '/sabhi-card', deckOnly: false, icon: 'M4 6h7v12H4zM13 6h7v12h-7z' },
+  { key: 'menu.madad', href: '/madad', deckOnly: false, icon: 'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z' },
+  { key: 'menu.myCards', href: '/aapke-card', deckOnly: true, icon: 'M4 7h16v13H4zM8 4h8v3H8z' },
+  { key: 'menu.about', href: '/hamare-baare-mein', deckOnly: false, icon: 'M12 21a9 9 0 100-18 9 9 0 000 18zM12 11v6M12 7.5v.01' },
+  { key: 'menu.impact', href: '/asar', deckOnly: false, icon: 'M4 20V10M10 20V4M16 20v-7M22 20H2' },
+] as const;
+---
+
+<div
+  id="mh-menu"
+  data-testid="menu-overlay"
+  class="fixed inset-0 z-50 hidden bg-surface"
+  role="dialog"
+  aria-modal="true"
+  aria-label={t('menu.open', lang)}
+  hidden
+>
+  <div class="mx-auto flex h-full max-w-6xl flex-col px-3 py-2">
+    <div class="flex items-center justify-between">
+      {
+        /* A BACK ARROW, deliberately not a ✘. The quick exit is a ✘ and it leaves the
+           site; this one closes the menu and stays. §5.12 r2 requires the two exits to
+           be visually distinguishable, and on a screen where one of them is the panic
+           control, two identical ✘ icons side by side is a safety problem, not a
+           styling one. The label says so too. */
+      }
+      <button
+        type="button"
+        data-menu-close
+        data-testid="menu-close"
+        data-i18n-label="menu.close"
+        aria-label={t('menu.close', lang)}
+        class="inline-flex tap items-center gap-1 rounded-action px-2 font-medium text-muted"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M15 6l-6 6 6 6"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+        <span data-i18n="back">{t('back', lang)}</span>
+      </button>
+      {/* Spacer so the quick exit, which floats above this overlay, is never covered. */}
+      <span class="w-12" aria-hidden="true"></span>
+    </div>
+
+    <nav class="mt-4 overflow-y-auto">
+      <ul class="grid">
+        {
+          ITEMS.map((item) => (
+            <li data-deck-only={item.deckOnly ? 'true' : undefined} hidden={item.deckOnly}>
+              <a
+                href={item.href}
+                data-testid={`menu-${item.key.split('.')[1]}`}
+                class="flex min-h-14 items-center gap-4 border-b border-border text-lead
+                       whitespace-nowrap text-ink no-underline"
+              >
+                <span class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d={item.icon} stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <span data-i18n={item.key}>{t(item.key, lang)}</span>
+              </a>
+            </li>
+          ))
+        }
+
+        {/* 7 — reset. Only when a deck exists, and it confirms first (§5.5 r4). */}
+        <li data-deck-only="true" hidden>
+          <button
+            type="button"
+            data-menu-reset
+            data-testid="menu-reset"
+            class="flex min-h-14 w-full items-center gap-4 border-b border-border text-start
+                   text-lead whitespace-nowrap text-ink"
+          >
+            <span class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M4 12a8 8 0 1114 5M4 12V7m0 5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span data-i18n="menu.reset">{t('menu.reset', lang)}</span>
+          </button>
+        </li>
+
+        {/* 8 — global mute. A safety feature, not a preference (F-06). */}
+        <li>
+          <button
+            type="button"
+            data-menu-mute
+            data-testid="menu-mute"
+            aria-pressed="false"
+            class="flex min-h-14 w-full items-center gap-4 border-b border-border text-start
+                   text-lead whitespace-nowrap text-ink"
+          >
+            <span class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M4 9v6h4l5 4V5L8 9H4zM17 9l4 6M21 9l-4 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span data-i18n="menu.mute">{t('menu.mute', lang)}</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+{/* Reset confirmation — «आपके चुने हुए कार्ड हट जाएँगे। दोबारा सवाल पूछें?» */}
+<div
+  data-reset-confirm
+  data-testid="reset-confirm"
+  class="fixed inset-0 z-60 hidden place-items-center bg-ink/50 px-5"
+  role="alertdialog"
+  aria-modal="true"
+  hidden
+>
+  <div class="w-full max-w-sm rounded-card bg-surface p-6">
+    <p class="text-app-title text-ink" data-i18n="reset.confirm">{t('reset.confirm', lang)}</p>
+    <div class="mt-6 flex gap-3">
+      <button
+        type="button"
+        data-reset-yes
+        data-testid="reset-yes"
+        data-i18n="yes"
+        class="flex tap-lg flex-1 items-center justify-center rounded-action bg-pink-600 font-bold text-surface"
+      >
+        {t('yes', lang)}
+      </button>
+      <button
+        type="button"
+        data-reset-no
+        data-testid="reset-no"
+        data-i18n="no"
+        class="flex tap-lg flex-1 items-center justify-center rounded-action border-2 border-border font-bold text-ink"
+      >
+        {t('no', lang)}
+      </button>
+    </div>
+  </div>
+</div>

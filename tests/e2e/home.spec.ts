@@ -19,6 +19,25 @@ test.describe('home', () => {
     }
   });
 
+  test('the fold rule holds in all three languages', async ({ page }, info) => {
+    test.skip(info.project.name !== 'sunita', 'the fold rule is specified for Sunita’s phone');
+
+    // Latin is wider than Devanagari, so Hinglish and English wrap the headline onto
+    // an extra line and push everything down. A facilitator switches language in front
+    // of the woman she is helping — the numbers cannot drop below the fold when she does.
+    await page.goto('/');
+    const vh = page.viewportSize()!.height;
+
+    for (const lang of ['hi', 'hinglish', 'en'] as const) {
+      await page.getByTestId(`lang-${lang}`).click();
+      await page.waitForTimeout(150);
+      for (const id of ['helpline-strip', 'hero-question', 'sunie', 'hero-cta', 'hero-escape']) {
+        const box = (await page.getByTestId(id).boundingBox())!;
+        expect(box.y + box.height, `${id} below the fold in ${lang}`).toBeLessThanOrEqual(vh);
+      }
+    }
+  });
+
   test('the primary CTA is at least 56px tall and full width on mobile', async ({ page }, info) => {
     test.skip(info.project.name !== 'sunita');
     await page.goto('/');
@@ -54,9 +73,17 @@ test.describe('home', () => {
           ? '#' + m.slice(0, 3).map((n) => Number(n).toString(16).padStart(2, '0')).join('').toUpperCase()
           : '';
       };
+      // "Two pink-600 elements on one screen means one is wrong" is about what she can
+      // SEE. Controls inside a closed dialog are not on screen; counting them would
+      // make the rule unenforceable the moment the product has any modal at all.
+      const visible = (el: Element) =>
+        (el as HTMLElement).getClientRects().length > 0 &&
+        getComputedStyle(el).visibility !== 'hidden';
+
       let fills = 0;
       let textFails = 0;
       for (const el of Array.from(document.querySelectorAll('*'))) {
+        if (!visible(el)) continue;
         const cs = getComputedStyle(el);
         if (el.matches('a, button, [role="button"]') && hex(cs.backgroundColor) === '#D6336C') fills++;
         const hasText = Array.from(el.childNodes).some(

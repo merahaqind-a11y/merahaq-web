@@ -57,7 +57,11 @@ const TOP = CARDS.C1;
     data-anim="deck-face"
   >
     <CardIcon name={TOP.icon} />
-    <h2 class="text-app-title leading-snug font-bold text-ink">{TOP.title[lang]}</h2>
-    <p class="text-[0.9375rem] leading-relaxed text-muted">{TOP.summary[lang]}</p>
+    <h2 class="text-app-title leading-snug font-bold text-ink" data-card-title={TOP.id}>
+      {TOP.title[lang]}
+    </h2>
+    <p class="text-[0.9375rem] leading-relaxed text-muted" data-card-summary={TOP.id}>
+      {TOP.summary[lang]}
+    </p>
   </div>
 </div>
