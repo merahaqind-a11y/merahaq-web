@@ -1,0 +1,57 @@
+---
+import { t } from '../../lib/i18n';
+import type { Lang } from '../../lib/types';
+
+interface Props {
+  lang?: Lang;
+  /** Audio target: a card id (`c1`), a diagnostic screen (`q3`), or a page region. */
+  target: string;
+  /** Card pages put सुनिए first; elsewhere it sits inline. */
+  size?: 'md' | 'lg';
+}
+const { lang = 'hi', target, size = 'md' } = Astro.props;
+
+/**
+ * F-05. For this user audio is not accessibility — it is the primary channel. She
+ * should be able to complete the whole diagnostic and understand a full card with her
+ * eyes closed.
+ *
+ * Rules enforced by src/lib/audio.ts, not here:
+ *   · never autoplay — sound on a shared phone is exposure
+ *   · first tap in a session shows the one-time "others can hear this" note
+ *   · playing → «रोकें» with a progress line; navigation stops AND unloads
+ *   · muted → visibly DISABLED with «आवाज़ बंद है», never hidden, so she can find it
+ *   · 404 or decode failure → hi-IN speech synthesis; unavailable → hide silently.
+ *     Never an error message.
+ */
+---
+
+<button
+  type="button"
+  data-testid="sunie"
+  data-sunie={target}
+  data-i18n="sunie.play"
+  class:list={[
+    'inline-flex items-center gap-2 rounded-pill border border-blue-600/30 bg-surface',
+    'font-bold text-blue-600 disabled:border-border disabled:text-muted',
+    size === 'lg' ? 'tap-lg px-5 text-[1.125rem]' : 'tap px-4 text-[1.0625rem]',
+  ]}
+>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M4 9v6h4l5 4V5L8 9H4z"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linejoin="round"></path>
+    <path
+      d="M17 8.5a5 5 0 010 7"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      data-sunie-wave></path>
+  </svg>
+  <span data-sunie-label>{t('sunie.play', lang)}</span>
+  <span class="hidden h-[2px] w-16 bg-blue-600/25" data-sunie-progress aria-hidden="true">
+    <span class="block h-full w-0 bg-blue-600"></span>
+  </span>
+</button>

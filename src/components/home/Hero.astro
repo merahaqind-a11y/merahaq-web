@@ -1,0 +1,127 @@
+---
+import { t } from '../../lib/i18n';
+import type { Lang } from '../../lib/types';
+import SunieButton from '../chrome/SunieButton.astro';
+import HeroDeck from './HeroDeck.astro';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'hi' } = Astro.props;
+
+/**
+ * F-10 / F-11 / F-12 / §5.4.
+ *
+ * Hard requirement: the hero question, the सुनिए control, the primary CTA, the escape
+ * link and the helpline strip are all visible WITHOUT SCROLLING at 360×740. Asserted
+ * by test, not by eye.
+ *
+ * The headline is hand-split into word spans for the GSAP reveal. SplitText is
+ * deliberately not used — hand-splitting keeps the original text nodes intact for
+ * screen readers and for the language switcher, and adds no plugin weight.
+ */
+const question = t('hero.question', lang);
+const words = question.split(' ');
+
+// «हक़» is the word that matters — it carries the emphasis weight. Matching on the
+// stem so the Hinglish and English tracks emphasise their own equivalent.
+const EMPH: Record<Lang, string> = { hi: 'हक़', hinglish: 'haq', en: 'belong' };
+const isEmph = (w: string): boolean =>
+  w.toLowerCase().replace(/[?,.]/g, '').includes(EMPH[lang].toLowerCase());
+---
+
+<section
+  data-section="hero"
+  class="relative overflow-hidden bg-bg px-5 pt-8 pb-0"
+  aria-labelledby="hero-heading"
+>
+  <div class="bloom" data-anim="bloom" aria-hidden="true"></div>
+
+  <div
+    class="relative mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]
+           lg:gap-14 lg:pt-6"
+  >
+    <div>
+    <h1
+      id="hero-heading"
+      data-testid="hero-question"
+      class="shirorekha text-display leading-[1.12] font-medium text-ink"
+      style="--shirorekha-width:5rem"
+    >
+      {
+        words.map((w, i) => (
+          <>
+            <span class="inline-block overflow-hidden align-bottom">
+              <span class:list={['inline-block', isEmph(w) && 'emph']} data-anim="hero-word">
+                {w}
+              </span>
+            </span>
+            {i < words.length - 1 && ' '}
+          </>
+        ))
+      }
+    </h1>
+
+    <p class="mt-4 max-w-xl text-lead text-muted" data-i18n="hero.sub">{t('hero.sub', lang)}</p>
+
+    <div class="mt-6">
+      <SunieButton lang={lang} target="hero" />
+    </div>
+
+    {
+      /* THE action. #D6336C appears exactly once on this screen — if a second
+         pink-600 action shows up, tests/e2e/tokens.spec.ts fails the build. */
+    }
+    <div class="mt-4 flex flex-col items-start gap-1">
+      <a
+        href="/shuru"
+        data-testid="hero-cta"
+        data-anim="hero-cta"
+        data-i18n="cta.primary"
+        class="flex tap-lg w-full items-center justify-center rounded-action bg-pink-600 px-8
+               text-[1.25rem] font-bold text-surface no-underline sm:w-fit"
+      >
+        {t('cta.primary', lang)}
+      </a>
+
+      {
+        /* Never trap anyone in the questionnaire (F-12, Diagnostic Spec §5). Present and
+           unmissable at every entry point to the flow. */
+      }
+      <a
+        href="/sabhi-card"
+        data-testid="hero-escape"
+        data-i18n="cta.allCards"
+        class="inline-flex tap items-center text-[1.0625rem] font-medium text-pink-700 underline
+               underline-offset-4"
+      >
+        {t('cta.allCards', lang)}
+      </a>
+
+      {
+        /* Returning visitor with a stored deck gets a third element above the fold
+           (F-14). Rendered hidden and revealed client-side, so the static HTML is
+           byte-identical for every visitor and nothing about her is baked into it. */
+      }
+      <a
+        href="/aapke-card"
+        data-testid="hero-mycards"
+        data-i18n="cta.myCards"
+        hidden
+        class="inline-flex tap items-center text-[1.0625rem] font-medium text-ink underline
+               underline-offset-4"
+      >
+        {t('cta.myCards', lang)}
+      </a>
+    </div>
+    </div>
+
+    {
+      /* On mobile the deck sits under the CTA and is cropped by the fold, so she sees
+         the top of a deck and scrolls. On desktop it moves into the second column and
+         is shown whole — the supporter has the room, and a cropped deck there would
+         just look unfinished. */
+    }
+    <HeroDeck lang={lang} />
+  </div>
+</section>

@@ -1,0 +1,94 @@
+---
+import { t, LANGS } from '../../lib/i18n';
+import type { Lang } from '../../lib/types';
+
+interface Props {
+  lang?: Lang;
+  /** Home and institutional routes only. Never on app routes — it would crowd the
+   *  two fixed safety controls, and login is never required for anything. */
+  showLogin?: boolean;
+}
+const { lang = 'hi', showLogin = false } = Astro.props;
+
+const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' };
+---
+
+{
+  /* ☰ top-left · language pill top-centre · ✘ top-right (rendered by Base).
+     These three never move and never swap, on any screen (PRD §5.5 r1). The header
+     sits below the quick exit in the stacking order so the exit stays tappable while
+     the menu overlay is open. */
+}
+<header
+  class="sticky top-0 z-40 border-b border-border bg-surface/85 backdrop-blur-md
+         supports-[not(backdrop-filter:blur(0))]:bg-surface"
+  data-testid="header"
+>
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-2">
+  <button
+    type="button"
+    data-testid="menu-toggle"
+    aria-label={t('menu.open', lang)}
+    aria-expanded="false"
+    aria-controls="mh-menu"
+    class="grid tap place-items-center rounded-action text-ink"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 7h16M4 12h16M4 17h16"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  {
+    /* Language is a first decision, not a settings-menu item — hence top-centre and
+       not inside ☰. Positioned so it never competes with the two safety controls. */
+  }
+  <div
+    class="flex items-center gap-1 rounded-pill bg-bg p-1"
+    data-testid="lang-pill"
+    role="group"
+    aria-label={t('lang.label', lang)}
+  >
+    {
+      LANGS.map((l) => (
+        <button
+          type="button"
+          data-lang={l}
+          data-testid={`lang-${l}`}
+          aria-pressed={l === lang ? 'true' : 'false'}
+          class="min-h-12 rounded-pill px-3 text-[0.9375rem] font-bold text-muted
+                 aria-pressed:bg-surface aria-pressed:text-ink"
+        >
+          {SHORT[l]}
+        </button>
+      ))
+    }
+  </div>
+
+  {
+    /* Login is hidden below `sm` and surfaced in the ☰ menu instead. On a 360px header
+       there is room for exactly three things, and the owner override is explicit that
+       Login must never displace the two fixed safety controls. The spacer holds the
+       language pill optically centred against the quick exit, which is fixed-positioned
+       and therefore outside this flex row. */
+  }
+    <div class="flex w-12 shrink-0 justify-end sm:w-auto">
+      {
+        showLogin && (
+          <a
+            href="/login"
+            data-testid="login-header"
+            data-i18n="login.header"
+            class="me-14 hidden tap shrink-0 place-items-center rounded-action px-3 text-[0.9375rem]
+                   font-bold whitespace-nowrap text-ink no-underline sm:grid"
+          >
+            {t('login.header', lang)}
+          </a>
+        )
+      }
+    </div>
+  </div>
+</header>

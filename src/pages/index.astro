@@ -1,35 +1,32 @@
 ---
 import Base from '../layouts/Base.astro';
+import Header from '../components/chrome/Header.astro';
+import HelplineStrip from '../components/chrome/HelplineStrip.astro';
+import Hero from '../components/home/Hero.astro';
+
+const lang = 'hi' as const;
 ---
 
-<!-- Placeholder. Replaced by the eight home sections in Task 9.
-     `rights` is set here only so the token/conjunct check renders untranslated. -->
-<Base title="मेरा हक़" rights>
-  <main id="main" class="mx-auto max-w-2xl p-6 pt-16">
-    <h2 class="shirorekha text-app-display font-bold text-ink">टोकन जाँच</h2>
+<Base
+  title="मेरा हक़ — आपके हक़, आसान भाषा में"
+  lang={lang}
+  description="पाँच छोटे सवाल, एक मिनट। जानिए कौन से हक़ पहले से आपके हैं।"
+>
+  <Header lang={lang} showLogin />
+  <HelplineStrip lang={lang} />
 
-    <p class="mt-4 text-app-title">स्त्रीधन · ज़िंदगी · हक़ · काग़ज़</p>
-    <p class="mt-2 text-app-title font-bold">स्त्रीधन · ज़िंदगी · हक़ · काग़ज़</p>
-
-    <p class="mono mt-4 text-blue-600">181 · 15100 · 14454</p>
-
-    <p class="mt-4">
-      Montserrat Latin next to <span>खाता खोलें</span> — seam check. PMJDY खाता आज खोलें।
-    </p>
-
-    <p class="mt-6">
-      Mixed weight: यह <span class="emph">हक़</span> आपका है — Latin <span class="emph">emphasis</span> too.
-    </p>
-
-    <div class="mt-8 flex flex-wrap gap-3">
-      <span class="rounded-action bg-pink-600 px-4 py-3 text-surface">pink-600 action</span>
-      <span class="rounded-action bg-blue-600 px-4 py-3 text-surface">blue-600 sarkari</span>
-      <span class="rounded-none border-s-[3px] border-green-700 bg-green-050 px-4 py-3 text-green-700">
-        सही है
-      </span>
-      <span class="rounded-none border-s-[3px] border-red-700 bg-red-050 px-4 py-3 text-red-700">
-        यह सही नहीं है
-      </span>
-    </div>
+  <main id="main">
+    <Hero lang={lang} />
   </main>
 </Base>
+
+<script>
+  // F-14: reveal the returning-visitor link only if a deck actually exists. Kept out
+  // of the static HTML so the page is byte-identical for every visitor and nothing
+  // about her is baked into what the server sends.
+  import { hasDeck } from '../lib/prefs';
+
+  if (hasDeck()) {
+    document.querySelector<HTMLElement>('[data-testid="hero-mycards"]')?.removeAttribute('hidden');
+  }
+</script>

@@ -1,0 +1,84 @@
+---
+import type { CardMeta } from '../../lib/cards';
+import { t } from '../../lib/i18n';
+import type { Lang } from '../../lib/types';
+import CardIcon from './CardIcon.astro';
+
+interface Props {
+  card: CardMeta;
+  lang?: Lang;
+  /** Degrees. The deck motif fans by a fixed delta so the stack never looks accidental. */
+  tilt?: number;
+  /** The universal card carries «यह कार्ड सबके लिए है» in the reveal (F-23). */
+  universal?: boolean;
+  compact?: boolean;
+}
+
+const { card, lang = 'hi', tilt = 0, universal = false, compact = false } = Astro.props;
+---
+
+{
+  /* THE signature element. The card is genuinely the product — it gets printed, put on
+     a table, passed around a room of eight women, photographed, forwarded. So it is
+     drawn as a physical card, not a content box.
+
+     The tilted-frame motif and the fanned-deck motif are the same component: a pink
+     card rotated behind, the face counter-rotated on top. Fixed delta, never random —
+     inconsistent angles are what make this pattern look accidental. */
+}
+<article
+  class:list={[
+    'group relative isolate',
+    compact ? 'w-full' : 'w-[15.5rem] shrink-0',
+  ]}
+  data-testid={`haq-card-${card.slug}`}
+  style={`--tilt:${tilt}deg`}
+>
+  {/* the card behind — pure tint, no shadow ramp */}
+  <div
+    class="absolute inset-0 -z-10 rounded-card bg-pink-200/45"
+    style="transform: rotate(var(--tilt))"
+    aria-hidden="true"
+  >
+  </div>
+
+  <a
+    href={`/card/${card.slug}`}
+    class="flex h-full flex-col gap-3 rounded-card border border-pink-200/70 bg-pink-050 p-5
+           text-ink no-underline"
+    style="transform: rotate(calc(var(--tilt) * -0.28))"
+  >
+    <span class="flex items-center justify-between gap-2">
+      <CardIcon name={card.icon} />
+      {
+        universal && (
+          <span
+            class="rounded-pill bg-green-050 px-2 py-1 text-[0.75rem] font-bold text-green-700"
+            data-i18n="s7.universal"
+          >
+            {t('s7.universal', lang)}
+          </span>
+        )
+      }
+    </span>
+
+    <h3 class="text-app-title leading-snug font-bold text-ink">{card.title[lang]}</h3>
+
+    <p class="text-[0.9375rem] leading-relaxed text-muted">{card.summary[lang]}</p>
+
+    <span
+      class="mt-auto inline-flex items-center gap-1 text-[0.9375rem] font-bold text-pink-700"
+      data-i18n="card.open"
+    >
+      {t('card.open', lang)}
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M5 12h13M13 6l6 6-6 6"
+          stroke="currentColor"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </span>
+  </a>
+</article>

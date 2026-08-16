@@ -1,0 +1,63 @@
+---
+import { CARDS } from '../../lib/cards';
+import CardIcon from '../card/CardIcon.astro';
+import type { Lang } from '../../lib/types';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'hi' } = Astro.props;
+
+/**
+ * THE signature element — the Haq Card deck, fanned.
+ *
+ * A row of cards cropped by the viewport reads as a bug. A fanned stack reads as a
+ * deck of cards on a table, which is literally what this product is: ten printed A5
+ * cards that get put on a table and passed around a room of eight women.
+ *
+ * One card is face-on and readable; two sit behind it at a fixed ±7° so the stack is
+ * unmistakably a deck. Fixed delta, never random — inconsistent angles are what make
+ * this pattern look accidental. The whole thing is decorative and aria-hidden: the
+ * reachable gallery of all ten is its own section further down the page, and the
+ * screen reader should not read the same content twice.
+ *
+ * It is cropped by the fold ON PURPOSE. She sees the top of a deck and scrolls.
+ */
+const TOP = CARDS.C1;
+---
+
+<div
+  class="relative mx-auto mt-10 h-52 w-full max-w-[19rem] [mask-image:linear-gradient(to_bottom,black_62%,transparent)]
+         lg:mt-0 lg:h-64 lg:max-w-[24rem] lg:[mask-image:none]"
+  aria-hidden="true"
+  data-testid="hero-deck"
+>
+  {
+    /* The two behind. They must be WIDER than the face, otherwise the face covers them
+       and the fan disappears — rotation alone is not enough to clear a card of the same
+       width. Tint and shape only; no text, so nothing can crop badly. */
+  }
+  <div
+    class="absolute inset-x-0 top-3 h-48 rounded-card border border-pink-200/70 bg-pink-200/30"
+    style="transform: rotate(-7deg)"
+    data-anim="deck-back"
+  >
+  </div>
+  <div
+    class="absolute inset-x-0 top-3 h-48 rounded-card border border-pink-200/70 bg-pink-200/45"
+    style="transform: rotate(7deg)"
+    data-anim="deck-back"
+  >
+  </div>
+
+  {/* the face — the only one that carries content */}
+  <div
+    class="absolute inset-x-4 top-0 flex h-48 flex-col gap-2 rounded-card border border-pink-200
+           bg-pink-050 p-5 shadow-[0_2px_10px_rgb(31_42_68/0.06)]"
+    data-anim="deck-face"
+  >
+    <CardIcon name={TOP.icon} />
+    <h2 class="text-app-title leading-snug font-bold text-ink">{TOP.title[lang]}</h2>
+    <p class="text-[0.9375rem] leading-relaxed text-muted">{TOP.summary[lang]}</p>
+  </div>
+</div>

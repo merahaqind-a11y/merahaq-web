@@ -61,6 +61,13 @@
   "exit.label": { "hi": "बंद करें", "hinglish": "Band karein", "en": "Close" },
   "skip.toMain": { "hi": "मुख्य सामग्री पर जाएँ", "hinglish": "Mukhya saamagri par jaayein", "en": "Skip to main content" },
   "helpline.press": { "hi": "दबाएँ", "hinglish": "Dabayein", "en": "Call" },
+  "helpline.181": { "hi": "महिला हेल्पलाइन", "hinglish": "Mahila helpline", "en": "Women's helpline" },
+  "helpline.112": { "hi": "पुलिस — तुरंत मदद", "hinglish": "Police — turant madad", "en": "Police — emergency" },
+  "helpline.15100": { "hi": "मुफ़्त वकील", "hinglish": "Muft vakil", "en": "Free lawyer" },
+  "helpline.14454": { "hi": "टेली-लॉ — मुफ़्त सलाह", "hinglish": "Tele-Law — muft salaah", "en": "Tele-Law — free advice" },
+  "helpline.1930": { "hi": "पैसा निकल जाए तो", "hinglish": "Paisa nikal jaye toh", "en": "If money is taken" },
+  "helpline.14448": { "hi": "बैंक और लोन की शिकायत", "hinglish": "Bank aur loan ki shikayat", "en": "Bank and loan complaints" },
+  "helpline.14490": { "hi": "राष्ट्रीय महिला आयोग", "hinglish": "Rashtriya Mahila Aayog", "en": "National Commission for Women" },
 
   "s0.title": {
     "hi": "अपने हक़ जानें — सिर्फ़ 5 छोटे सवाल, 1 मिनट।",
