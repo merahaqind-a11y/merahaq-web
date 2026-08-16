@@ -1,1 +1,83 @@
-﻿@import "tailwindcss";
+@import './fonts.css';
+@import './tokens.css';
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--text-body);
+  /* Explicit unitless line-height. This is why the Mukta @font-face needs no
+   * ascent/descent overrides: Mukta's line metrics are much taller than Montserrat's
+   * (1.66em vs 1.22em) because मात्रा stack above the शिरोरेखा and below the baseline,
+   * but with line-height set here the font's own values never drive line box height. */
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numerals-as-data. A numeral in mono means "this is a number you can act on" — a
+ * helpline, a count, a verified-on date. Never used for prose. */
+.mono,
+[data-mono] {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+/* Mixed weight is the sitewide emphasis mechanic, and the delta differs per script.
+ * Montserrat has a full variable axis, so Latin can go to 800. Mukta stops at 700 —
+ * at 800 the conjuncts turn to mud at display size. Devanagari text is tagged
+ * lang="hi", so the selector picks the right ceiling automatically. */
+.emph {
+  font-weight: 800;
+}
+
+:lang(hi) .emph,
+.emph:lang(hi) {
+  font-weight: 700;
+}
+
+/* Never removed, on any interactive element, on any route. */
+:focus-visible {
+  outline: 3px solid var(--color-blue-600);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Skip link — visible on focus only, first thing in the tab order. */
+.skip-link {
+  position: absolute;
+  inset-block-start: -100%;
+  inset-inline-start: 0;
+  z-index: 200;
+  padding: 0.75rem 1rem;
+  background: var(--color-ink);
+  color: var(--color-surface);
+}
+
+.skip-link:focus {
+  inset-block-start: 0;
+}
+
+/* This audience overlaps exactly with the low-end devices where motion hurts. GSAP is
+ * torn down separately via gsap.matchMedia; this covers everything CSS-driven. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

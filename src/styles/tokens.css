@@ -1,0 +1,128 @@
+@import 'tailwindcss';
+
+/* Mera Haq design tokens.
+ *
+ * Semantic grammar, enforced everywhere:
+ *   pink   = her action, her right
+ *   blue   = government, trust, helpline
+ *   green  = "sahi hai / muft" confirmations
+ *   red    = "galat hai" verdict lines
+ *   navy   = authority and structure
+ *
+ * One glance should teach the system. */
+
+@theme {
+  /* ── pink ramp — brand / her action ───────────────────────────────────────
+   * STEP-DOWN RULE, measured not assumed. pink-600 is 4.75:1 on pure white but only
+   * 4.23:1 on the tinted canvas (--bg), which fails AA. So:
+   *   · as a FILL with white text on it        → pink-600, anywhere
+   *   · as TEXT on --surface (#FFF)            → pink-600
+   *   · as TEXT on --bg or any tint            → pink-700
+   * Same move the myScheme system made when its brand green could not carry white
+   * text: step down the ramp rather than ship a pairing that fails. */
+  --color-pink-700: #9a1348; /* hover, pressed, AND pink text on any tinted ground */
+  --color-pink-600: #d6336c; /* THE action colour. One per screen, enforced by test. */
+  --color-pink-500: #ff4081; /* decorative ONLY — 3.3:1 on white, never a text colour */
+  --color-pink-200: #ffb6c1; /* chips, progress dots, accents on the dark chapter */
+  --color-pink-050: #fff5f8; /* tinted section backgrounds */
+
+  /* ── blue ramp — trust / sarkari channel ────────────────────────────────── */
+  --color-blue-800: #0d47a1;
+  --color-blue-600: #1565c0; /* helpline buttons, govt links, verified badges */
+  --color-blue-050: #e3f2fd; /* info backgrounds, verified chips */
+
+  /* ── ink + neutrals ─────────────────────────────────────────────────────── */
+  --color-ink: #1f2a44; /* headings, header/footer chrome, the one dark chapter */
+  --color-text: #2b2b2b;
+  --color-muted: #595959;
+  --color-bg: #f4f5f7;
+  --color-surface: #ffffff;
+  --color-border: #dddddd;
+
+  /* ── semantic — cards ───────────────────────────────────────────────────── */
+  --color-green-700: #2e7d32; /* sahi hai · muft · haq */
+  --color-green-050: #eaf3eb;
+  --color-red-700: #b3261e; /* galat hai verdicts in card Don'ts */
+  --color-red-050: #fdecea;
+
+  /* ── type ───────────────────────────────────────────────────────────────── */
+  --font-sans: 'Montserrat Variable', 'Mukta', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* One base, two ceilings. 18px body on every route (F-01 floor). Marketing routes
+   * climb to a 76px display; app routes stop at 30px. Nothing shouts where she is
+   * trying to concentrate. */
+  --text-small: 1rem; /* 16px — captions, legal lines */
+  --text-body: 1.125rem; /* 18px — the floor, everywhere */
+  --text-lead: 1.25rem; /* 20px — card summaries, intros */
+  --text-app-title: 1.5rem; /* 24px — card titles, question text */
+  --text-app-display: 1.875rem; /* 30px — app route ceiling */
+  --text-section: clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem); /* 28 → 44px */
+  --text-display: clamp(2.25rem, 1.2rem + 5vw, 4.75rem); /* 36 → 76px */
+  --text-stat: clamp(2.5rem, 1.5rem + 4.5vw, 4rem); /* 40 → 64px */
+
+  /* ── spacing — 4px base ─────────────────────────────────────────────────── */
+  --spacing: 0.25rem;
+
+  /* ── radius — bimodal, derived from the greyscale-print rule ────────────────
+   * PRD §5.7 r5: the Ek Kadam and authority boxes must stay distinguishable when
+   * printed greyscale on a cheap laser printer, by BORDER WEIGHT not colour. A
+   * square box with a heavy left rule survives a photocopy; a rounded tint does
+   * not. So the two boxes that must survive print are the two with zero radius. */
+  --radius-sheet: 3.5rem; /* 56px — section sheets meeting the dark chapter */
+  --radius-card: 1.25rem; /* 20px — Haq Cards, surfaces */
+  --radius-action: 0.75rem; /* 12px — buttons, tappable things */
+  --radius-pill: 999px; /* language pill, chips */
+
+  /* ── elevation — almost none ──────────────────────────────────────────────
+   * Depth comes from tint, which survives a cheap LCD at 40% brightness AND a
+   * greyscale print. Shadows survive neither. */
+  --shadow-header: 0 1px 0 0 rgb(31 42 68 / 0.06);
+  --shadow-fab: 0 6px 20px rgb(31 42 68 / 0.22);
+}
+
+/* ── tap targets ──────────────────────────────────────────────────────────────
+ * F-01 floor is 48px. Helpline numbers and primary CTAs get 56px — she may be
+ * tapping one-handed, in a hurry, on a cracked screen. */
+@utility tap {
+  min-block-size: 3rem;
+  min-inline-size: 3rem;
+}
+
+@utility tap-lg {
+  min-block-size: 3.5rem;
+}
+
+/* ── the शिरोरेखा rule ─────────────────────────────────────────────────────────
+ * A 3px pink stroke sitting ABOVE a heading. The shirorekha is the horizontal
+ * stroke that runs across the top of every Devanagari word — the mark is derived
+ * from the script the product is written in, and it reads correctly over Latin and
+ * Devanagari alike. This is the recurring structural token of the whole system. */
+@utility shirorekha {
+  position: relative;
+  padding-block-start: 1rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: var(--shirorekha-width, 4rem);
+    block-size: 3px;
+    background: var(--color-pink-600);
+  }
+}
+
+/* ── bloom field ──────────────────────────────────────────────────────────────
+ * Layered radial-gradients with NO filter: blur(). A large blurred layer is one of
+ * the most expensive things you can paint on a ₹7k Android; a radial-gradient is
+ * already soft. Visually identical, free. */
+@utility bloom {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 20% 15%, rgb(255 64 129 / 0.18), transparent 70%),
+    radial-gradient(50% 45% at 85% 30%, rgb(255 182 193 / 0.32), transparent 72%),
+    radial-gradient(70% 60% at 50% 95%, rgb(255 245 248 / 0.9), transparent 65%);
+}
