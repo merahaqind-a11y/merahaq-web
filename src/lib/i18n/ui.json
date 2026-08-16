@@ -1,0 +1,284 @@
+{
+  "hero.question": {
+    "hi": "आपके लिए कौन से हक़ बहुत ज़रूरी हैं?",
+    "hinglish": "Aapke liye kaun se haq bahut zaroori hain?",
+    "en": "Which rights already belong to you?"
+  },
+  "hero.sub": {
+    "hi": "नीचे दिए बटन पर दबाएँ और अभी जानें",
+    "hinglish": "Neeche diye button par dabayein aur abhi jaanein",
+    "en": "Press the button below and find out now"
+  },
+  "cta.primary": {
+    "hi": "मेरा हक़ बताओ",
+    "hinglish": "Mera Haq batao",
+    "en": "Show me my rights"
+  },
+  "cta.allCards": {
+    "hi": "सीधे सारे कार्ड देखें",
+    "hinglish": "Seedhe saare card dekhein",
+    "en": "See all ten cards"
+  },
+  "cta.myCards": {
+    "hi": "आपके कार्ड देखें",
+    "hinglish": "Aapke card dekhein",
+    "en": "See your cards"
+  },
+  "sunie.play": { "hi": "सुनिए", "hinglish": "Suniye", "en": "Listen" },
+  "sunie.pause": { "hi": "रोकें", "hinglish": "Rokein", "en": "Pause" },
+  "sunie.muted": { "hi": "आवाज़ बंद है", "hinglish": "Aawaz band hai", "en": "Sound is off" },
+  "sunie.note": {
+    "hi": "आवाज़ पास बैठे लोग भी सुन सकते हैं।",
+    "hinglish": "Aawaz paas baithe log bhi sun sakte hain.",
+    "en": "People sitting nearby can hear this too."
+  },
+  "sunie.noteTip": {
+    "hi": "हो सके तो हेडफ़ोन लगाएँ या आवाज़ धीमी रखें।",
+    "hinglish": "Ho sake toh headphone lagayein ya aawaz dheemi rakhein.",
+    "en": "Use headphones or keep the volume low if you can."
+  },
+  "sunie.noteOk": { "hi": "ठीक है", "hinglish": "Theek hai", "en": "Got it" },
+
+  "menu.open": { "hi": "मेन्यू", "hinglish": "Menu", "en": "Menu" },
+  "menu.close": { "hi": "मेन्यू बंद करें", "hinglish": "Menu band karein", "en": "Close menu" },
+  "menu.diagnostic": { "hi": "मेरा हक़ बताओ", "hinglish": "Mera Haq batao", "en": "Show me my rights" },
+  "menu.allCards": { "hi": "सबसे ज़रूरी हक़", "hinglish": "Sabse zaroori haq", "en": "The ten rights" },
+  "menu.madad": { "hi": "अभी मदद लीजिए", "hinglish": "Abhi madad lijiye", "en": "Get help now" },
+  "menu.myCards": { "hi": "आपके कार्ड", "hinglish": "Aapke card", "en": "Your cards" },
+  "menu.about": { "hi": "हमारे बारे में", "hinglish": "Hamare baare mein", "en": "About us" },
+  "menu.impact": { "hi": "असर — अब तक क्या हुआ", "hinglish": "Asar — ab tak kya hua", "en": "Impact — what has happened" },
+  "menu.reset": { "hi": "सवाल दोबारा करें", "hinglish": "Sawaal dobara karein", "en": "Answer the questions again" },
+  "menu.mute": { "hi": "आवाज़ बंद / चालू", "hinglish": "Aawaz band / chaalu", "en": "Sound off / on" },
+
+  "reset.confirm": {
+    "hi": "आपके चुने हुए कार्ड हट जाएँगे। दोबारा सवाल पूछें?",
+    "hinglish": "Aapke chune hue card hat jayenge. Dobara sawaal poochhein?",
+    "en": "Your chosen cards will be removed. Answer the questions again?"
+  },
+  "yes": { "hi": "हाँ", "hinglish": "Haan", "en": "Yes" },
+  "no": { "hi": "नहीं", "hinglish": "Nahin", "en": "No" },
+  "back": { "hi": "पीछे", "hinglish": "Peechhe", "en": "Back" },
+  "exit.label": { "hi": "बंद करें", "hinglish": "Band karein", "en": "Close" },
+  "skip.toMain": { "hi": "मुख्य सामग्री पर जाएँ", "hinglish": "Mukhya saamagri par jaayein", "en": "Skip to main content" },
+  "helpline.press": { "hi": "दबाएँ", "hinglish": "Dabayein", "en": "Call" },
+
+  "s0.title": {
+    "hi": "अपने हक़ जानें — सिर्फ़ 5 छोटे सवाल, 1 मिनट।",
+    "hinglish": "Apne haq jaanein — sirf 5 chhote sawaal, 1 minute.",
+    "en": "Know your rights — five short questions, one minute."
+  },
+  "s0.start": { "hi": "शुरू करें", "hinglish": "Shuru karein", "en": "Start" },
+  "s0.escape": { "hi": "सीधे कार्ड देखें", "hinglish": "Seedhe card dekhein", "en": "Go straight to the cards" },
+
+  "s0b.question": { "hi": "आप कहाँ से हैं?", "hinglish": "Aap kahaan se hain?", "en": "Where are you from?" },
+  "s0b.note": {
+    "hi": "चाहें तो बताएं — यह जवाब देना ज़रूरी नहीं है",
+    "hinglish": "Chahein toh batayein — yeh jawab dena zaroori nahin hai",
+    "en": "Tell us if you like — this one is optional"
+  },
+  "s0b.north": { "hi": "उत्तर भारत", "hinglish": "Uttar Bharat", "en": "North India" },
+  "s0b.south": { "hi": "दक्षिण भारत", "hinglish": "Dakshin Bharat", "en": "South India" },
+  "s0b.east": { "hi": "पूर्वी भारत", "hinglish": "Poorvi Bharat", "en": "East India" },
+  "s0b.west": { "hi": "पश्चिमी भारत", "hinglish": "Pashchimi Bharat", "en": "West India" },
+  "s0b.central": { "hi": "मध्य भारत", "hinglish": "Madhya Bharat", "en": "Central India" },
+  "s0b.unknown": { "hi": "पता नहीं / छोड़ें", "hinglish": "Pata nahin / chhodein", "en": "Not sure" },
+
+  "q1.question": { "hi": "आप अपने बारे में बताएँ", "hinglish": "Aap apne baare mein batayein", "en": "Tell us about yourself" },
+  "q1.a": {
+    "hi": "शादी हुई है, पति/ससुराल के साथ रहती हूँ",
+    "hinglish": "Shaadi hui hai, pati/sasural ke saath rehti hoon",
+    "en": "Married, living with my husband or his family"
+  },
+  "q1.b": {
+    "hi": "शादी हुई है, पर अभी पति से अलग रहती हूँ",
+    "hinglish": "Shaadi hui hai, par abhi pati se alag rehti hoon",
+    "en": "Married, but living apart from my husband"
+  },
+  "q1.c": { "hi": "पति नहीं रहे (विधवा हूँ)", "hinglish": "Pati nahin rahe (vidhwa hoon)", "en": "My husband has passed away" },
+  "q1.d": { "hi": "शादी नहीं हुई है", "hinglish": "Shaadi nahin hui hai", "en": "Not married" },
+  "q1.e": { "hi": "तलाक़ हो गया है", "hinglish": "Talaaq ho gaya hai", "en": "Divorced" },
+
+  "q2.question": { "hi": "घर के पैसे कौन रखता है?", "hinglish": "Ghar ke paise kaun rakhta hai?", "en": "Who holds the household money?" },
+  "q2.a": {
+    "hi": "मैं कमाती हूँ और पैसे खुद रखती हूँ",
+    "hinglish": "Main kamaati hoon aur paise khud rakhti hoon",
+    "en": "I earn and I keep it myself"
+  },
+  "q2.b": {
+    "hi": "मैं कमाती हूँ, पर पैसे घरवाले रखते हैं",
+    "hinglish": "Main kamaati hoon, par paise gharwale rakhte hain",
+    "en": "I earn, but the family keeps it"
+  },
+  "q2.c": {
+    "hi": "घरवाले कमाते हैं और खर्चे के लिए पैसे देते हैं",
+    "hinglish": "Gharwale kamaate hain aur kharche ke liye paise dete hain",
+    "en": "The family earns and gives me money for expenses"
+  },
+  "q2.d": {
+    "hi": "घरवाले कमाते हैं, पर ज़रूरत पर पैसे नहीं मिलते",
+    "hinglish": "Gharwale kamaate hain, par zaroorat par paise nahin milte",
+    "en": "The family earns, but money does not come when it is needed"
+  },
+  "q2.e": { "hi": "घर में कोई बंधी कमाई नहीं है", "hinglish": "Ghar mein koi bandhi kamai nahin hai", "en": "There is no steady income at home" },
+
+  "q3.question": {
+    "hi": "इनमें से क्या-क्या आपके लिए सच है?",
+    "hinglish": "Inmein se kya-kya aapke liye sach hai?",
+    "en": "Which of these are true for you?"
+  },
+  "q3.hint": {
+    "hi": "जितनी बातें सच हों, उन्हें चुनें",
+    "hinglish": "Jitni baatein sach hon, unhein chunein",
+    "en": "Choose as many as apply"
+  },
+  "q3.a": {
+    "hi": "शादी में मुझे गहने और तोहफ़े मिले थे",
+    "hinglish": "Shaadi mein mujhe gehne aur tohfe mile the",
+    "en": "I was given jewellery and gifts at my wedding"
+  },
+  "q3.b": {
+    "hi": "शादी में दहेज़ का लेन-देन हुआ था",
+    "hinglish": "Shaadi mein dahej ka len-den hua tha",
+    "en": "Dowry changed hands at my wedding"
+  },
+  "q3.c": {
+    "hi": "जिस घर में रहती हूँ, वह मेरे नाम पर नहीं है",
+    "hinglish": "Jis ghar mein rehti hoon, woh mere naam par nahin hai",
+    "en": "The house I live in is not in my name"
+  },
+  "q3.d": { "hi": "मायके में ज़मीन या मकान है", "hinglish": "Maayke mein zameen ya makaan hai", "en": "There is land or a house in my parents' family" },
+  "q3.e": {
+    "hi": "अपने खर्चे के लिए मुझे दूसरों से पैसे माँगने पड़ते हैं",
+    "hinglish": "Apne kharche ke liye mujhe doosron se paise maangne padte hain",
+    "en": "I have to ask others for money for my own expenses"
+  },
+  "q3.f": { "hi": "इनमें से कोई बात सच नहीं है", "hinglish": "Inmein se koi baat sach nahin hai", "en": "None of these are true" },
+  "q3.cta": { "hi": "आगे बढ़ें", "hinglish": "Aage badhein", "en": "Continue" },
+
+  "q4.question": {
+    "hi": "क्या घर में कोई लोन या उधार चल रहा है?",
+    "hinglish": "Kya ghar mein koi loan ya udhaar chal raha hai?",
+    "en": "Is there a loan running in the household?"
+  },
+  "q4.a": { "hi": "नहीं, कोई लोन नहीं है", "hinglish": "Nahin, koi loan nahin hai", "en": "No, there is no loan" },
+  "q4.b": { "hi": "हाँ, घर या पति का लोन है", "hinglish": "Haan, ghar ya pati ka loan hai", "en": "Yes, a household or husband's loan" },
+  "q4.c": {
+    "hi": "हाँ, लोन मेरे नाम पर है या मैंने काग़ज़ों पर साइन किए हैं (बचत समूह का लोन भी)",
+    "hinglish": "Haan, loan mere naam par hai ya maine kaagzon par sign kiye hain (bachat samooh ka loan bhi)",
+    "en": "Yes, in my name, or I signed papers for one (including a self-help group loan)"
+  },
+  "q4.d": {
+    "hi": "वसूली वाले फ़ोन करते हैं या घर आते हैं",
+    "hinglish": "Vasooli waale phone karte hain ya ghar aate hain",
+    "en": "Recovery agents call or come to the house"
+  },
+  "q4.e": { "hi": "पता नहीं", "hinglish": "Pata nahin", "en": "I don't know" },
+
+  "q5.question": {
+    "hi": "इनमें से क्या-क्या आपके पास है?",
+    "hinglish": "Inmein se kya-kya aapke paas hai?",
+    "en": "Which of these do you already have?"
+  },
+  "q5.hint": {
+    "hi": "जितनी चीज़ें हों, उन्हें चुनें",
+    "hinglish": "Jitni cheezein hon, unhein chunein",
+    "en": "Choose as many as apply"
+  },
+  "q5.a": {
+    "hi": "अपना बैंक खाता, जो मैं खुद चलाती हूँ",
+    "hinglish": "Apna bank khaata, jo main khud chalati hoon",
+    "en": "A bank account I operate myself"
+  },
+  "q5.b": {
+    "hi": "मेरा आधार कार्ड और ज़रूरी काग़ज़ मेरे पास रहते हैं",
+    "hinglish": "Mera Aadhaar card aur zaroori kaagaz mere paas rehte hain",
+    "en": "My Aadhaar and important papers stay with me"
+  },
+  "q5.c": { "hi": "अपना मोबाइल या सिम, मेरे नाम पर", "hinglish": "Apna mobile ya SIM, mere naam par", "en": "A phone or SIM in my own name" },
+  "q5.d": { "hi": "गहनों की लिस्ट या फोटो", "hinglish": "Gehnon ki list ya photo", "en": "A list or photos of my jewellery" },
+  "q5.e": { "hi": "इनमें से कोई नहीं", "hinglish": "Inmein se koi nahin", "en": "None of these" },
+  "q5.cta": { "hi": "मेरे कार्ड दिखाएँ", "hinglish": "Mere card dikhayein", "en": "Show my cards" },
+
+  "s6.title": { "hi": "आपके कार्ड तैयार हो रहे हैं…", "hinglish": "Aapke card taiyaar ho rahe hain…", "en": "Getting your cards ready…" },
+  "s7.title": { "hi": "ये 5 कार्ड आपके लिए हैं", "hinglish": "Yeh 5 card aapke liye hain", "en": "These five cards are for you" },
+  "s7.open": { "hi": "पहला कार्ड खोलें", "hinglish": "Pehla card kholein", "en": "Open the first card" },
+  "s7.universal": { "hi": "यह कार्ड सबके लिए है", "hinglish": "Yeh card sabke liye hai", "en": "This card is for everyone" },
+  "progress.label": { "hi": "आपकी प्रगति", "hinglish": "Aapki pragati", "en": "Your progress" },
+
+  "tab.mine": { "hi": "आपके कार्ड", "hinglish": "Aapke card", "en": "Your cards" },
+  "tab.all": { "hi": "सभी 10 कार्ड", "hinglish": "Sabhi 10 card", "en": "All ten cards" },
+
+  "card.open": { "hi": "कार्ड खोलें", "hinglish": "Card kholein", "en": "Open card" },
+  "card.kanoon": { "hi": "कानून क्या कहता है", "hinglish": "Kanoon kya kehta hai", "en": "What the law says" },
+  "card.asli": { "hi": "असली ज़िंदगी में", "hinglish": "Asli zindagi mein", "en": "In real life" },
+  "card.sambhaal": { "hi": "सँभाल कर रखें", "hinglish": "Sambhaal kar rakhein", "en": "Keep this safe" },
+  "card.ekKadam": { "hi": "एक कदम आज", "hinglish": "Ek kadam aaj", "en": "One step today" },
+  "card.kahaan": { "hi": "कहाँ जाएँ", "hinglish": "Kahaan jaayein", "en": "Where to go" },
+  "card.askFor": { "hi": "किससे मिलें", "hinglish": "Kisse milein", "en": "Ask for" },
+  "card.alsoKnow": { "hi": "यह भी जानिए", "hinglish": "Yeh bhi jaaniye", "en": "Also worth knowing" },
+  "card.share": { "hi": "WhatsApp पर भेजें", "hinglish": "WhatsApp par bhejein", "en": "Send on WhatsApp" },
+  "card.pdf": { "hi": "PDF डाउनलोड करें", "hinglish": "PDF download karein", "en": "Download the PDF" },
+
+  "footer.disclaimer": { "hi": "यह जानकारी है, सलाह नहीं", "hinglish": "Yeh jaankari hai, salaah nahin", "en": "This is information, not advice" },
+  "footer.reviewer": { "hi": "कानूनी समीक्षा", "hinglish": "Kanooni sameeksha", "en": "Legal review" },
+  "footer.verified": { "hi": "जाँचा गया", "hinglish": "Jaancha gaya", "en": "Verified on" },
+  "footer.noTracking": {
+    "hi": "यह साइट आपके बारे में कुछ भी सेव नहीं करती।",
+    "hinglish": "Yeh site aapke baare mein kuchh bhi save nahin karti.",
+    "en": "This site saves nothing about you."
+  },
+  "draft.banner": {
+    "hi": "कानूनी समीक्षा बाकी है। यह मसौदा है।",
+    "hinglish": "Kanooni sameeksha baaki hai. Yeh masauda hai.",
+    "en": "Legal review pending. This is a draft."
+  },
+
+  "madad.title": { "hi": "अभी मदद लीजिए", "hinglish": "Abhi madad lijiye", "en": "Get help now" },
+  "madad.universal": {
+    "hi": "हर हाल में काम आने वाले नंबर",
+    "hinglish": "Har haal mein kaam aane waale number",
+    "en": "Numbers that always help"
+  },
+  "madad.byCard": { "hi": "फिर, अपने कार्ड के हिसाब से", "hinglish": "Phir, apne card ke hisaab se", "en": "Then, by your card" },
+  "madad.portal": { "hi": "खोलें", "hinglish": "Kholein", "en": "Open" },
+
+  "sharedPhone": {
+    "hi": "फ़ोन की हिस्ट्री में यह साइट दिख सकती है। फ़ोन कोई और भी चलाता हो तो प्राइवेट मोड इस्तेमाल करें। या देखने के बाद हिस्ट्री से यह पेज हटा दें।",
+    "hinglish": "Phone ki history mein yeh site dikh sakti hai. Phone koi aur bhi istemal karta ho toh browser ka 'Private / Incognito' mode istemal karein. Ya dekhne ke baad history se yeh page hata den.",
+    "en": "This site can still show up in the phone's history. If someone else uses this phone, browse in Private or Incognito mode. Or clear this page from the history afterwards."
+  },
+
+  "login.title": { "hi": "अपने कार्ड सुरक्षित रखें", "hinglish": "Apne card surakshit rakhein", "en": "Keep your cards safe" },
+  "login.body": {
+    "hi": "लॉग इन करेंगी तो कार्ड किसी भी फ़ोन पर मिलेंगे।",
+    "hinglish": "Log in karengi toh card kisi bhi phone par milenge.",
+    "en": "Log in and your cards will be there on any device."
+  },
+  "login.yes": { "hi": "लॉग इन करें", "hinglish": "Log in karein", "en": "Log in" },
+  "login.later": { "hi": "अभी नहीं", "hinglish": "Abhi nahin", "en": "Not now" },
+  "login.header": { "hi": "लॉग इन", "hinglish": "Log in", "en": "Log in" },
+
+  "sakhi.open": { "hi": "सखी से पूछें", "hinglish": "Sakhi se poochhein", "en": "Ask Sakhi" },
+  "sakhi.greeting": {
+    "hi": "नमस्ते! मैं सखी हूँ। 5 छोटे सवाल — 1 मिनट।",
+    "hinglish": "Namaste! Main Sakhi hoon. 5 chhote sawaal — 1 minute.",
+    "en": "Hello, I'm Sakhi. Five short questions, one minute."
+  },
+  "sakhi.done": { "hi": "बस, आगे बढ़ें", "hinglish": "Bas, aage badhein", "en": "Done, continue" },
+  "sakhi.openCards": { "hi": "मेरे कार्ड खोलें", "hinglish": "Mere card kholein", "en": "Open my cards" },
+  "sakhi.minimise": { "hi": "छोटा करें", "hinglish": "Chhota karein", "en": "Minimise" },
+
+  "lang.label": { "hi": "भाषा", "hinglish": "Bhasha", "en": "Language" },
+  "lang.hi": { "hi": "हिंदी", "hinglish": "Hindi", "en": "Hindi" },
+  "lang.hinglish": { "hi": "हिंग्लिश", "hinglish": "Hinglish", "en": "Hinglish" },
+  "lang.en": { "hi": "अंग्रेज़ी", "hinglish": "English", "en": "English" },
+  "lang.short.hi": { "hi": "हिं", "hinglish": "Hi", "en": "Hi" },
+  "lang.short.hinglish": { "hi": "Hg", "hinglish": "Hg", "en": "Hg" },
+  "lang.short.en": { "hi": "EN", "hinglish": "EN", "en": "EN" },
+
+  "storage.blocked": {
+    "hi": "यह फ़ोन कार्ड याद नहीं रखेगा।",
+    "hinglish": "Yeh phone card yaad nahin rakhega.",
+    "en": "This browser will not remember your cards."
+  }
+}
