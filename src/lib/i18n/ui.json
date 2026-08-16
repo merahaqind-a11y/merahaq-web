@@ -88,7 +88,7 @@
   "s0b.east": { "hi": "पूर्वी भारत", "hinglish": "Poorvi Bharat", "en": "East India" },
   "s0b.west": { "hi": "पश्चिमी भारत", "hinglish": "Pashchimi Bharat", "en": "West India" },
   "s0b.central": { "hi": "मध्य भारत", "hinglish": "Madhya Bharat", "en": "Central India" },
-  "s0b.unknown": { "hi": "पता नहीं / छोड़ें", "hinglish": "Pata nahin / chhodein", "en": "Not sure" },
+  "s0b.unknown": { "hi": "पता नहीं", "hinglish": "Pata nahin", "en": "Not sure" },
 
   "q1.question": { "hi": "आप अपने बारे में बताएँ", "hinglish": "Aap apne baare mein batayein", "en": "Tell us about yourself" },
   "q1.a": {

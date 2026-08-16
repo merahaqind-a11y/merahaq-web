@@ -1,0 +1,480 @@
+---
+import { t } from '../../lib/i18n';
+import type { Lang } from '../../lib/types';
+import { QUESTIONS, REGIONS, ICONS } from '../../lib/diagnostic';
+import SunieButton from '../chrome/SunieButton.astro';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'hi' } = Astro.props;
+
+/**
+ * S0 → S0b → Q1 → Q2 → Q3 → Q4 → Q5 → S6 → S7.
+ *
+ * No framework. Every screen is in the DOM and a small vanilla script swaps which one
+ * is visible, which keeps this route far under its 80 KB budget and means the first
+ * question paints with the page rather than after a hydration round trip.
+ *
+ * NO GSAP on this route. The three micro-moments — option highlight, the S6 pulse, the
+ * S7 fan-in — are CSS. This screen is where a frightened person is concentrating; it
+ * should be fast and calm, and nothing on it should move that she did not cause.
+ *
+ * NO SKIP CONTROL (owner decision D7). The escapes are S0's «सीधे कार्ड देखें», the
+ * non-disclosive options inside Q3(f), Q4(e) and Q5(e), and the back arrow.
+ */
+---
+
+<div data-diagnostic class="mx-auto flex min-h-[calc(100svh-7rem)] max-w-2xl flex-col px-5 pb-10">
+  {/* ── progress: five dots, never "Question 3 of 5" — dots read to non-readers ── */}
+  <div
+    class="flex items-center justify-center gap-2 py-6"
+    data-testid="progress-dots"
+    role="progressbar"
+    aria-valuemin="0"
+    aria-valuemax="5"
+    aria-valuenow="0"
+    aria-label={t('progress.label', lang)}
+    hidden
+  >
+    {
+      [1, 2, 3, 4, 5].map((i) => (
+        <span
+          data-dot={i}
+          class="size-3 rounded-pill bg-pink-200 transition-colors data-[on]:bg-pink-600"
+        />
+      ))
+    }
+  </div>
+
+  {/* ── back ─────────────────────────────────────────────────────────────────── */}
+  <button
+    type="button"
+    data-back
+    data-testid="back"
+    class="mb-2 -ms-2 inline-flex tap w-fit items-center gap-1 rounded-action px-2 font-medium text-muted"
+    hidden
+  >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+    <span data-i18n="back">{t('back', lang)}</span>
+  </button>
+
+  {/* ── S0 welcome ───────────────────────────────────────────────────────────── */}
+  <section data-screen="s0" class="flex flex-1 flex-col justify-center py-6">
+    <h1
+      class="shirorekha text-app-display leading-snug font-medium text-ink"
+      style="--shirorekha-width:4rem"
+      data-i18n="s0.title"
+      data-testid="s0-title"
+    >
+      {t('s0.title', lang)}
+    </h1>
+    <div class="mt-6"><SunieButton lang={lang} target="s0" /></div>
+    <button
+      type="button"
+      data-next="s0b"
+      data-testid="s0-start"
+      data-i18n="s0.start"
+      class="mt-6 flex tap-lg w-full items-center justify-center rounded-action bg-pink-600 px-8
+             text-[1.25rem] font-bold text-surface sm:w-fit"
+    >
+      {t('s0.start', lang)}
+    </button>
+    <a
+      href="/sabhi-card"
+      data-testid="s0-escape"
+      data-i18n="s0.escape"
+      class="mt-3 inline-flex tap w-fit items-center font-medium text-pink-700 underline underline-offset-4"
+    >
+      {t('s0.escape', lang)}
+    </a>
+  </section>
+
+  {/* ── S0b region · deliberately indistinguishable from a real question (RQ-3) ── */}
+  <section data-screen="s0b" class="flex-1 py-2" hidden>
+    <h2 class="text-app-display leading-snug font-medium text-ink" data-i18n="s0b.question" data-testid="s0b-question">
+      {t('s0b.question', lang)}
+    </h2>
+    <p class="mt-2 text-muted" data-i18n="s0b.note">{t('s0b.note', lang)}</p>
+    <div class="mt-4"><SunieButton lang={lang} target="s0b" /></div>
+    <ul class="mt-6 grid gap-3">
+      {
+        REGIONS.map((r) => (
+          <li>
+            <button
+              type="button"
+              data-region={r.id}
+              data-testid={`s0b-${r.id}`}
+              class="option flex tap-lg w-full items-center gap-4 rounded-action border-2 border-border
+                     bg-surface px-4 py-3 text-start text-lead text-ink"
+            >
+              <span class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d={ICONS.home} stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span data-i18n={r.key}>{t(r.key, lang)}</span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  {/* ── Q1–Q5 ────────────────────────────────────────────────────────────────── */}
+  {
+    QUESTIONS.map((q, qi) => (
+      <section data-screen={q.id} data-step={qi + 1} class="flex-1 py-2" hidden>
+        <h2
+          class="text-app-display leading-snug font-medium text-ink"
+          data-i18n={q.questionKey}
+          data-testid={`${q.id}-question`}
+        >
+          {t(q.questionKey, lang)}
+        </h2>
+        {q.hintKey && (
+          <p class="mt-2 text-muted" data-i18n={q.hintKey}>
+            {t(q.hintKey, lang)}
+          </p>
+        )}
+        <div class="mt-4">
+          <SunieButton lang={lang} target={q.id} />
+        </div>
+
+        <ul class="mt-6 grid gap-3" role={q.multi ? 'group' : 'radiogroup'}>
+          {q.options.map((o) => (
+            <li data-option-row={`${q.id}${o.id}`}>
+              <button
+                type="button"
+                data-opt={o.id}
+                data-multi={q.multi ? 'true' : undefined}
+                data-testid={`${q.id}-${o.id}`}
+                aria-pressed={q.multi ? 'false' : undefined}
+                class="option flex tap-lg w-full items-center gap-4 rounded-action border-2 border-border
+                       bg-surface px-4 py-3 text-start text-lead text-ink
+                       aria-pressed:border-pink-600 aria-pressed:bg-pink-050"
+              >
+                <span
+                  class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700"
+                  aria-hidden="true"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d={ICONS[o.icon]}
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span data-i18n={o.key}>{t(o.key, lang)}</span>
+                {q.multi && (
+                  <span
+                    class="ms-auto grid size-6 shrink-0 place-items-center rounded-[6px] border-2 border-border
+                           text-surface [button[aria-pressed=true]_&]:border-pink-600 [button[aria-pressed=true]_&]:bg-pink-600"
+                    aria-hidden="true"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                      <path d="M4.5 12.5l5 5 10-11" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        {q.ctaKey && (
+          <button
+            type="button"
+            data-cta
+            data-testid={`${q.id}-cta`}
+            data-i18n={q.ctaKey}
+            class="mt-7 flex tap-lg w-full items-center justify-center rounded-action bg-pink-600 px-8
+                   text-[1.25rem] font-bold text-surface"
+          >
+            {t(q.ctaKey, lang)}
+          </button>
+        )}
+      </section>
+    ))
+  }
+
+  {/* ── S6 processing · purely psychological, the computation is instant ──────── */}
+  <section data-screen="s6" class="flex flex-1 flex-col items-center justify-center py-16" hidden>
+    <span class="mh-pulse size-20 rounded-pill bg-pink-200" aria-hidden="true"></span>
+    <p class="mt-8 text-center text-app-title text-ink" data-i18n="s6.title" data-testid="s6-title">
+      {t('s6.title', lang)}
+    </p>
+  </section>
+
+  {/* ── S7 reveal · NEVER echoes her answers ─────────────────────────────────── */}
+  <section data-screen="s7" class="flex-1 py-6" hidden>
+    <h2
+      class="shirorekha text-app-display leading-snug font-bold text-ink"
+      style="--shirorekha-width:4rem"
+      data-i18n="s7.title"
+      data-testid="s7-title"
+    >
+      {t('s7.title', lang)}
+    </h2>
+    {
+      /* Card titles only. No «क्योंकि आपने बताया कि…», no summary of what she chose,
+         nothing that would mean anything to someone reading over her shoulder. The
+         titles are already framed as general knowledge, not personal disclosure. */
+    }
+    <ul class="mt-8 grid gap-3" data-reveal-list data-testid="reveal-list"></ul>
+    <a
+      data-reveal-open
+      data-testid="s7-open"
+      data-i18n="s7.open"
+      href="/aapke-card"
+      class="mt-8 flex tap-lg w-full items-center justify-center rounded-action bg-pink-600 px-8
+             text-[1.25rem] font-bold text-surface no-underline"
+    >
+      {t('s7.open', lang)}
+    </a>
+  </section>
+</div>
+
+<style>
+  /* The only motion on this route, and all of it CSS. */
+  .option {
+    transition:
+      border-color 140ms ease,
+      background-color 140ms ease,
+      transform 140ms ease;
+  }
+  .option:active {
+    transform: scale(0.99);
+  }
+
+  .mh-pulse {
+    animation: mh-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes mh-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    50% {
+      transform: scale(1.14);
+      opacity: 1;
+    }
+  }
+
+  [data-reveal-list] > li {
+    animation: mh-fan 380ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+  @keyframes mh-fan {
+    from {
+      opacity: 0;
+      transform: translateY(14px) rotate(-1.5deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mh-pulse,
+    [data-reveal-list] > li {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { deck, hiddenOptions } from '../../lib/deck';
+  import { writePrefs, storageBlocked } from '../../lib/prefs';
+  import { CARDS } from '../../lib/cards';
+  import { UI } from '../../lib/i18n';
+  import { AUTO_ADVANCE_MS, PROCESSING_MS } from '../../lib/diagnostic';
+  import type { Answers, CardId, Lang, Region } from '../../lib/types';
+
+  const root = document.querySelector<HTMLElement>('[data-diagnostic]');
+  if (root) {
+    /**
+     * Her answers live here and nowhere else — a closure that dies with the page.
+     * They are never written to localStorage, never sent anywhere, and never rendered
+     * back to the screen. If the phone is inspected there is nothing to read.
+     */
+    const answers: Answers = {};
+    const ORDER = ['s0', 's0b', 'q1', 'q2', 'q3', 'q4', 'q5', 's6', 's7'] as const;
+    type Screen = (typeof ORDER)[number];
+
+    const history: Screen[] = [];
+    let current: Screen = 's0';
+
+    const screens = new Map<string, HTMLElement>();
+    for (const el of root.querySelectorAll<HTMLElement>('[data-screen]')) {
+      screens.set(el.dataset['screen']!, el);
+    }
+    const dots = root.querySelector<HTMLElement>('[data-testid="progress-dots"]')!;
+    const back = root.querySelector<HTMLButtonElement>('[data-back]')!;
+
+    const lang = (document.documentElement.dataset['mhLang'] ?? 'hi') as Lang;
+
+    function show(next: Screen, pushHistory = true): void {
+      if (pushHistory && next !== current) history.push(current);
+      current = next;
+
+      for (const [id, el] of screens) el.hidden = id !== next;
+
+      const step = Number(screens.get(next)?.dataset['step'] ?? 0);
+      dots.hidden = !(next === 's0b' || step > 0);
+      dots.setAttribute('aria-valuenow', String(step));
+      for (const dot of dots.querySelectorAll<HTMLElement>('[data-dot]')) {
+        if (Number(dot.dataset['dot']) <= step) dot.setAttribute('data-on', '');
+        else dot.removeAttribute('data-on');
+      }
+
+      back.hidden = next === 's0' || next === 's6' || next === 's7';
+
+      // Any screen change stops audio immediately (F-05).
+      window.speechSynthesis?.cancel();
+      for (const a of Array.from(document.querySelectorAll('audio'))) a.pause();
+
+      // Scroll to the very top, not to the container. scrollIntoView aligns the
+      // container's top edge with the viewport's, which puts it UNDER the sticky
+      // header and slices the first line of every question.
+      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+
+      // Move focus to the new question so a screen reader announces it and a keyboard
+      // user is not left at the bottom of the previous screen.
+      const heading = screens.get(next)?.querySelector<HTMLElement>('h1, h2');
+      if (heading) {
+        heading.setAttribute('tabindex', '-1');
+        heading.focus({ preventScroll: true });
+      }
+    }
+
+    function advanceFrom(id: Screen): void {
+      const i = ORDER.indexOf(id);
+      let next = ORDER[i + 1] as Screen;
+      // Q1=d hides Q3(a) and Q3(b), but Q3 itself is still asked.
+      if (next === 's6') return finish();
+      show(next);
+      if (next === 'q3') applyHidden();
+    }
+
+    /** F-20 / UF-12: showing marriage statements to an unmarried woman breaks the
+     *  "yes, they get me" spell instantly, so they are removed, not disabled. */
+    function applyHidden(): void {
+      const hidden = new Set(hiddenOptions(answers));
+      for (const row of root!.querySelectorAll<HTMLElement>('[data-option-row]')) {
+        row.hidden = hidden.has(row.dataset['optionRow']!.replace(/^q/, 'Q'));
+      }
+    }
+
+    function finish(): void {
+      show('s6', false);
+      window.setTimeout(() => {
+        const result = deck(answers);
+        // OUTPUT ONLY. The answers object is not persisted and goes out of scope
+        // with this page.
+        writePrefs({ deck: result, v: 2, region: answers.region });
+        renderReveal(result);
+        show('s7', false);
+      }, PROCESSING_MS);
+    }
+
+    function renderReveal(result: CardId[]): void {
+      const list = root!.querySelector<HTMLElement>('[data-reveal-list]')!;
+      list.textContent = '';
+      result.forEach((id, i) => {
+        const card = CARDS[id];
+        const li = document.createElement('li');
+        li.style.animationDelay = `${i * 70}ms`;
+        li.className =
+          'flex items-center gap-3 rounded-card border border-pink-200 bg-pink-050 px-4 py-4';
+
+        const num = document.createElement('span');
+        num.className = 'mono text-[1.0625rem] font-bold text-pink-700';
+        num.textContent = String(i + 1);
+        li.append(num);
+
+        const title = document.createElement('span');
+        title.className = 'font-bold text-ink';
+        title.textContent = card.title[lang];
+        li.append(title);
+
+        if (card.role === 'universal') {
+          const tag = document.createElement('span');
+          tag.className =
+            'ms-auto rounded-pill bg-green-050 px-2 py-1 text-[0.75rem] font-bold text-green-700';
+          tag.textContent = UI['s7.universal']![lang];
+          li.append(tag);
+        }
+        list.append(li);
+      });
+
+      const first = result[0];
+      if (first) {
+        root!
+          .querySelector<HTMLAnchorElement>('[data-reveal-open]')!
+          .setAttribute('href', `/card/${CARDS[first].slug}`);
+      }
+
+      if (storageBlocked()) {
+        const note = document.createElement('p');
+        note.className = 'mt-4 text-[0.9375rem] text-muted';
+        note.textContent = UI['storage.blocked']![lang];
+        list.after(note);
+      }
+    }
+
+    // ── wiring ──────────────────────────────────────────────────────────────────
+    root.addEventListener('click', (ev) => {
+      const el = ev.target as HTMLElement;
+
+      const start = el.closest<HTMLElement>('[data-next]');
+      if (start) return void show(start.dataset['next'] as Screen);
+
+      const region = el.closest<HTMLElement>('[data-region]');
+      if (region) {
+        answers.region = region.dataset['region'] as Region;
+        window.setTimeout(() => advanceFrom('s0b'), AUTO_ADVANCE_MS);
+        return;
+      }
+
+      const opt = el.closest<HTMLElement>('[data-opt]');
+      if (opt) {
+        const screen = opt.closest<HTMLElement>('[data-screen]')!;
+        const qid = screen.dataset['screen'] as 'q1' | 'q2' | 'q3' | 'q4' | 'q5';
+        const value = opt.dataset['opt']!;
+
+        if (opt.dataset['multi']) {
+          const on = opt.getAttribute('aria-pressed') === 'true';
+          opt.setAttribute('aria-pressed', on ? 'false' : 'true');
+          const chosen = Array.from(
+            screen.querySelectorAll<HTMLElement>('[data-opt][aria-pressed="true"]'),
+          ).map((b) => b.dataset['opt']!);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (answers as any)[qid] = chosen;
+          return; // multi-selects never auto-advance
+        }
+
+        for (const sibling of screen.querySelectorAll<HTMLElement>('[data-opt]')) {
+          sibling.setAttribute('aria-pressed', sibling === opt ? 'true' : 'false');
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (answers as any)[qid] = value;
+        window.setTimeout(() => advanceFrom(qid), AUTO_ADVANCE_MS);
+        return;
+      }
+
+      if (el.closest('[data-cta]')) {
+        return void advanceFrom(current);
+      }
+
+      if (el.closest('[data-back]')) {
+        const prev = history.pop();
+        if (prev) show(prev, false);
+      }
+    });
+
+    show('s0', false);
+  }
+</script>
