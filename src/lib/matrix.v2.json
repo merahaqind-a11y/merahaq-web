@@ -1,0 +1,45 @@
+{
+  "v": 2,
+  "_source": "Mera_Haq_Diagnostic_Spec.md §7, verbatim.",
+  "_correction": "Owner decision D6 (16 Aug 2026). The published tieBreak listed C7 before C5, which contradicted worked example C — that example ties C5 and C7 at 4 points and states the deck is [C5, C7, C6, C2, C8]. The two entries are transposed here so all three worked examples pass. This is a one-element data correction; no logic changed.",
+  "gates": { "Q1!=c": ["C9"], "Q1==d": ["C1", "C4"] },
+  "hideOptions": { "Q1==d": ["Q3a", "Q3b"] },
+  "pins": { "Q4==d": "C10", "Q1==c": "C9" },
+  "pinOrder": ["C10", "C9"],
+  "tieBreak": ["C2", "C3", "C10", "C1", "C4", "C6", "C5", "C7"],
+  "foundation": ["C6", "C7", "C2", "C1"],
+  "universal": "C8",
+  "weights": {
+    "Q1a": { "C1": 1, "C3": 1 },
+    "Q1b": { "C1": 1, "C3": 2, "C4": 2 },
+    "Q1c": { "C3": 1, "C7": 1 },
+    "Q1d": { "C5": 2, "C6": 1, "C7": 1 },
+    "Q1e": { "C1": 2, "C4": 3, "C5": 1 },
+    "Q2a": { "C6": 1 },
+    "Q2b": { "C2": 3, "C6": 2 },
+    "Q2c": { "C6": 1 },
+    "Q2d": { "C2": 3, "C4": 1, "C6": 1 },
+    "Q2e": { "C4": 1, "C6": 1 },
+    "Q3a": { "C1": 2 },
+    "Q3b": { "C1": 2 },
+    "Q3c": { "C3": 2 },
+    "Q3d": { "C5": 2 },
+    "Q3e": { "C2": 2, "C4": 1 },
+    "Q4b": { "C10": 2 },
+    "Q4c": { "C6": 1, "C10": 3 },
+    "Q4d": { "C10": 3 },
+    "Q5_no_bank": { "C6": 3 },
+    "Q5_no_papers": { "C7": 3 },
+    "Q5_no_sim": { "C6": 1, "C7": 1 },
+    "Q5_no_list": { "C1": 1 }
+  },
+  "cross": [
+    { "id": "X1", "if": ["Q1==c", "Q4 in b,c,d"], "add": { "C10": 2 } },
+    { "id": "X2", "if": ["Q1==e", "Q3 has a|b"], "add": { "C1": 1 } },
+    { "id": "X3", "if": ["Q3 has a", "Q3 has b"], "add": { "C1": 1 } }
+  ],
+  "explorer": {
+    "when": ["Q3==f or Q3 skipped", "no pins", "maxScore<=2"],
+    "deck": ["C6", "C7", "C2", "C1", "C8"]
+  }
+}
