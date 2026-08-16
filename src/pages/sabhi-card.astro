@@ -10,11 +10,11 @@ const lang = 'hi' as const;
 ---
 
 {
-  /* Fully static, zero hydration. All ten cards, always — personalisation curates the
-     deck, it never censors the library. This is also the escape hatch from every
-     entry point to the diagnostic: nobody is ever trapped in the questionnaire. */
+  /* Fully static, zero hydration. All ten cards, always, personalisation curates the
+ deck, it never censors the library. This is also the escape hatch from every
+ entry point to the diagnostic: nobody is ever trapped in the questionnaire. */
 }
-<Base title="सबसे ज़रूरी हक़ — मेरा हक़" lang={lang} rights>
+<Base title="सबसे ज़रूरी हक़, मेरा हक़" lang={lang} rights>
   <Header lang={lang} />
   <DraftBanner lang={lang} />
 
@@ -32,8 +32,10 @@ const lang = 'hi' as const;
         {t('gallery.sub', lang)}
       </p>
 
-      {/* Equal-height grid. Card heights are set by the grid row, never by how long a
-          particular summary happens to be. */}
+      {
+        /* Equal-height grid. Card heights are set by the grid row, never by how long a
+ particular summary happens to be. */
+      }
       <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {
           CARD_LIST.map((card) => (

@@ -107,10 +107,12 @@ export async function syncUp(): Promise<void> {
   const prefs: Prefs = readPrefs();
   if (prefs.deck.length !== 5) return; // never write a malformed deck
 
-  await c.from('decks').upsert(
-    { user_id: userId, deck: prefs.deck, v: prefs.v, lang: prefs.lang },
-    { onConflict: 'user_id' },
-  );
+  await c
+    .from('decks')
+    .upsert(
+      { user_id: userId, deck: prefs.deck, v: prefs.v, lang: prefs.lang },
+      { onConflict: 'user_id' },
+    );
 }
 
 /** Pull a stored deck down onto a new device. Local wins if one already exists. */

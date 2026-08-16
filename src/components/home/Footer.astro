@@ -8,7 +8,7 @@ interface Props {
 }
 const { lang = 'hi' } = Astro.props;
 
-const REVIEWER = import.meta.env['PUBLIC_REVIEWER_NAME'] || '—';
+const REVIEWER = import.meta.env['PUBLIC_REVIEWER_NAME'] || '';
 
 const RIGHTS_LINKS = [
   { href: '/shuru', key: 'menu.diagnostic' },
@@ -23,8 +23,8 @@ const NUMBERS = ['181', '112', '15100', '14454'] as const;
 ---
 
 {
-  /* The angled wedge into the dark footer — the Verdant Civic move. A clip-path, not a
-     border, so it costs nothing and scales to any width. */
+  /* The angled wedge into the dark footer, the Verdant Civic move. A clip-path, not a
+ border, so it costs nothing and scales to any width. */
 }
 <div class="h-12 bg-ink [clip-path:polygon(0_100%,100%_0,100%_100%)]" aria-hidden="true"></div>
 
@@ -36,7 +36,11 @@ const NUMBERS = ['181', '112', '15100', '14454'] as const;
 
     <div class="mt-10 grid gap-8 sm:grid-cols-3">
       <nav aria-labelledby="foot-rights">
-        <h2 id="foot-rights" class="text-[0.9375rem] font-bold text-pink-200" data-i18n="footer.rights">
+        <h2
+          id="foot-rights"
+          class="text-[0.9375rem] font-bold text-pink-200"
+          data-i18n="footer.rights"
+        >
           {t('footer.rights', lang)}
         </h2>
         <ul class="mt-3 grid">
@@ -90,7 +94,11 @@ const NUMBERS = ['181', '112', '15100', '14454'] as const;
       </nav>
 
       <nav aria-labelledby="foot-about">
-        <h2 id="foot-about" class="text-[0.9375rem] font-bold text-pink-200" data-i18n="footer.about">
+        <h2
+          id="foot-about"
+          class="text-[0.9375rem] font-bold text-pink-200"
+          data-i18n="footer.about"
+        >
           {t('footer.about', lang)}
         </h2>
         <ul class="mt-3 grid">
@@ -113,7 +121,7 @@ const NUMBERS = ['181', '112', '15100', '14454'] as const;
 
     {
       /* The legal gate line, on every rights surface, never optional. The reviewer name
-         is an em dash until the written sign-off email exists (Build Manual Part I). */
+ is an em dash until the written sign-off email exists (Build Manual Part I). */
     }
     <div class="mt-12 border-t border-surface/15 pt-6 text-[0.9375rem] text-surface/70">
       <p>

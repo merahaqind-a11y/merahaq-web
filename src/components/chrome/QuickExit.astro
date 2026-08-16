@@ -1,10 +1,10 @@
 ---
 /**
- * UF-8 — the panic flow. Fixed top-right on EVERY screen, identical position, always.
+ * UF-8, the panic flow. Fixed top-right on EVERY screen, identical position, always.
  *
  * The handler is an inline head script bound at capture phase, deliberately NOT an
  * island. She may tap this the instant the page paints, mid-animation, with the menu
- * open, with audio playing, with the network gone — it must never wait for a framework
+ * open, with audio playing, with the network gone, it must never wait for a framework
  * to hydrate. Latency target is under 100 ms.
  *
  * `location.replace` rather than `assign`, and `history.replaceState` first, so the
@@ -12,19 +12,19 @@
  *
  * We never claim this makes her safe. /madad and /hamare-baare-mein say plainly that
  * the site may still appear in browser history and that she should use Private mode or
- * clear it afterwards. Honest words, not clever technology — anything cleverer costs
+ * clear it afterwards. Honest words, not clever technology, anything cleverer costs
  * build days and can fail silently.
  */
 ---
 
 {
   /* Lives inside the sticky masthead rather than in a fixed rail of its own. The header
-     is sticky, so ✘ is on screen at every scroll position anyway — and being in the
-     same row as everything else means it can never drift out of alignment or collide
-     with the language bar above.
+ is sticky, so ✘ is on screen at every scroll position anyway, and being in the
+ same row as everything else means it can never drift out of alignment or collide
+ with the language bar above.
 
-     It is deliberately the last child of the header row, so on every route it is the
-     rightmost control. */
+ It is deliberately the last child of the header row, so on every route it is the
+ rightmost control. */
 }
 <div class="contents">
   <div>
@@ -36,7 +36,7 @@
         aria-label="सुरक्षित बाहर निकलें"
         translate="no"
         class="grid tap place-items-center rounded-action border border-border bg-surface text-ink
-               shadow-header"
+ shadow-header"
       >
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
@@ -49,13 +49,13 @@
 
       {
         /* What this button does is not obvious from a ✘, and getting it wrong in a
-           hurry is the worst possible moment to be guessing. The label appears on
-           hover and on keyboard focus — never on tap, where it would just delay her. */
+ hurry is the worst possible moment to be guessing. The label appears on
+ hover and on keyboard focus, never on tap, where it would just delay her. */
       }
       <span
         class="pointer-events-none absolute end-0 top-full mt-1 hidden w-max max-w-[11rem] rounded-action
-               bg-ink px-3 py-2 text-end text-[0.8125rem] leading-snug text-surface
-               group-hover:block group-focus-within:block"
+ bg-ink px-3 py-2 text-end text-[0.8125rem] leading-snug text-surface
+ group-hover:block group-focus-within:block"
         role="tooltip"
         aria-hidden="true"
       >

@@ -275,9 +275,9 @@ test.describe('desktop navigation', () => {
 
   test('the inline nav switches language like everything else', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByTestId('nav-madad')).toHaveText('अभी मदद लीजिए');
+    await expect(page.getByTestId('nav-madad')).toHaveText('मदद');
     await page.getByTestId('lang-en').click();
-    await expect(page.getByTestId('nav-madad')).toHaveText('Get help now');
+    await expect(page.getByTestId('nav-madad')).toHaveText('Get help');
   });
 });
 

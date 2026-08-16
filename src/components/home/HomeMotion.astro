@@ -4,7 +4,7 @@
  *
  * Dynamic import means GSAP + ScrollTrigger never enter the bundle for /shuru or the
  * card pages, and never block the hero from painting on a throttled connection. If the
- * import never resolves — dead network, blocked bundle — the page is already complete
+ * import never resolves, dead network, blocked bundle, the page is already complete
  * and readable, because every animated element is authored in its final state and
  * animated FROM a variant, never TO one.
  */
@@ -16,8 +16,11 @@
   };
 
   if ('requestIdleCallback' in window) {
-    (window as unknown as { requestIdleCallback: (cb: () => void, o?: { timeout: number }) => void })
-      .requestIdleCallback(load, { timeout: 2000 });
+    (
+      window as unknown as {
+        requestIdleCallback: (cb: () => void, o?: { timeout: number }) => void;
+      }
+    ).requestIdleCallback(load, { timeout: 2000 });
   } else {
     setTimeout(load, 1200);
   }

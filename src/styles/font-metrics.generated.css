@@ -18,5 +18,5 @@
  * Re-run `npm run metrics` after any font version bump.
  */
 :root {
-  --mukta-size-adjust: 100.00%;
+  --mukta-size-adjust: 100%;
 }

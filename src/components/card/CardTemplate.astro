@@ -15,7 +15,7 @@ const { card, lang = 'hi' } = Astro.props;
 
 const b = body(card.id);
 const track = b[lang];
-const reviewer = import.meta.env['PUBLIC_REVIEWER_NAME'] || '—';
+const reviewer = import.meta.env['PUBLIC_REVIEWER_NAME'] || '';
 
 const HELPLINE_LABEL: Record<string, string> = {
   '181': 'helpline.181',
@@ -29,17 +29,17 @@ const HELPLINE_LABEL: Record<string, string> = {
 
 /**
  * Fixed template, same order on all ten cards. Sameness is what makes the set feel
- * trustworthy — she learns the shape once and then knows where to look on every card.
+ * trustworthy, she learns the shape once and then knows where to look on every card.
  *
- *   सुनिए (FIRST interactive element on the page — Build Manual D4, non-negotiable)
- *   → कानून क्या कहता है
- *   → असली ज़िंदगी में  (red-tinted, each Don't ending in its verdict)
- *   → सँभाल कर रखें
- *   → एक कदम आज        (exactly ONE, pink, zero radius + 3px rule so it survives a photocopy)
- *   → कहाँ जाएँ          (blue, tel:, portals in a new tab)
- *   → share / PDF
- *   → यह भी जानिए
- *   → disclaimer + reviewer + verified-on
+ * सुनिए (FIRST interactive element on the page, Build Manual D4, non-negotiable)
+ * → कानून क्या कहता है
+ * → असली ज़िंदगी में (red-tinted, each Don't ending in its verdict)
+ * → सँभाल कर रखें
+ * → एक कदम आज (exactly ONE, pink, zero radius + 3px rule so it survives a photocopy)
+ * → कहाँ जाएँ (blue, tel:, portals in a new tab)
+ * → share / PDF
+ * → यह भी जानिए
+ * → disclaimer + reviewer + verified-on
  */
 ---
 
@@ -50,7 +50,9 @@ const HELPLINE_LABEL: Record<string, string> = {
   <header class="relative overflow-hidden bg-pink-050 px-5 pt-8 pb-10">
     <div class="bloom" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-3xl">
-      <span class="grid size-14 place-items-center rounded-card bg-surface text-pink-700 shadow-header">
+      <span
+        class="grid size-14 place-items-center rounded-card bg-surface text-pink-700 shadow-header"
+      >
         <CardIcon name={card.icon} size={30} />
       </span>
       <h1
@@ -64,8 +66,10 @@ const HELPLINE_LABEL: Record<string, string> = {
         {card.summary[lang]}
       </p>
 
-      {/* सुनिए is the FIRST interactive element. For this user audio is not an
-          accessibility feature, it is the primary channel. */}
+      {
+        /* सुनिए is the FIRST interactive element. For this user audio is not an
+ accessibility feature, it is the primary channel. */
+      }
       <div class="mt-6">
         <SunieButton lang={lang} target={card.slug} size="lg" />
       </div>
@@ -95,7 +99,7 @@ const HELPLINE_LABEL: Record<string, string> = {
       </ul>
     </section>
 
-    {/* ── असली ज़िंदगी में — red tint, each line carrying its verdict ────────── */}
+    {/* ── असली ज़िंदगी में, red tint, each line carrying its verdict ────────── */}
     <section class="pt-12" aria-labelledby={`${card.slug}-asli`}>
       <h2
         id={`${card.slug}-asli`}
@@ -128,8 +132,21 @@ const HELPLINE_LABEL: Record<string, string> = {
         {
           track.sambhaal.map((line) => (
             <li class="flex gap-3 border-s-[3px] border-green-700 bg-green-050 px-4 py-3 text-text">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="mt-0.5 shrink-0 text-green-700">
-                <path d="M4.5 12.5l5 5 10-11" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+                class="mt-0.5 shrink-0 text-green-700"
+              >
+                <path
+                  d="M4.5 12.5l5 5 10-11"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
               <span>{line}</span>
             </li>
@@ -138,10 +155,12 @@ const HELPLINE_LABEL: Record<string, string> = {
       </ul>
     </section>
 
-    {/* ── एक कदम आज — exactly ONE per card ────────────────────────────────────
-        Zero radius and a 3px rule, deliberately: PRD §5.7 r5 requires this box to stay
-        distinguishable when printed greyscale on a cheap laser printer, by border
-        weight rather than colour. A rounded tint does not survive a photocopy. */}
+    {
+      /* ── एक कदम आज, exactly ONE per card ────────────────────────────────────
+ Zero radius and a 3px rule, deliberately: PRD §5.7 r5 requires this box to stay
+ distinguishable when printed greyscale on a cheap laser printer, by border
+ weight rather than colour. A rounded tint does not survive a photocopy. */
+    }
     <section class="pt-12" aria-labelledby={`${card.slug}-ekkadam`}>
       <div class="border-s-[6px] border-pink-600 bg-pink-050 px-5 py-6" data-testid="ek-kadam">
         <h2
@@ -155,7 +174,7 @@ const HELPLINE_LABEL: Record<string, string> = {
       </div>
     </section>
 
-    {/* ── कहाँ जाएँ — the authority block ─────────────────────────────────────── */}
+    {/* ── कहाँ जाएँ, the authority block ─────────────────────────────────────── */}
     <section class="pt-12" aria-labelledby={`${card.slug}-kahaan`}>
       <div class="border-s-[6px] border-blue-600 bg-blue-050 px-5 py-6">
         <h2
@@ -180,7 +199,12 @@ const HELPLINE_LABEL: Record<string, string> = {
                   class="flex tap-lg items-center gap-3 rounded-action bg-surface px-4 text-blue-600 no-underline"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                    <path
+                      d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    />
                   </svg>
                   <span class="mono text-[1.125rem] font-bold">{n}</span>
                   {HELPLINE_LABEL[n] && (
@@ -188,7 +212,10 @@ const HELPLINE_LABEL: Record<string, string> = {
                       {t(HELPLINE_LABEL[n]!, lang)}
                     </span>
                   )}
-                  <span class="mono ms-auto text-[0.875rem] font-bold text-blue-600" data-i18n="helpline.press">
+                  <span
+                    class="mono ms-auto text-[0.875rem] font-bold text-blue-600"
+                    data-i18n="helpline.press"
+                  >
                     {t('helpline.press', lang)}
                   </span>
                 </a>
@@ -207,11 +234,17 @@ const HELPLINE_LABEL: Record<string, string> = {
                     target="_blank"
                     rel="noopener noreferrer"
                     class="mono inline-flex tap items-center gap-1 rounded-action border border-blue-600/30
-                           bg-surface px-3 text-[0.875rem] text-blue-600 no-underline"
+ bg-surface px-3 text-[0.875rem] text-blue-600 no-underline"
                   >
                     {p.label}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <path
+                        d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
                   </a>
                 </li>
@@ -229,10 +262,15 @@ const HELPLINE_LABEL: Record<string, string> = {
         data-share={card.slug}
         data-testid="card-share"
         class="flex tap-lg items-center justify-center gap-2 rounded-action border-2 border-ink
-               bg-surface px-5 font-bold text-ink"
+ bg-surface px-5 font-bold text-ink"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M12 15V3M8 7l4-4 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M12 15V3M8 7l4-4 4 4"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
         </svg>
         <span data-i18n="card.share">{t('card.share', lang)}</span>
       </button>
@@ -241,16 +279,21 @@ const HELPLINE_LABEL: Record<string, string> = {
         download
         data-testid="card-pdf"
         class="flex tap-lg items-center justify-center gap-2 rounded-action border-2 border-ink
-               bg-surface px-5 font-bold text-ink no-underline"
+ bg-surface px-5 font-bold text-ink no-underline"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 3v12M8 11l4 4 4-4M4 20h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M12 3v12M8 11l4 4 4-4M4 20h16"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
         </svg>
         <span data-i18n="card.pdf">{t('card.pdf', lang)}</span>
       </a>
     </section>
 
-    {/* ── यह भी जानिए — every card within two taps of anywhere (F-33) ────────── */}
+    {/* ── यह भी जानिए, every card within two taps of anywhere (F-33) ────────── */}
     <section class="pt-12" aria-labelledby={`${card.slug}-also`}>
       <h2
         id={`${card.slug}-also`}
@@ -266,7 +309,7 @@ const HELPLINE_LABEL: Record<string, string> = {
               <a
                 href={`/card/${CARDS[id].slug}`}
                 class="flex h-full tap items-center gap-3 rounded-card border border-border bg-surface
-                       px-4 py-3 text-ink no-underline"
+ px-4 py-3 text-ink no-underline"
               >
                 <CardIcon name={CARDS[id].icon} size={22} />
                 <span class="font-bold" data-card-title={id}>
@@ -316,7 +359,7 @@ const HELPLINE_LABEL: Record<string, string> = {
         return;
       }
     } catch {
-      /* she dismissed the sheet — not an error */
+      /* she dismissed the sheet, not an error */
     }
     const wa = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(wa, '_blank', 'noopener,noreferrer');

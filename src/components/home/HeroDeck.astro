@@ -15,7 +15,7 @@ const { lang = 'hi' } = Astro.props;
  *
  * There is deliberately no photograph. Stock imagery of Indian women is both the
  * generic-NGO cliché and a genuine risk on a product where distress imagery is
- * forbidden — and any real face invites the reader to decide whether this is "for
+ * forbidden, and any real face invites the reader to decide whether this is "for
  * someone like her". The brand mark carries the warmth without making that claim,
  * and it is already the product's own drawing rather than a purchased one.
  *
@@ -25,9 +25,11 @@ const { lang = 'hi' } = Astro.props;
 const TOP = CARDS.C1;
 ---
 
-<div class="relative mx-auto w-full max-w-[22rem] pb-14 lg:max-w-[30rem]" data-testid="hero-art">
-  {/* The mark, set back and offset right so the card can overlap its lower-left without
-      covering the face. Sized so the card still clears the fold at 360×740. */}
+<div class="relative mx-auto w-full max-w-[21rem] pb-12 lg:max-w-[29rem]" data-testid="hero-art">
+  {
+    /* The mark, set back and offset right so the card can overlap its lower-left without
+ covering the face. Sized so the card still clears the fold at 360×740. */
+  }
   <div class="relative ms-auto w-[64%] opacity-95 lg:w-[72%]" data-anim="hero-mark">
     <Logo variant="mark" />
   </div>
@@ -57,7 +59,7 @@ const TOP = CARDS.C1;
       <a
         href={`/card/${TOP.slug}`}
         class="relative flex flex-col gap-2 rounded-card border border-pink-200 bg-surface/92 p-5
-               text-ink no-underline shadow-[0_10px_30px_rgb(31_42_68/0.10)] backdrop-blur-sm"
+ text-ink no-underline shadow-[0_10px_30px_rgb(31_42_68/0.10)] backdrop-blur-sm"
       >
         <CardIcon name={TOP.icon} />
         <h2 class="text-app-title leading-snug font-bold text-ink" data-card-title={TOP.id}>
@@ -70,7 +72,7 @@ const TOP = CARDS.C1;
     </div>
   </div>
 
-  {/* «1 / 10 कार्ड» — tells her the deck has a size before she commits to anything */}
+  {/* «1 / 10 कार्ड», tells her the deck has a size before she commits to anything */}
   <p class="mono absolute inset-x-0 bottom-0 text-center text-[0.875rem] text-muted">
     <span class="font-bold text-ink">1</span> / 10
     <span data-i18n="gallery.counter"> {t('gallery.counter', lang)}</span>

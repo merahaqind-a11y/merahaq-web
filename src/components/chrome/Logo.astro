@@ -18,7 +18,7 @@ const { variant = 'lockup', class: cls = '' } = Astro.props;
  * So: the wordmark stays vector (it is a real path, it costs ~4 KB, and it inherits
  * currentColor so it works on light and dark chapters alike), and the mark is extracted,
  * knocked out to transparency, re-tinted to --pink-700 and shipped as a 96px and 560px
- * WebP — 8 KB and 44 KB. Same logo, two orders of magnitude cheaper.
+ * WebP, 8 KB and 44 KB. Same logo, two orders of magnitude cheaper.
  */
 ---
 
@@ -27,7 +27,7 @@ const { variant = 'lockup', class: cls = '' } = Astro.props;
     <a
       href="/"
       data-testid="logo"
-      aria-label="मेरा हक़ — मुख्य पन्ना"
+      aria-label="मेरा हक़, मुख्य पन्ना"
       class:list={['flex tap shrink-0 items-center gap-2 no-underline', cls]}
     >
       <img

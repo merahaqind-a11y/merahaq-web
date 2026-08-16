@@ -30,11 +30,29 @@ export interface QuestionDef {
 }
 
 export type IconName =
-  | 'home' | 'suitcase' | 'heart' | 'flower' | 'rings'
-  | 'strength' | 'exchange' | 'handshake' | 'blocked' | 'cloud'
-  | 'ring' | 'gift' | 'field' | 'coins' | 'minus'
-  | 'check' | 'bank' | 'sign' | 'phone' | 'question'
-  | 'papers' | 'mobile' | 'camera';
+  | 'home'
+  | 'suitcase'
+  | 'heart'
+  | 'flower'
+  | 'rings'
+  | 'strength'
+  | 'exchange'
+  | 'handshake'
+  | 'blocked'
+  | 'cloud'
+  | 'ring'
+  | 'gift'
+  | 'field'
+  | 'coins'
+  | 'minus'
+  | 'check'
+  | 'bank'
+  | 'sign'
+  | 'phone'
+  | 'question'
+  | 'papers'
+  | 'mobile'
+  | 'camera';
 
 /**
  * Line icons, not emoji.
@@ -63,7 +81,8 @@ export const ICONS: Record<IconName, string> = {
   ring: 'M12 21a6 6 0 100-12 6 6 0 000 12zM9 6l3-3 3 3-3 2.5L9 6z',
   gift: 'M3 10h18v3H3v-3zm2 3v8h14v-8M12 10v11M12 10S9 4 6.5 5.5 9 10 12 10zm0 0s3-6 5.5-4.5S15 10 12 10z',
   field: 'M3 19h18M5 19V9l7-4 7 4v10M9 19v-5h6v5',
-  coins: 'M9 12a5 3 0 100-6 5 3 0 000 6zM4 9v6c0 1.7 2.2 3 5 3s5-1.3 5-3V9M14 12.5c2.4-.3 4-1.4 4-2.5M20 10v6c0 1.7-2.2 3-5 3-.7 0-1.4-.1-2-.2',
+  coins:
+    'M9 12a5 3 0 100-6 5 3 0 000 6zM4 9v6c0 1.7 2.2 3 5 3s5-1.3 5-3V9M14 12.5c2.4-.3 4-1.4 4-2.5M20 10v6c0 1.7-2.2 3-5 3-.7 0-1.4-.1-2-.2',
   minus: 'M5 12h14',
   check: 'M4.5 12.5l5 5 10-11',
   bank: 'M3 10l9-5 9 5M5 10v7M10 10v7M14 10v7M19 10v7M3 20h18',

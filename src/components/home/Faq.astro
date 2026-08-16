@@ -10,7 +10,7 @@ const { lang = 'hi' } = Astro.props;
 
 const QUESTIONS = [1, 2, 3, 4, 5, 6] as const;
 
-// Native <details>, so the answers are readable with JavaScript disabled — the same
+// Native <details>, so the answers are readable with JavaScript disabled, the same
 // discipline that keeps the card pages and /madad working when the bundle never loads.
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -33,7 +33,7 @@ const faqSchema = {
         >
           <summary
             class="flex tap-lg cursor-pointer list-none items-center justify-between gap-4
-                   text-app-title font-bold text-ink [&::-webkit-details-marker]:hidden"
+ text-app-title font-bold text-ink [&::-webkit-details-marker]:hidden"
             data-i18n={`faq.${n}.q`}
           >
             {t(`faq.${n}.q`, lang)}
@@ -45,7 +45,12 @@ const faqSchema = {
               aria-hidden="true"
               class="shrink-0 text-pink-700 transition-transform group-open:rotate-45"
             >
-              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+              <path
+                d="M12 5v14M5 12h14"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+              />
             </svg>
           </summary>
           <p class="pb-5 text-muted" data-i18n={`faq.${n}.a`}>

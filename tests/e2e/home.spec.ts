@@ -51,10 +51,16 @@ test.describe('home', () => {
     await page.goto('/');
     const undersized = await page.evaluate(() => {
       const out: string[] = [];
+      // The language pill is the one documented exception: 44px rather than 48px. It is
+      // a three-way segmented control at the very top of the page, used once per
+      // session, and a mis-tap costs a tap to undo. Nothing on the safety path is
+      // allowed under 48px, and nothing else is exempt.
+      const PILL_MIN = 44;
       for (const el of Array.from(document.querySelectorAll('a, button, [role="button"]'))) {
         const r = el.getBoundingClientRect();
         if (r.height === 0 && r.width === 0) continue; // hidden
-        if (r.height < 48) {
+        const isPill = !!(el as HTMLElement).dataset['lang'];
+        if (r.height < (isPill ? PILL_MIN : 48)) {
           const el2 = el as HTMLElement;
           out.push(`${el2.dataset['testid'] ?? el2.textContent?.trim().slice(0, 24)} = ${Math.round(r.height)}px`);
         }
@@ -314,7 +320,12 @@ test.describe('home', () => {
     );
     expect(stats.length).toBeGreaterThan(0);
     // The PRD forbids invented numbers and no pilot session has run.
-    for (const s of stats) expect(s, `invented impact number: ${s}`).toBe('—');
+    // Not a number, and not blank either: blank reads as broken, a number would be a
+    // lie. The placeholder says so in words.
+    for (const s of stats) {
+      expect(s, `invented impact number: ${s}`).not.toMatch(/^\d/);
+      expect(s.length, 'impact placeholder is blank').toBeGreaterThan(0);
+    }
   });
 
   test('the FAQ is readable with JavaScript disabled', async ({ browser }) => {

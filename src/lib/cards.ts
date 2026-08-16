@@ -1,28 +1,45 @@
 import type { CardId, Lang } from './types';
 
 export const CARD_ORDER: readonly CardId[] = [
-  'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10',
+  'C1',
+  'C2',
+  'C3',
+  'C4',
+  'C5',
+  'C6',
+  'C7',
+  'C8',
+  'C9',
+  'C10',
 ];
 
 export type IconName =
-  | 'jewellery' | 'purse' | 'house' | 'rupee' | 'land'
-  | 'bank' | 'papers' | 'scales' | 'lamp' | 'debt';
+  | 'jewellery'
+  | 'purse'
+  | 'house'
+  | 'rupee'
+  | 'land'
+  | 'bank'
+  | 'papers'
+  | 'scales'
+  | 'lamp'
+  | 'debt';
 
 export interface CardMeta {
   id: CardId;
   slug: string;
   icon: IconName;
   title: Record<Lang, string>;
-  /** One line, on the card face and in the gallery. Kept short — it is read at a glance. */
+  /** One line, on the card face and in the gallery. Kept short, it is read at a glance. */
   summary: Record<Lang, string>;
-  /** F-33 — every card within two taps of anywhere. */
+  /** F-33, every card within two taps of anywhere. */
   crossLinks: CardId[];
   /** Deck role, from the Diagnostic Spec §1. */
   role: 'scored' | 'universal' | 'pinned';
 }
 
 /**
- * The card registry — titles, summaries and wiring. Full card bodies (kanoon,
+ * The card registry, titles, summaries and wiring. Full card bodies (kanoon,
  * asli zindagi, sambhaal, ek kadam, authority) live in src/content/cards/ so they
  * can be versioned and legally reviewed independently of the code.
  *
@@ -31,10 +48,14 @@ export interface CardMeta {
  */
 export const CARDS: Record<CardId, CardMeta> = {
   C1: {
-    id: 'C1', slug: 'c1', icon: 'jewellery', role: 'scored', crossLinks: ['C7', 'C8'],
+    id: 'C1',
+    slug: 'c1',
+    icon: 'jewellery',
+    role: 'scored',
+    crossLinks: ['C7', 'C8'],
     title: {
-      hi: 'स्त्रीधन — आपके गहने आपके हैं',
-      hinglish: 'Streedhan — aapke gehne aapke hain',
+      hi: 'स्त्रीधन, आपके गहने आपके हैं',
+      hinglish: 'Streedhan, aapke gehne aapke hain',
       en: 'Your jewellery is yours',
     },
     summary: {
@@ -44,7 +65,11 @@ export const CARDS: Record<CardId, CardMeta> = {
     },
   },
   C2: {
-    id: 'C2', slug: 'c2', icon: 'purse', role: 'scored', crossLinks: ['C3', 'C6', 'C8'],
+    id: 'C2',
+    slug: 'c2',
+    icon: 'purse',
+    role: 'scored',
+    crossLinks: ['C3', 'C6', 'C8'],
     title: {
       hi: 'पैसे रोकना भी हिंसा है',
       hinglish: 'Paise rokna bhi hinsa hai',
@@ -57,7 +82,11 @@ export const CARDS: Record<CardId, CardMeta> = {
     },
   },
   C3: {
-    id: 'C3', slug: 'c3', icon: 'house', role: 'scored', crossLinks: ['C2', 'C4', 'C8'],
+    id: 'C3',
+    slug: 'c3',
+    icon: 'house',
+    role: 'scored',
+    crossLinks: ['C2', 'C4', 'C8'],
     title: {
       hi: 'घर में रहने का हक़',
       hinglish: 'Ghar mein rehne ka haq',
@@ -70,7 +99,11 @@ export const CARDS: Record<CardId, CardMeta> = {
     },
   },
   C4: {
-    id: 'C4', slug: 'c4', icon: 'rupee', role: 'scored', crossLinks: ['C3', 'C8'],
+    id: 'C4',
+    slug: 'c4',
+    icon: 'rupee',
+    role: 'scored',
+    crossLinks: ['C3', 'C8'],
     title: {
       hi: 'गुज़ारे का पैसा',
       hinglish: 'Guzare ka paisa',
@@ -83,7 +116,11 @@ export const CARDS: Record<CardId, CardMeta> = {
     },
   },
   C5: {
-    id: 'C5', slug: 'c5', icon: 'land', role: 'scored', crossLinks: ['C7', 'C8'],
+    id: 'C5',
+    slug: 'c5',
+    icon: 'land',
+    role: 'scored',
+    crossLinks: ['C7', 'C8'],
     title: {
       hi: 'बेटी का बराबर हिस्सा',
       hinglish: 'Beti ka barabar hissa',
@@ -96,7 +133,11 @@ export const CARDS: Record<CardId, CardMeta> = {
     },
   },
   C6: {
-    id: 'C6', slug: 'c6', icon: 'bank', role: 'scored', crossLinks: ['C7', 'C2'],
+    id: 'C6',
+    slug: 'c6',
+    icon: 'bank',
+    role: 'scored',
+    crossLinks: ['C7', 'C2'],
     title: {
       hi: 'अपना बैंक खाता',
       hinglish: 'Apna bank khaata',
@@ -109,7 +150,11 @@ export const CARDS: Record<CardId, CardMeta> = {
     },
   },
   C7: {
-    id: 'C7', slug: 'c7', icon: 'papers', role: 'scored', crossLinks: ['C1', 'C6'],
+    id: 'C7',
+    slug: 'c7',
+    icon: 'papers',
+    role: 'scored',
+    crossLinks: ['C1', 'C6'],
     title: {
       hi: 'काग़ज़ जो आपकी ताक़त हैं',
       hinglish: 'Kaagaz jo aapki taakat hain',
@@ -122,20 +167,28 @@ export const CARDS: Record<CardId, CardMeta> = {
     },
   },
   C8: {
-    id: 'C8', slug: 'c8', icon: 'scales', role: 'universal', crossLinks: ['C4', 'C5'],
+    id: 'C8',
+    slug: 'c8',
+    icon: 'scales',
+    role: 'universal',
+    crossLinks: ['C4', 'C5'],
     title: {
       hi: 'मुफ़्त वकील आपका हक़ है',
       hinglish: 'Muft vakil aapka haq hai',
       en: 'A free lawyer is your right',
     },
     summary: {
-      hi: 'हर औरत मुफ़्त कानूनी मदद की हक़दार है — कोई आमदनी की शर्त नहीं।',
-      hinglish: 'Har aurat muft kanooni madad ki haqdaar hai — koi aamdani ki shart nahin.',
+      hi: 'हर औरत मुफ़्त कानूनी मदद की हक़दार है, कोई आमदनी की शर्त नहीं।',
+      hinglish: 'Har aurat muft kanooni madad ki haqdaar hai, koi aamdani ki shart nahin.',
       en: 'Every woman qualifies for free legal aid, with no income limit at all.',
     },
   },
   C9: {
-    id: 'C9', slug: 'c9', icon: 'lamp', role: 'pinned', crossLinks: ['C5', 'C8'],
+    id: 'C9',
+    slug: 'c9',
+    icon: 'lamp',
+    role: 'pinned',
+    crossLinks: ['C5', 'C8'],
     title: {
       hi: 'विधवा का हिस्सा',
       hinglish: 'Vidhwa ka hissa',
@@ -144,11 +197,15 @@ export const CARDS: Record<CardId, CardMeta> = {
     summary: {
       hi: 'पति की चीज़ों में आपका हिस्सा बच्चों के बराबर है।',
       hinglish: 'Pati ki cheezon mein aapka hissa bachchon ke barabar hai.',
-      en: "You are a Class I heir, sharing equally with the children.",
+      en: 'You are a Class I heir, sharing equally with the children.',
     },
   },
   C10: {
-    id: 'C10', slug: 'c10', icon: 'debt', role: 'scored', crossLinks: ['C6', 'C8'],
+    id: 'C10',
+    slug: 'c10',
+    icon: 'debt',
+    role: 'scored',
+    crossLinks: ['C6', 'C8'],
     title: {
       hi: 'कर्ज़ आपका नहीं है',
       hinglish: 'Karz aapka nahin hai',

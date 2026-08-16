@@ -14,9 +14,7 @@ import type { Answers, CardId } from './types';
 
 export const MATRIX_VERSION = matrix.v as 2;
 
-const ALL_CARDS: readonly CardId[] = [
-  'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10',
-];
+const ALL_CARDS: readonly CardId[] = ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10'];
 
 const UNIVERSAL = matrix.universal as CardId;
 const TIE_BREAK = matrix.tieBreak as CardId[];
@@ -79,9 +77,9 @@ function score(a: Answers): Map<CardId, number> {
   const t3 = (k: string): boolean => a.q3?.includes(k as never) ?? false;
   const q4Loan = a.q4 === 'b' || a.q4 === 'c' || a.q4 === 'd';
 
-  if (a.q1 === 'c' && q4Loan) add({ C10: 2 });              // X1 widow + family loan
+  if (a.q1 === 'c' && q4Loan) add({ C10: 2 }); // X1 widow + family loan
   if (a.q1 === 'e' && (t3('a') || t3('b'))) add({ C1: 1 }); // X2 divorced + streedhan
-  if (t3('a') && t3('b')) add({ C1: 1 });                   // X3 gifts AND dowry
+  if (t3('a') && t3('b')) add({ C1: 1 }); // X3 gifts AND dowry
 
   return s;
 }
@@ -104,9 +102,9 @@ function ranked(s: Map<CardId, number>, excluded: Set<CardId>): CardId[] {
     const i = TIE_BREAK.indexOf(c);
     return i < 0 ? Number.MAX_SAFE_INTEGER : i;
   };
-  return ALL_CARDS.filter(
-    (c) => c !== UNIVERSAL && !excluded.has(c) && (s.get(c) ?? 0) > 0,
-  ).sort((x, y) => (s.get(y) ?? 0) - (s.get(x) ?? 0) || tie(x) - tie(y));
+  return ALL_CARDS.filter((c) => c !== UNIVERSAL && !excluded.has(c) && (s.get(c) ?? 0) > 0).sort(
+    (x, y) => (s.get(y) ?? 0) - (s.get(x) ?? 0) || tie(x) - tie(y),
+  );
 }
 
 /**
@@ -145,10 +143,10 @@ export function deck(a: Answers): CardId[] {
   }
 
   // FILL. Three top-ups, in descending order of how well they fit her.
-  for (const c of rank) push(c);        // her own signal — covers the D8 gate collision
-  for (const c of FOUNDATION) push(c);  // minimum-floor rule, in the declared order
-  for (const c of TIE_BREAK) push(c);   // unreachable in practice; keeps deck() total
+  for (const c of rank) push(c); // her own signal — covers the D8 gate collision
+  for (const c of FOUNDATION) push(c); // minimum-floor rule, in the declared order
+  for (const c of TIE_BREAK) push(c); // unreachable in practice; keeps deck() total
 
-  out.push(UNIVERSAL);                  // C8 is unconditional and always last
+  out.push(UNIVERSAL); // C8 is unconditional and always last
   return out;
 }

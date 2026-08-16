@@ -9,11 +9,11 @@ interface Props {
 const { lang = 'hi' } = Astro.props;
 
 /**
- * The ONE dark chapter. Polarity inversion as a chapter marker — the reader knows a new
+ * The ONE dark chapter. Polarity inversion as a chapter marker, the reader knows a new
  * argument has begun because the world changed colour, not because a divider appeared.
  *
  * THE NUMBERS ARE EM DASHES ON PURPOSE. The PRD forbids invented numbers and no pilot
- * session has run. A placeholder that says «—» and explains why is honest; a plausible
+ * session has run. A placeholder that says «» and explains why is honest; a plausible
  * number is a lie that gets quoted back at you. When real counts exist, set `value` and
  * the GSAP count-up animates them.
  */
@@ -31,12 +31,21 @@ const STATS: { key: string; value: number | null }[] = [
     {
       STATS.map(({ key, value }) => (
         <div class="border-t border-surface/15 pt-5">
+          {
+            /* `data-to` stays EMPTY for a placeholder. The GSAP count-up keys off it,
+             and animating «अभी नहीं» to zero would invent the number this page exists
+             to refuse to invent. The placeholder is also set smaller, because it is a
+             phrase and not a figure. */
+          }
           <dd
-            class="mono text-stat leading-none font-bold text-pink-200"
+            class:list={[
+              'mono leading-none font-bold text-pink-200',
+              value === null ? 'text-[1.5rem]' : 'text-stat',
+            ]}
             data-anim="stat"
             data-to={value ?? ''}
           >
-            {value ?? '—'}
+            {value ?? t('impact.notYet', lang)}
           </dd>
           <dt class="mt-3 text-surface/80" data-i18n={key}>
             {t(key, lang)}
@@ -51,9 +60,9 @@ const STATS: { key: string; value: number | null }[] = [
   </p>
 
   {
-    /* «जो काम नहीं आया» — publishing what failed is not a footnote here, it is the
-       brand. An impact page that only reports wins stops being a record and starts
-       being a pitch. */
+    /* «जो काम नहीं आया», publishing what failed is not a footnote here, it is the
+ brand. An impact page that only reports wins stops being a record and starts
+ being a pitch. */
   }
   <div class="mt-12 border-s-[3px] border-pink-200 ps-5">
     <h3 class="text-app-title font-bold text-surface" data-i18n="impact.failures">

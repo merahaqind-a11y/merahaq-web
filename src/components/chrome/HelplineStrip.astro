@@ -11,16 +11,21 @@ const { lang = 'hi' } = Astro.props;
  * F-03. Visible without scrolling on the home screen (§5.4 r6).
  *
  * Someone may arrive here in the worst hour of her life. The number must not require a
- * journey — no scroll, no menu, no tap to reveal. Numbers are mono because a numeral in
+ * journey, no scroll, no menu, no tap to reveal. Numbers are mono because a numeral in
  * mono reads as "this is a number you can act on" before it is read.
  *
- * 181   Mahila Helpline, 24×7, connects to the One Stop Centre
- * 15100 NALSA free legal aid — the number that makes «muft vakil» real
+ * 181 Mahila Helpline, 24×7, connects to the One Stop Centre
+ * 15100 NALSA free legal aid, the number that makes «muft vakil» real
  */
 const NUMBERS = ['181', '15100'] as const;
 ---
 
-<div class="bg-blue-050" data-testid="helpline-strip" role="group" aria-label={t('madad.universal', lang)}>
+<div
+  class="bg-blue-050"
+  data-testid="helpline-strip"
+  role="group"
+  aria-label={t('madad.universal', lang)}
+>
   <div class="mx-auto flex max-w-6xl items-stretch gap-2 px-3 py-2 sm:justify-start">
     {
       NUMBERS.map((n) => (
@@ -28,7 +33,7 @@ const NUMBERS = ['181', '15100'] as const;
           href={`tel:${n}`}
           data-testid={`tel-${n}`}
           class="tap-lg flex flex-1 items-center gap-2.5 rounded-action border border-blue-600/25
-                 bg-surface px-3 py-1.5 leading-tight text-blue-600 no-underline sm:max-w-64 sm:flex-none"
+ bg-surface px-3 py-1.5 leading-tight text-blue-600 no-underline sm:max-w-64 sm:flex-none"
         >
           <span
             class="grid size-9 shrink-0 place-items-center rounded-pill bg-blue-050 text-blue-600"
@@ -48,12 +53,9 @@ const NUMBERS = ['181', '15100'] as const;
             <span class="block truncate text-[0.8125rem] text-ink" data-i18n={`helpline.${n}`}>
               {t(`helpline.${n}`, lang)}
             </span>
-            {/* The call hint is reassurance, not information — it is the first thing to
-                go when the strip has to stay out of the way of the question. */}
-            <span
-              class="hidden text-[0.8125rem] text-muted sm:block"
-              data-i18n="helpline.callHint"
-            >
+            {/* The call hint is reassurance, not information, it is the first thing to
+ go when the strip has to stay out of the way of the question. */}
+            <span class="hidden text-[0.8125rem] text-muted sm:block" data-i18n="helpline.callHint">
               {t('helpline.callHint', lang)}
             </span>
           </span>

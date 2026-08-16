@@ -16,7 +16,7 @@ const { lang = 'hi' } = Astro.props;
  * three languages. Asserted by test, not by eye.
  *
  * The headline is hand-split into word spans for the GSAP reveal. SplitText is
- * deliberately not used — hand-splitting keeps the original text nodes intact for
+ * deliberately not used, hand-splitting keeps the original text nodes intact for
  * screen readers and for the language switcher, and adds no plugin weight.
  */
 const question = t('hero.question', lang);
@@ -27,16 +27,22 @@ const isEmph = (w: string): boolean =>
   w.toLowerCase().replace(/[?,.]/g, '').includes(EMPH[lang].toLowerCase());
 ---
 
+{
+  /* Spacing rhythm, deliberately uneven: the gaps grow as the eye moves down the
+   column, so the question sits in air and the actions cluster together. Even gaps
+   everywhere are what make a layout feel machine-set rather than composed.
+   The section carries real bottom padding so the artwork is not sheared off by the
+   next section's edge. */
+}
 <section
   data-section="hero"
-  class="relative overflow-hidden bg-bg px-5 pt-8 pb-0"
+  class="relative overflow-hidden bg-bg px-5 pt-10 pb-16 sm:pt-12 lg:pt-14 lg:pb-24"
   aria-labelledby="hero-heading"
 >
   <div class="bloom" data-anim="bloom" aria-hidden="true"></div>
 
   <div
-    class="relative mx-auto grid max-w-6xl items-center gap-6 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)]
-           lg:gap-12 lg:pt-4"
+    class="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16"
   >
     <div>
       <h1
@@ -60,19 +66,19 @@ const isEmph = (w: string): boolean =>
         }
       </h1>
 
-      <p class="mt-5 max-w-xl text-lead text-muted" data-i18n="hero.sub">{t('hero.sub', lang)}</p>
+      <p class="mt-4 max-w-xl text-lead text-muted" data-i18n="hero.sub">{t('hero.sub', lang)}</p>
 
       {
         /* सुनिए as a circular play control with its label beside it. For this user
-           audio is the primary channel, not an accessibility afterthought — so it
-           reads as a play button, which is the one control everyone already knows. */
+ audio is the primary channel, not an accessibility afterthought, so it
+ reads as a play button, which is the one control everyone already knows. */
       }
       <button
         type="button"
         data-testid="sunie"
         data-sunie="hero"
-        class="mt-6 inline-flex tap items-center gap-3 rounded-pill border border-blue-600/25
-               bg-surface py-1 pe-5 ps-1 font-bold text-blue-600 disabled:border-border disabled:text-muted"
+        class="mt-7 inline-flex tap items-center gap-3 rounded-pill border border-blue-600/25
+ bg-surface py-1 pe-5 ps-1 font-bold text-blue-600 disabled:border-border disabled:text-muted"
       >
         <span
           class="grid size-11 shrink-0 place-items-center rounded-pill bg-blue-600 text-surface"
@@ -88,10 +94,10 @@ const isEmph = (w: string): boolean =>
         </span>
       </button>
 
-      <div class="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+      <div class="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
         {
-          /* THE action. #D6336C appears exactly once on this screen — a test fails the
-             build if a second pink-600 action shows up. */
+          /* THE action. #D6336C appears exactly once on this screen, a test fails the
+ build if a second pink-600 action shows up. */
         }
         <a
           href="/shuru"
@@ -99,21 +105,21 @@ const isEmph = (w: string): boolean =>
           data-anim="hero-cta"
           data-i18n="cta.primary"
           class="flex tap-lg w-full items-center justify-center rounded-action bg-pink-600 px-8
-                 text-[1.25rem] font-bold text-surface no-underline sm:w-fit"
+ text-[1.25rem] font-bold text-surface no-underline sm:w-fit"
         >
           {t('cta.primary', lang)}
         </a>
 
         {
           /* Never trap anyone in the questionnaire (F-12). Outlined rather than a bare
-             text link, so it reads as a real second door rather than fine print. */
+ text link, so it reads as a real second door rather than fine print. */
         }
         <a
           href="/sabhi-card"
           data-testid="hero-escape"
           data-i18n="cta.allCards"
           class="flex tap-lg w-full items-center justify-center rounded-action border-2 border-ink/15
-                 bg-surface px-6 font-bold text-ink no-underline sm:w-fit"
+ bg-surface px-6 font-bold text-ink no-underline sm:w-fit"
         >
           {t('cta.allCards', lang)}
         </a>
@@ -121,9 +127,9 @@ const isEmph = (w: string): boolean =>
 
       {
         /* F-14's returning-visitor link is deliberately NOT here. It said «आपके कार्ड
-           देखें» right beside «सीधे सारे कार्ड देखें» — two links, four words apart,
-           that read as the same offer. A returning visitor reaches her deck from the
-           ☰ menu and from the desktop nav, where it appears once a deck exists. */
+ देखें» right beside «सीधे सारे कार्ड देखें», two links, four words apart,
+ that read as the same offer. A returning visitor reaches her deck from the
+ ☰ menu and from the desktop nav, where it appears once a deck exists. */
       }
     </div>
 

@@ -11,19 +11,19 @@ const lang = 'hi' as const;
  *
  * Every number here is an em dash, because no pilot session has run. The PRD is
  * explicit that invented numbers are forbidden, and the Build Manual is blunter:
- * small and real is the entire brand. A placeholder that says «—» and explains why
+ * small and real is the entire brand. A placeholder that says «» and explains why
  * is honest; a plausible-looking number is a lie that gets quoted back at you.
  */
 const STATS = [
   { key: 'impact.1', value: null, method: 'सत्र में मौजूद महिलाओं की गिनती, उसी दिन नोट की गई।' },
-  { key: 'impact.2', value: null, method: 'सर्वर पर कुल डाउनलोड — बिना कुकी, बिना पहचान।' },
+  { key: 'impact.2', value: null, method: 'सर्वर पर कुल डाउनलोड, बिना कुकी, बिना पहचान।' },
   { key: 'impact.3', value: null, method: 'छपे हुए कार्ड जो हाथ में दिए गए।' },
   { key: 'impact.4', value: null, method: 'पूरे हुए सत्र, चाहे कितने भी छोटे हों।' },
   { key: 'impact.5', value: null, method: '30 दिन बाद एक न्यूट्रल WhatsApp सवाल का जवाब।' },
 ];
 ---
 
-<Base title="असर — मेरा हक़" lang={lang}>
+<Base title="असर, मेरा हक़" lang={lang}>
   <Header lang={lang} showLogin />
 
   <main id="main">
@@ -44,9 +44,7 @@ const STATS = [
           {
             STATS.map((s) => (
               <div class="border-t border-surface/15 pt-5">
-                <dd class="mono text-stat leading-none font-bold text-pink-200">
-                  {s.value ?? '—'}
-                </dd>
+                <dd class:list={["mono font-bold leading-none text-pink-200", s.value === null ? "text-[1.75rem]" : "text-stat"]}>{s.value ?? t('impact.notYet', lang)}</dd>
                 <dt class="mt-3 font-bold text-surface" data-i18n={s.key}>
                   {t(s.key, lang)}
                 </dt>
@@ -75,15 +73,18 @@ const STATS = [
           {t('impact.failuresBody', lang)}
         </p>
         <p class="mt-4 text-muted">
-          जब पहला सत्र होगा, यहाँ वह भी लिखा जाएगा जो काम नहीं आया — कौन सा सवाल
-          उलझाता है, कौन सा शब्द समझ नहीं आता, कौन सा कार्ड कोई नहीं खोलता।
+          जब पहला सत्र होगा, यहाँ वह भी लिखा जाएगा जो काम नहीं आया, कौन सा सवाल उलझाता है, कौन सा
+          शब्द समझ नहीं आता, कौन सा कार्ड कोई नहीं खोलता।
         </p>
       </div>
     </section>
 
     <section class="bg-bg px-5 py-16">
       <div class="mx-auto max-w-3xl">
-        <h2 class="shirorekha text-app-display font-bold text-ink" style="--shirorekha-width:2.5rem">
+        <h2
+          class="shirorekha text-app-display font-bold text-ink"
+          style="--shirorekha-width:2.5rem"
+        >
           हम क्या नहीं गिनते
         </h2>
         <ul class="mt-6 grid gap-3 text-text">

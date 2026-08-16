@@ -8,34 +8,42 @@ import HelplineTicker from './HelplineTicker.astro';
 
 interface Props {
   lang?: Lang;
-  /** Home and institutional routes only. Never on app routes — login is never
-   *  required for anything and must not crowd the two safety controls. */
+  /** Home and institutional routes only. Never on app routes, login is never
+   * required for anything and must not crowd the two safety controls. */
   showLogin?: boolean;
 }
 const { lang = 'hi', showLogin = false } = Astro.props;
 
 const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' };
 
-/** The rights routes, shown inline on desktop and inside ☰ on phones. */
+/**
+ * The rights routes, shown inline on desktop and inside ☰ on phones.
+ *
+ * Short labels, not the menu's fuller wording. A header nav is scanned, not read:
+ * «असर» does the job that «असर, अब तक क्या हुआ» does inside the overlay, where there
+ * is room for a sentence.
+ */
 const NAV = [
-  { key: 'menu.diagnostic', href: '/shuru' },
-  { key: 'menu.allCards', href: '/sabhi-card' },
-  { key: 'menu.madad', href: '/madad' },
-  { key: 'menu.about', href: '/hamare-baare-mein' },
-  { key: 'menu.impact', href: '/asar' },
+  { key: 'nav.diagnostic', href: '/shuru' },
+  { key: 'nav.allCards', href: '/sabhi-card' },
+  { key: 'nav.madad', href: '/madad' },
+  { key: 'nav.about', href: '/hamare-baare-mein' },
+  { key: 'nav.impact', href: '/asar' },
 ] as const;
 ---
 
 {
-  /* ── language bar, above everything ──────────────────────────────────────────
-     Language is the first decision on the page, so it sits above the masthead in
-     its own band rather than competing for room inside it. Dark, so the header
-     below reads as the start of the site proper. */
+  /* Language bar, above everything. Language is the first decision on the page, so it
+   sits above the masthead rather than competing for room inside it.
+
+   Slim by design: 36px, small type, tight padding. It is a switch she uses once, not
+   a control she needs a thumb-sized target for every session, and every pixel here is
+   a pixel the question below does not get. */
 }
-<div class="bg-ink" data-testid="topbar">
-  <div class="mx-auto flex max-w-6xl items-center justify-center px-3 py-0.5">
+<div class="sticky top-0 z-70 bg-ink" data-testid="topbar">
+  <div class="mx-auto flex max-w-6xl items-center justify-center px-3">
     <div
-      class="flex items-center gap-1 rounded-pill bg-surface/10 p-0.5"
+      class="flex items-center gap-0.5 rounded-pill bg-surface/10 p-0.5"
       data-testid="lang-pill"
       role="group"
       aria-label={t('lang.label', lang)}
@@ -47,8 +55,7 @@ const NAV = [
             data-lang={l}
             data-testid={`lang-${l}`}
             aria-pressed={l === lang ? 'true' : 'false'}
-            class="min-h-12 rounded-pill px-4 text-[0.9375rem] font-bold whitespace-nowrap
-                   text-surface/70 aria-pressed:bg-surface aria-pressed:text-ink"
+            class="min-h-11 rounded-pill px-3.5 text-[0.8125rem] font-bold whitespace-nowrap text-surface/70 aria-pressed:bg-surface aria-pressed:text-ink"
           >
             <span class="hidden sm:inline" data-i18n={`lang.${l}`}>
               {t(`lang.${l}`, lang)}
@@ -64,14 +71,18 @@ const NAV = [
 {/* ── masthead ─────────────────────────────────────────────────────────────── */}
 {
   /* z-60 puts the masthead ABOVE the menu overlay (z-50), not below it. That is not a
-     styling preference: the quick exit lives in this row, and §5.5 r5 requires it to
-     keep working while the menu is open. At z-40 the overlay covered it and the tap
-     landed on a menu link instead — the panic control was dead exactly when the menu
-     was in the way. The menu now fills the space beneath the masthead. */
+ styling preference: the quick exit lives in this row, and §5.5 r5 requires it to
+ keep working while the menu is open. At z-40 the overlay covered it and the tap
+ landed on a menu link instead, the panic control was dead exactly when the menu
+ was in the way. The menu now fills the space beneath the masthead. */
+}
+{
+  /* Sticks BELOW the language bar (top-9 = its 36px height), so the whole chrome stack
+   holds together as one unit instead of the dark bar sliding up behind the masthead
+   and leaving a moving sliver at the top of the viewport. */
 }
 <header
-  class="sticky top-0 z-60 border-b border-border bg-surface/90 backdrop-blur-md
-         supports-[not(backdrop-filter:blur(0))]:bg-surface"
+  class="sticky top-12 z-60 border-b border-border bg-surface/90 backdrop-blur-md supports-[not(backdrop-filter:blur(0))]:bg-surface"
   data-testid="header"
 >
   <div class="mx-auto flex max-w-6xl items-center gap-3 px-3 py-2">
@@ -79,7 +90,7 @@ const NAV = [
 
     {
       /* Phones get ☰; from lg up the same routes are simply visible, because there is
-         room and a menu you have to open is a menu you might not. */
+ room and a menu you have to open is a menu you might not. */
     }
     <button
       type="button"
@@ -90,7 +101,11 @@ const NAV = [
       class="grid tap shrink-0 place-items-center rounded-action text-ink lg:hidden"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+        <path
+          d="M4 7h16M4 12h16M4 17h16"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"></path>
       </svg>
     </button>
 
@@ -103,7 +118,7 @@ const NAV = [
                 href={item.href}
                 data-testid={`nav-${item.key.split('.')[1]}`}
                 class="flex tap items-center rounded-action px-3 font-bold whitespace-nowrap
-                       text-ink no-underline hover:bg-bg"
+ text-ink no-underline hover:bg-bg"
                 data-i18n={item.key}
               >
                 {t(item.key, lang)}
@@ -121,10 +136,15 @@ const NAV = [
             href="/login"
             data-testid="login-header"
             class="hidden tap items-center gap-2 rounded-action px-3 text-[0.9375rem] font-bold
-                   whitespace-nowrap text-ink no-underline sm:inline-flex"
+ whitespace-nowrap text-ink no-underline sm:inline-flex"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 12a4 4 0 100-8 4 4 0 000 8zM4.5 20a7.5 7.5 0 0115 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+              <path
+                d="M12 12a4 4 0 100-8 4 4 0 000 8zM4.5 20a7.5 7.5 0 0115 0"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
             </svg>
             <span data-i18n="login.header">{t('login.header', lang)}</span>
           </a>
@@ -149,7 +169,7 @@ const NAV = [
   const toggle = document.querySelector<HTMLButtonElement>('[data-testid="menu-toggle"]');
 
   /**
-   * Deactivate the page behind a modal — but NEVER the quick exit. §5.5 r5 is explicit
+   * Deactivate the page behind a modal, but NEVER the quick exit. §5.5 r5 is explicit
    * that ✘ keeps working while the menu is up.
    *
    * `inert` is INHERITED, so inerting <header> would kill the exit that now lives

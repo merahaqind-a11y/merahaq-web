@@ -12,15 +12,17 @@ const ROWS = [1, 2, 3, 4] as const;
 
 {
   /* The Amaranth pattern: the claim pins on the left while the evidence scrolls past on
-     the right. Pin 1 of 2 on this page — desktop only, and GSAP owns it. Without JS or
-     under reduced motion this is simply a two-column layout that still reads correctly. */
+ the right. Pin 1 of 2 on this page, desktop only, and GSAP owns it. Without JS or
+ under reduced motion this is simply a two-column layout that still reads correctly. */
 }
 <section
   data-section="value"
   class="relative bg-surface px-5 py-16 sm:py-24"
   aria-labelledby="value-heading"
 >
-  <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
+  <div
+    class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16"
+  >
     <div class="lg:self-start" data-anim="value-claim">
       <h2
         id="value-heading"
@@ -37,15 +39,12 @@ const ROWS = [1, 2, 3, 4] as const;
       {
         ROWS.map((n, i) => (
           <li
-            class:list={[
-              'grid gap-2 py-7',
-              i > 0 && 'border-t border-border',
-            ]}
+            class:list={['grid gap-2 py-7', i > 0 && 'border-t border-border']}
             data-anim="value-row"
           >
             <span class="flex items-center gap-3">
               {/* blue = trust / verified. The chip is the Verdant Civic move: a tint,
-                  not a border, so it survives a cheap screen and a greyscale print. */}
+ not a border, so it survives a cheap screen and a greyscale print. */}
               <span
                 class="grid size-9 shrink-0 place-items-center rounded-pill bg-blue-050 text-blue-600"
                 aria-hidden="true"

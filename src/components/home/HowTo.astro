@@ -8,7 +8,7 @@ interface Props {
 }
 const { lang = 'hi' } = Astro.props;
 
-// Numbered because this genuinely IS a sequence — she does these in this order, once.
+// Numbered because this genuinely IS a sequence, she does these in this order, once.
 // Numbering anything that is not a sequence is decoration pretending to be structure.
 const STEPS = [1, 2, 3] as const;
 ---
@@ -17,7 +17,7 @@ const STEPS = [1, 2, 3] as const;
   <ol class="relative grid gap-8 sm:grid-cols-3 sm:gap-6">
     {
       /* The progress line between the steps. Drawn only where there is a next step,
-         and only at widths where the steps sit side by side. GSAP scrubs its scaleX. */
+ and only at widths where the steps sit side by side. GSAP scrubs its scaleX. */
     }
     <span
       class="absolute inset-x-[16%] top-6 hidden h-[2px] origin-left bg-pink-200 sm:block"
@@ -27,22 +27,17 @@ const STEPS = [1, 2, 3] as const;
     {
       STEPS.map((n) => (
         <li class="relative" data-anim="howto-step">
-          {
-            /* NOT pink-600. In this system pink-600 means "this is the action" — a step
-               number is structure, not something to press. Mono because it is a numeral
-               carrying data, tinted because tint is how this system shows depth. */
-          }
+          {/* NOT pink-600. In this system pink-600 means "this is the action", a step
+ number is structure, not something to press. Mono because it is a numeral
+ carrying data, tinted because tint is how this system shows depth. */}
           <span
             class="mono relative z-10 grid size-12 place-items-center rounded-pill bg-pink-050
-                   text-[1.25rem] font-bold text-pink-700 ring-2 ring-pink-200"
+ text-[1.25rem] font-bold text-pink-700 ring-2 ring-pink-200"
             aria-hidden="true"
           >
             {n}
           </span>
-          <h3
-            class="mt-4 text-app-title font-bold text-ink"
-            data-i18n={`howto.${n}.title`}
-          >
+          <h3 class="mt-4 text-app-title font-bold text-ink" data-i18n={`howto.${n}.title`}>
             {t(`howto.${n}.title`, lang)}
           </h3>
           <p class="mt-2 text-muted" data-i18n={`howto.${n}.body`}>

@@ -15,14 +15,16 @@ const lang = 'hi' as const;
 ---
 
 <Base
-  title="मेरा हक़ — आपके हक़, आसान भाषा में"
+  title="मेरा हक़, आपके हक़, आसान भाषा में"
   lang={lang}
   description="पाँच छोटे सवाल, एक मिनट। जानिए कौन से हक़ पहले से आपके हैं।"
 >
   <Header lang={lang} showLogin />
 
-  {/* Order is fixed and asserted by test: hero → howto → value → impact →
-      cards → features → faq → footer. */}
+  {
+    /* Order is fixed and asserted by test: hero → howto → value → impact →
+ cards → features → faq → footer. */
+  }
   <main id="main">
     <Hero lang={lang} />
     <HowTo lang={lang} />

@@ -8,7 +8,7 @@ interface Props {
 const { lang = 'hi' } = Astro.props;
 
 /**
- * F-02 / §5.5. Eight items, in this order, with neutral labels — nothing here may
+ * F-02 / §5.5. Eight items, in this order, with neutral labels, nothing here may
  * describe or label her situation.
  *
  * Full-screen overlay, never a dropdown: targets must be thumb-sized, 56px rows,
@@ -18,14 +18,29 @@ const { lang = 'hi' } = Astro.props;
  * identical to everyone else's.
  *
  * The quick exit stays visible and functional while this is open (§5.5 r5). That is
- * why the overlay sits at z-50 and the exit rail at z-90 — a test asserts it.
+ * why the overlay sits at z-50 and the exit rail at z-90, a test asserts it.
  */
 const ITEMS = [
   { key: 'menu.diagnostic', href: '/shuru', deckOnly: false, icon: 'M5 12h14M13 6l6 6-6 6' },
-  { key: 'menu.allCards', href: '/sabhi-card', deckOnly: false, icon: 'M4 6h7v12H4zM13 6h7v12h-7z' },
-  { key: 'menu.madad', href: '/madad', deckOnly: false, icon: 'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z' },
+  {
+    key: 'menu.allCards',
+    href: '/sabhi-card',
+    deckOnly: false,
+    icon: 'M4 6h7v12H4zM13 6h7v12h-7z',
+  },
+  {
+    key: 'menu.madad',
+    href: '/madad',
+    deckOnly: false,
+    icon: 'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z',
+  },
   { key: 'menu.myCards', href: '/aapke-card', deckOnly: true, icon: 'M4 7h16v13H4zM8 4h8v3H8z' },
-  { key: 'menu.about', href: '/hamare-baare-mein', deckOnly: false, icon: 'M12 21a9 9 0 100-18 9 9 0 000 18zM12 11v6M12 7.5v.01' },
+  {
+    key: 'menu.about',
+    href: '/hamare-baare-mein',
+    deckOnly: false,
+    icon: 'M12 21a9 9 0 100-18 9 9 0 000 18zM12 11v6M12 7.5v.01',
+  },
   { key: 'menu.impact', href: '/asar', deckOnly: false, icon: 'M4 20V10M10 20V4M16 20v-7M22 20H2' },
 ] as const;
 ---
@@ -43,10 +58,10 @@ const ITEMS = [
     <div class="flex items-center justify-between">
       {
         /* A BACK ARROW, deliberately not a ✘. The quick exit is a ✘ and it leaves the
-           site; this one closes the menu and stays. §5.12 r2 requires the two exits to
-           be visually distinguishable, and on a screen where one of them is the panic
-           control, two identical ✘ icons side by side is a safety problem, not a
-           styling one. The label says so too. */
+ site; this one closes the menu and stays. §5.12 r2 requires the two exits to
+ be visually distinguishable, and on a screen where one of them is the panic
+ control, two identical ✘ icons side by side is a safety problem, not a
+ styling one. The label says so too. */
       }
       <button
         type="button"
@@ -79,11 +94,20 @@ const ITEMS = [
                 href={item.href}
                 data-testid={`menu-${item.key.split('.')[1]}`}
                 class="flex min-h-14 items-center gap-4 border-b border-border text-lead
-                       whitespace-nowrap text-ink no-underline"
+ whitespace-nowrap text-ink no-underline"
               >
-                <span class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700" aria-hidden="true">
+                <span
+                  class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700"
+                  aria-hidden="true"
+                >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d={item.icon} stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                      d={item.icon}
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </svg>
                 </span>
                 <span data-i18n={item.key}>{t(item.key, lang)}</span>
@@ -92,25 +116,33 @@ const ITEMS = [
           ))
         }
 
-        {/* 7 — reset. Only when a deck exists, and it confirms first (§5.5 r4). */}
+        {/* 7, reset. Only when a deck exists, and it confirms first (§5.5 r4). */}
         <li data-deck-only="true" hidden>
           <button
             type="button"
             data-menu-reset
             data-testid="menu-reset"
             class="flex min-h-14 w-full items-center gap-4 border-b border-border text-start
-                   text-lead whitespace-nowrap text-ink"
+ text-lead whitespace-nowrap text-ink"
           >
-            <span class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700" aria-hidden="true">
+            <span
+              class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700"
+              aria-hidden="true"
+            >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M4 12a8 8 0 1114 5M4 12V7m0 5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M4 12a8 8 0 1114 5M4 12V7m0 5h5"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
               </svg>
             </span>
             <span data-i18n="menu.reset">{t('menu.reset', lang)}</span>
           </button>
         </li>
 
-        {/* 8 — global mute. A safety feature, not a preference (F-06). */}
+        {/* 8, global mute. A safety feature, not a preference (F-06). */}
         <li>
           <button
             type="button"
@@ -118,11 +150,19 @@ const ITEMS = [
             data-testid="menu-mute"
             aria-pressed="false"
             class="flex min-h-14 w-full items-center gap-4 border-b border-border text-start
-                   text-lead whitespace-nowrap text-ink"
+ text-lead whitespace-nowrap text-ink"
           >
-            <span class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700" aria-hidden="true">
+            <span
+              class="grid size-10 shrink-0 place-items-center rounded-pill bg-pink-050 text-pink-700"
+              aria-hidden="true"
+            >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M4 9v6h4l5 4V5L8 9H4zM17 9l4 6M21 9l-4 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M4 9v6h4l5 4V5L8 9H4zM17 9l4 6M21 9l-4 6"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
               </svg>
             </span>
             <span data-i18n="menu.mute">{t('menu.mute', lang)}</span>
@@ -133,7 +173,7 @@ const ITEMS = [
   </div>
 </div>
 
-{/* Reset confirmation — «आपके चुने हुए कार्ड हट जाएँगे। दोबारा सवाल पूछें?» */}
+{/* Reset confirmation, «आपके चुने हुए कार्ड हट जाएँगे। दोबारा सवाल पूछें?» */}
 <div
   data-reset-confirm
   data-testid="reset-confirm"

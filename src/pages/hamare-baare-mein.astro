@@ -6,12 +6,12 @@ import { t } from '../lib/i18n';
 import { VERIFIED_ON_DISPLAY } from '../lib/cards';
 
 const lang = 'hi' as const;
-const reviewer = import.meta.env['PUBLIC_REVIEWER_NAME'] || '—';
+const reviewer = import.meta.env['PUBLIC_REVIEWER_NAME'] || '';
 
 const PRINCIPLES = [
   {
     h: 'सिर्फ़ जानकारी, सलाह नहीं',
-    p: 'हम बताते हैं कि क़ानून क्या कहता है। आपके अपने मामले में क्या करना है, यह मुफ़्त वकील बताएगा — 15100 पर।',
+    p: 'हम बताते हैं कि क़ानून क्या कहता है। आपके अपने मामले में क्या करना है, यह मुफ़्त वकील बताएगा, 15100 पर।',
   },
   {
     h: 'कोई डेटा नहीं',
@@ -28,7 +28,7 @@ const PRINCIPLES = [
 ];
 ---
 
-<Base title="हमारे बारे में — मेरा हक़" lang={lang}>
+<Base title="हमारे बारे में, मेरा हक़" lang={lang}>
   <Header lang={lang} showLogin />
 
   <main id="main">
@@ -42,19 +42,22 @@ const PRINCIPLES = [
           हमारे बारे में
         </h1>
         <p class="mt-5 text-lead text-text">
-          मेरा हक़ एक छोटा, मुफ़्त औज़ार है। पाँच छोटे सवालों में यह बताता है कि क़ानून
-          पहले से आपके साथ कहाँ खड़ा है।
+          मेरा हक़ एक छोटा, मुफ़्त औज़ार है। पाँच छोटे सवालों में यह बताता है कि क़ानून पहले से आपके
+          साथ कहाँ खड़ा है।
         </p>
         <p class="mt-4 text-lead text-muted">
-          यह अदालत नहीं है, वकील नहीं है, और हेल्पलाइन भी नहीं। यह उन तीनों तक पहुँचने
-          का सबसे छोटा रास्ता है।
+          यह अदालत नहीं है, वकील नहीं है, और हेल्पलाइन भी नहीं। यह उन तीनों तक पहुँचने का सबसे छोटा
+          रास्ता है।
         </p>
       </div>
     </section>
 
     <section class="bg-surface px-5 py-16">
       <div class="mx-auto max-w-3xl">
-        <h2 class="shirorekha text-app-display font-bold text-ink" style="--shirorekha-width:2.5rem">
+        <h2
+          class="shirorekha text-app-display font-bold text-ink"
+          style="--shirorekha-width:2.5rem"
+        >
           हमारे पक्के नियम
         </h2>
         <ul class="mt-8 grid gap-6 sm:grid-cols-2">
@@ -70,31 +73,39 @@ const PRINCIPLES = [
       </div>
     </section>
 
-    {/* The shared-phone honesty note, verbatim (F-07 / Build Manual D9). We never
-        claim the quick exit makes her safe. Honest words, not clever technology. */}
+    {
+      /* The shared-phone honesty note, verbatim (F-07 / Build Manual D9). We never
+ claim the quick exit makes her safe. Honest words, not clever technology. */
+    }
     <section class="bg-ink px-5 py-16 text-surface">
       <div class="mx-auto max-w-3xl">
-        <h2 class="shirorekha text-app-display font-bold text-surface" style="--shirorekha-width:2.5rem">
+        <h2
+          class="shirorekha text-app-display font-bold text-surface"
+          style="--shirorekha-width:2.5rem"
+        >
           एक सच्ची बात
         </h2>
         <p class="mt-6 text-lead text-surface/90" data-i18n="sharedPhone">
           {t('sharedPhone', lang)}
         </p>
         <p class="mt-4 text-surface/70">
-          ऊपर दाईं तरफ़ का ✘ बटन आपको तुरंत Google पर ले जाता है। यह मदद करता है, पर यह
-          पूरी सुरक्षा नहीं है — और हम ऐसा कहेंगे भी नहीं।
+          ऊपर दाईं तरफ़ का ✘ बटन आपको तुरंत Google पर ले जाता है। यह मदद करता है, पर यह पूरी सुरक्षा
+          नहीं है, और हम ऐसा कहेंगे भी नहीं।
         </p>
       </div>
     </section>
 
     <section class="bg-surface px-5 py-16">
       <div class="mx-auto max-w-3xl">
-        <h2 class="shirorekha text-app-display font-bold text-ink" style="--shirorekha-width:2.5rem">
+        <h2
+          class="shirorekha text-app-display font-bold text-ink"
+          style="--shirorekha-width:2.5rem"
+        >
           क़ानूनी समीक्षा
         </h2>
         <p class="mt-6 text-text">
-          हर हक़ वाला पन्ना एक प्रैक्टिस करने वाले वकील की समीक्षा से गुज़रता है। बिना
-          लिखित मंज़ूरी के कोई कार्ड प्रकाशित नहीं होता।
+          हर हक़ वाला पन्ना एक प्रैक्टिस करने वाले वकील की समीक्षा से गुज़रता है। बिना लिखित मंज़ूरी
+          के कोई कार्ड प्रकाशित नहीं होता।
         </p>
         <dl class="mono mt-6 grid gap-2 text-[0.9375rem]">
           <div class="flex gap-3">

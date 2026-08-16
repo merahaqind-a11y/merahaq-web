@@ -8,12 +8,15 @@ interface Props {
 }
 const { lang = 'hi' } = Astro.props;
 
-// Outline icons, drawn inline. No icon font, no emoji — emoji render differently on
+// Outline icons, drawn inline. No icon font, no emoji, emoji render differently on
 // every Android skin and a screen reader announces them as their CLDR name.
 const FEATURES = [
   { key: 'audio', d: 'M4 9v6h4l5 4V5L8 9H4zM17 8.5a5 5 0 010 7M20 6a9 9 0 010 12' },
   { key: 'share', d: 'M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M12 15V3M8 7l4-4 4 4' },
-  { key: 'print', d: 'M7 8V3h10v5M7 18H5a1 1 0 01-1-1v-5a2 2 0 012-2h12a2 2 0 012 2v5a1 1 0 01-1 1h-2M7 14h10v7H7v-7z' },
+  {
+    key: 'print',
+    d: 'M7 8V3h10v5M7 18H5a1 1 0 01-1-1v-5a2 2 0 012-2h12a2 2 0 012 2v5a1 1 0 01-1 1h-2M7 14h10v7H7v-7z',
+  },
   { key: 'offline', d: 'M5 18h11a4 4 0 000-8 6 6 0 00-11.3 2A3.5 3.5 0 005 18zM3 3l18 18' },
   { key: 'lang', d: 'M4 6h9M8 4v2c0 4-2 7-5 9M7 12c2 3 4 4 7 5M13 20l4-9 4 9M14.8 17h4.4' },
   { key: 'exit', d: 'M14 4h4a2 2 0 012 2v12a2 2 0 01-2 2h-4M10 8l-4 4 4 4M6 12h10' },

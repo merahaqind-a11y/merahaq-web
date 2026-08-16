@@ -8,12 +8,14 @@ const lang = 'hi' as const;
 
 {
   /* `rights` blocks machine translation (D9). The diagnostic statements are
-     safety-designed to describe events rather than accuse anyone, and a machine
-     translation can flip that in a single word. */
+ safety-designed to describe events rather than accuse anyone, and a machine
+ translation can flip that in a single word. */
 }
-<Base title="मेरा हक़ — पाँच सवाल" lang={lang} rights>
-  {/* No login on app routes — it would crowd the two fixed safety controls, and
-      login is never required for anything. */}
+<Base title="मेरा हक़, पाँच सवाल" lang={lang} rights>
+  {
+    /* No login on app routes, it would crowd the two fixed safety controls, and
+ login is never required for anything. */
+  }
   <Header lang={lang} />
 
   <main id="main">

@@ -18,19 +18,19 @@ const { card, lang = 'hi', tilt = 0, universal = false, compact = false } = Astr
 ---
 
 {
-  /* THE signature element. The card is genuinely the product — it gets printed, put on
-     a table, passed around a room of eight women, photographed, forwarded. So it is
-     drawn as a physical card, not a content box.
+  /* THE signature element. The card is genuinely the product, it gets printed, put on
+ a table, passed around a room of eight women, photographed, forwarded. So it is
+ drawn as a physical card, not a content box.
 
-     The tilted-frame motif and the fanned-deck motif are the same component: a pink
-     card rotated behind, the face counter-rotated on top. Fixed delta, never random —
-     inconsistent angles are what make this pattern look accidental. */
+ The tilted-frame motif and the fanned-deck motif are the same component: a pink
+ card rotated behind, the face counter-rotated on top. Fixed delta, never random 
+ inconsistent angles are what make this pattern look accidental. */
 }
 {
   /* h-full + a min-height is what keeps the deck looking like a DECK. Without it every
-     card is as tall as its own summary happens to be, and a row of them reads as
-     ragged rather than as a set. The parent gives each cell equal height; this makes
-     the card fill it. */
+ card is as tall as its own summary happens to be, and a row of them reads as
+ ragged rather than as a set. The parent gives each cell equal height; this makes
+ the card fill it. */
 }
 <article
   class:list={[
@@ -40,7 +40,7 @@ const { card, lang = 'hi', tilt = 0, universal = false, compact = false } = Astr
   data-testid={`haq-card-${card.slug}`}
   style={`--tilt:${tilt}deg`}
 >
-  {/* the card behind — pure tint, no shadow ramp */}
+  {/* the card behind, pure tint, no shadow ramp */}
   <div
     class="absolute inset-0 -z-10 rounded-card bg-pink-200/45"
     style="transform: rotate(var(--tilt))"
@@ -51,7 +51,7 @@ const { card, lang = 'hi', tilt = 0, universal = false, compact = false } = Astr
   <a
     href={`/card/${card.slug}`}
     class="flex h-full flex-col gap-3 rounded-card border border-pink-200/70 bg-pink-050 p-5
-           text-ink no-underline"
+ text-ink no-underline"
     style="transform: rotate(calc(var(--tilt) * -0.28))"
   >
     <span class="flex items-center justify-between gap-2">

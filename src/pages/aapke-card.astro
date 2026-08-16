@@ -9,7 +9,7 @@ import { t } from '../lib/i18n';
 const lang = 'hi' as const;
 ---
 
-<Base title="आपके कार्ड — मेरा हक़" lang={lang} rights>
+<Base title="आपके कार्ड, मेरा हक़" lang={lang} rights>
   <Header lang={lang} />
   <DraftBanner lang={lang} />
 
@@ -25,7 +25,7 @@ const lang = 'hi' as const;
           data-testid="tab-mine"
           aria-selected="true"
           class="flex tap min-w-0 flex-1 items-center justify-center rounded-pill px-3 font-bold
-                 text-muted aria-selected:bg-surface aria-selected:text-ink"
+ text-muted aria-selected:bg-surface aria-selected:text-ink"
           data-i18n="tab.mine">{t('tab.mine', lang)}</button
         >
         <button
@@ -35,16 +35,19 @@ const lang = 'hi' as const;
           data-testid="tab-all"
           aria-selected="false"
           class="flex tap min-w-0 flex-1 items-center justify-center rounded-pill px-3 font-bold
-                 text-muted aria-selected:bg-surface aria-selected:text-ink"
+ text-muted aria-selected:bg-surface aria-selected:text-ink"
           data-i18n="tab.all">{t('tab.all', lang)}</button
         >
       </div>
 
-      {/* Her deck. Rendered client-side from the stored OUTPUT deck — never from her
-          answers, which are not stored anywhere. */}
+      {
+        /* Her deck. Rendered client-side from the stored OUTPUT deck, never from her
+ answers, which are not stored anywhere. */
+      }
       <section data-panel="mine" class="mt-8">
         <h1 class="sr-only" data-i18n="tab.mine">{t('tab.mine', lang)}</h1>
-        <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-deck-list data-testid="deck-list"></ul>
+        <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-deck-list data-testid="deck-list">
+        </ul>
 
         <p class="mt-10 hidden text-lead text-muted" data-empty data-testid="deck-empty">
           <span data-i18n="s0.title">{t('s0.title', lang)}</span>
@@ -53,7 +56,7 @@ const lang = 'hi' as const;
           href="/shuru"
           data-empty-cta
           class="mt-4 hidden tap-lg w-fit items-center justify-center rounded-action bg-pink-600 px-8
-                 text-[1.25rem] font-bold text-surface no-underline"
+ text-[1.25rem] font-bold text-surface no-underline"
           data-i18n="cta.primary">{t('cta.primary', lang)}</a
         >
       </section>
@@ -99,13 +102,15 @@ const lang = 'hi' as const;
    * The fragment never reaches a server, which is the point of putting it there.
    *
    * UF-15: unknown or malformed IDs fall back to the foundation deck, SILENTLY. She is
-   * never shown an error — an error message here would be both useless to her and a
+   * never shown an error, an error message here would be both useless to her and a
    * signal to anyone reading over her shoulder that something went wrong.
    */
   function deckFromFragment(): CardId[] | null {
     const m = location.hash.match(/d=([^&]+)/);
     if (!m?.[1]) return null;
-    const ids = decodeURIComponent(m[1]).split(',').map((s) => s.trim().toUpperCase());
+    const ids = decodeURIComponent(m[1])
+      .split(',')
+      .map((s) => s.trim().toUpperCase());
     const valid = ids.filter((id): id is CardId => (CARD_ORDER as readonly string[]).includes(id));
     return valid.length === 5 ? valid : FOUNDATION;
   }
@@ -123,14 +128,14 @@ const lang = 'hi' as const;
       const li = document.createElement('li');
       li.className = 'flex';
       li.innerHTML = `
-        <a href="/card/${card.slug}" class="flex h-full w-full flex-col gap-3 rounded-card border border-pink-200 bg-pink-050 p-5 text-ink no-underline">
-          <span class="flex items-center justify-between gap-2">
-            <span class="grid size-10 place-items-center rounded-pill bg-surface text-pink-700 font-bold mono"></span>
-          </span>
-          <h3 class="text-app-title font-bold leading-snug" data-card-title="${id}"></h3>
-          <p class="text-[0.9375rem] leading-relaxed text-muted" data-card-summary="${id}"></p>
-          <span class="mt-auto font-bold text-pink-700" data-i18n="card.open"></span>
-        </a>`;
+ <a href="/card/${card.slug}" class="flex h-full w-full flex-col gap-3 rounded-card border border-pink-200 bg-pink-050 p-5 text-ink no-underline">
+ <span class="flex items-center justify-between gap-2">
+ <span class="grid size-10 place-items-center rounded-pill bg-surface text-pink-700 font-bold mono"></span>
+ </span>
+ <h3 class="text-app-title font-bold leading-snug" data-card-title="${id}"></h3>
+ <p class="text-[0.9375rem] leading-relaxed text-muted" data-card-summary="${id}"></p>
+ <span class="mt-auto font-bold text-pink-700" data-i18n="card.open"></span>
+ </a>`;
       li.querySelector('.mono')!.textContent = String(deck.indexOf(id) + 1);
       li.querySelector('[data-card-title]')!.textContent = card.title[lang];
       li.querySelector('[data-card-summary]')!.textContent = card.summary[lang];
@@ -138,7 +143,7 @@ const lang = 'hi' as const;
       list.append(li);
     }
   } else {
-    // No deck yet — offer the questions rather than an empty screen.
+    // No deck yet, offer the questions rather than an empty screen.
     document.querySelector<HTMLElement>('[data-empty]')?.classList.remove('hidden');
     const cta = document.querySelector<HTMLElement>('[data-empty-cta]');
     cta?.classList.remove('hidden');

@@ -12,17 +12,17 @@ interface Props {
 const { lang = 'hi', target, size = 'md' } = Astro.props;
 
 /**
- * F-05. For this user audio is not accessibility — it is the primary channel. She
+ * F-05. For this user audio is not accessibility, it is the primary channel. She
  * should be able to complete the whole diagnostic and understand a full card with her
  * eyes closed.
  *
  * Rules enforced by src/lib/audio.ts, not here:
- *   · never autoplay — sound on a shared phone is exposure
- *   · first tap in a session shows the one-time "others can hear this" note
- *   · playing → «रोकें» with a progress line; navigation stops AND unloads
- *   · muted → visibly DISABLED with «आवाज़ बंद है», never hidden, so she can find it
- *   · 404 or decode failure → hi-IN speech synthesis; unavailable → hide silently.
- *     Never an error message.
+ * · never autoplay, sound on a shared phone is exposure
+ * · first tap in a session shows the one-time "others can hear this" note
+ * · playing → «रोकें» with a progress line; navigation stops AND unloads
+ * · muted → visibly DISABLED with «आवाज़ बंद है», never hidden, so she can find it
+ * · 404 or decode failure → hi-IN speech synthesis; unavailable → hide silently.
+ * Never an error message.
  */
 ---
 
@@ -38,11 +38,8 @@ const { lang = 'hi', target, size = 'md' } = Astro.props;
   ]}
 >
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <path
-      d="M4 9v6h4l5 4V5L8 9H4z"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linejoin="round"></path>
+    <path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"
+    ></path>
     <path
       d="M17 8.5a5 5 0 010 7"
       stroke="currentColor"

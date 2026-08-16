@@ -75,8 +75,10 @@ const htmlLang = lang === 'en' ? 'en' : 'hi';
   </head>
 
   <body data-rights={rights ? 'true' : undefined}>
-    {/* Quick exit is rendered by <Header>, so it sits in the sticky masthead row and
-        holds the same position on every route. Every page uses Header. */}
+    {
+      /* Quick exit is rendered by <Header>, so it sits in the sticky masthead row and
+        holds the same position on every route. Every page uses Header. */
+    }
     <a class="skip-link" href="#main">मुख्य सामग्री पर जाएँ</a>
     <slot />
   </body>
