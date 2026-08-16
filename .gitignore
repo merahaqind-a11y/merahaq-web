@@ -1,0 +1,20 @@
+﻿# dependencies
+node_modules/
+# build output
+dist/
+.astro/
+# env
+.env
+.env.*
+!.env.example
+# os
+Thumbs.db
+.DS_Store
+# generated assets (rebuilt from resources/)
+public/audio/
+public/images/cards/
+public/pdf/
+# test output
+test-results/
+playwright-report/
+lighthouse/
