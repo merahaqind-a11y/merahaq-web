@@ -1,0 +1,12 @@
+﻿# Source audio masters — NOT committed.
+# ~50 MB of MP3 that never ships (they are ~20x the F-05 budget); public/audio/
+# holds the transcoded variants that do. Re-records are expected, so keeping the
+# binaries out of git avoids permanent bloat.
+#
+# Restore with:
+#   cp "D:/MeraHaq/drive-download-20260816T114815Z-1-001/"*.mp3 resources/audio/
+#   node scripts/inventory-resources.mjs
+#
+# The authoritative filename -> card mapping lives in resources/MANIFEST.md.
+*.mp3
+!.gitignore
