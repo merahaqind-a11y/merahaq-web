@@ -97,7 +97,8 @@ test.describe('home', () => {
     expect(found.textFails, 'pink-500 used as a text colour').toBe(0);
   });
 
-  test('the three fixed controls hold their positions', async ({ page }) => {
+  test('the three fixed controls hold their positions', async ({ page }, info) => {
+    test.skip(info.project.name === 'desktop', '☰ is replaced by the inline nav at lg+');
     await page.goto('/');
 
     // Everything measured in ONE frame, in-page. A fixed element's containing block
@@ -150,7 +151,8 @@ test.describe('home', () => {
     expect(m.railWidth - exit.right, 'exit should be flush to the rail edge').toBeLessThan(20);
   });
 
-  test('☰ and ✘ hold identical positions on every route', async ({ page }) => {
+  test('☰ and ✘ hold identical positions on every route', async ({ page }, info) => {
+    test.skip(info.project.name === 'desktop', '☰ is replaced by the inline nav at lg+');
     // PRD §5.5 r1: "They must never swap or move." The point is muscle memory — she
     // may be finding the exit in a hurry, on a screen she has never seen before.
     const ROUTES = ['/', '/shuru', '/sabhi-card', '/aapke-card', '/card/c1', '/card/c10', '/madad'];
@@ -273,7 +275,8 @@ test.describe('home', () => {
     await page.waitForURL(/google\.com/, { timeout: 3000 });
   });
 
-  test('quick exit works while the menu overlay is open', async ({ page }) => {
+  test('quick exit works while the menu overlay is open', async ({ page }, info) => {
+    test.skip(info.project.name === 'desktop', '☰ is replaced by the inline nav at lg+');
     await page.route('https://www.google.com/**', (r) =>
       r.fulfill({ status: 200, contentType: 'text/html', body: '<title>ok</title>' }),
     );

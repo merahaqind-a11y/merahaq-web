@@ -25,6 +25,25 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── script-aware type scale ──────────────────────────────────────────────────
+ * Devanagari and Latin do not occupy the same space at the same font-size. Latin
+ * runs roughly 25–30% wider per word and, because Mukta's base height sits at 90%
+ * of Montserrat's cap height, it also reads visually larger. Set at one size, the
+ * Hindi headline lands on two lines and the Hinglish one sprawls onto four.
+ *
+ * So the display steps step DOWN for the Latin tracks. Same design, same rhythm,
+ * same number of lines — the scale adapts to the script rather than the layout
+ * breaking when she switches. Applied via the data attribute the language switch
+ * already sets, so it costs nothing at runtime. */
+[data-mh-lang='hinglish'],
+[data-mh-lang='en'] {
+  --text-display: clamp(1.875rem, 1rem + 3.4vw, 3.375rem);
+  --text-section: clamp(1.5rem, 1.05rem + 1.9vw, 2.25rem);
+  --text-app-display: 1.625rem;
+  --text-app-title: 1.375rem;
+  --text-lead: 1.125rem;
+}
+
 /* Numerals-as-data. A numeral in mono means "this is a number you can act on" — a
  * helpline, a count, a verified-on date. Never used for prose. */
 .mono,

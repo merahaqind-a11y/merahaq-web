@@ -134,6 +134,12 @@ test.describe('language switch (F-110)', () => {
 });
 
 test.describe('menu (F-02 / §5.5)', () => {
+  // ☰ is phone-only by design: from lg up the same routes are simply visible in the
+  // header, because there is room and a menu you have to open is a menu you might not.
+  test.beforeEach(async ({}, info) => {
+    test.skip(info.project.name === 'desktop', '☰ is replaced by the inline nav at lg+');
+  });
+
   test('☰ opens a full-screen overlay', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByTestId('menu-overlay')).toBeHidden();
@@ -249,5 +255,85 @@ test.describe('menu (F-02 / §5.5)', () => {
     expect(
       await page.evaluate(() => JSON.parse(localStorage.getItem('mh_prefs')!).muted),
     ).toBe(true);
+  });
+});
+
+test.describe('desktop navigation', () => {
+  test.beforeEach(async ({}, info) => {
+    test.skip(info.project.name !== 'desktop', 'the inline nav only exists at lg+');
+  });
+
+  test('the rights routes are visible in the header, with no hamburger', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.getByTestId('menu-toggle')).toBeHidden();
+    await expect(page.getByTestId('desktop-nav')).toBeVisible();
+
+    for (const id of ['nav-diagnostic', 'nav-allCards', 'nav-madad', 'nav-about', 'nav-impact']) {
+      await expect(page.getByTestId(id), id).toBeVisible();
+    }
+  });
+
+  test('the inline nav switches language like everything else', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.getByTestId('nav-madad')).toHaveText('अभी मदद लीजिए');
+    await page.getByTestId('lang-en').click();
+    await expect(page.getByTestId('nav-madad')).toHaveText('Get help now');
+  });
+});
+
+test.describe('helpline ticker', () => {
+  test('carries all seven universal numbers as tel: links', async ({ page }) => {
+    await page.goto('/');
+    for (const n of ['181', '112', '15100', '14454', '1930', '14448', '14490']) {
+      const link = page.getByTestId(`tel-${n}`);
+      await expect(link, n).toHaveAttribute('href', `tel:${n}`);
+    }
+  });
+
+  test('every number still clears the 48px tap floor despite the slimmer bar', async ({ page }) => {
+    await page.goto('/');
+    const short = await page.evaluate(() =>
+      Array.from(document.querySelectorAll<HTMLElement>('[data-testid^="tel-"]'))
+        .filter((el) => el.getBoundingClientRect().height < 48)
+        .map((el) => `${el.dataset['testid']}=${Math.round(el.getBoundingClientRect().height)}`),
+    );
+    expect(short, short.join(', ')).toHaveLength(0);
+  });
+
+  test('the motion stops the moment she reaches for a number', async ({ page }) => {
+    // A moving tel: link is a usability failure, not a flourish — she taps in a hurry.
+    await page.goto('/');
+    const state = await page.evaluate(async () => {
+      const track = document.querySelector<HTMLElement>('.mh-ticker-track')!;
+      const before = getComputedStyle(track).animationPlayState;
+      document.querySelector<HTMLElement>('.mh-ticker')!.dispatchEvent(
+        new MouseEvent('mouseover', { bubbles: true }),
+      );
+      // hover is CSS-driven, so assert the rule exists rather than simulating hover
+      const rules = [...document.styleSheets]
+        .flatMap((s) => {
+          try {
+            return [...s.cssRules];
+          } catch {
+            return [];
+          }
+        })
+        .map((r) => r.cssText)
+        .join(' ');
+      return { before, pausesOnHover: rules.includes('animation-play-state: paused') };
+    });
+    expect(state.before).toBe('running');
+    expect(state.pausesOnHover, 'ticker does not pause on hover/focus').toBe(true);
+  });
+
+  test('the ticker does not move under reduced motion', async ({ browser }) => {
+    const ctx = await browser.newContext({ reducedMotion: 'reduce' });
+    const page = await ctx.newPage();
+    await page.goto('http://localhost:4321/');
+    const anim = await page.evaluate(
+      () => getComputedStyle(document.querySelector('.mh-ticker-track')!).animationName,
+    );
+    expect(anim).toBe('none');
+    await ctx.close();
   });
 });

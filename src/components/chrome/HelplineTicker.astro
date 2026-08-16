@@ -1,0 +1,104 @@
+---
+import { t } from '../../lib/i18n';
+import type { Lang } from '../../lib/types';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'hi' } = Astro.props;
+
+/** All seven universal numbers, not just two. */
+const NUMBERS = ['181', '112', '15100', '14454', '1930', '14448', '14490'] as const;
+---
+
+{
+  /* A continuously scrolling helpline bar.
+   *
+   * One real tension worth naming: a moving target is harder to tap, and this audience
+   * taps in a hurry on a cracked screen. So the motion stops the moment she reaches for
+   * it — on hover, on touch, and on keyboard focus — and it never moves at all under
+   * prefers-reduced-motion. /madad remains the stable, complete, never-moving copy of
+   * the same list. */
+}
+<div
+  class="border-b border-blue-600/10 bg-blue-050"
+  data-testid="helpline-strip"
+  role="group"
+  aria-label={t('madad.universal', lang)}
+>
+  {
+    /* No vertical padding on the rail — the 48px comes from the link itself, so the bar
+       is as slim as it can be while every number still clears the tap-target floor.
+       Shaving the target instead would be the wrong trade on the one control someone
+       may be reaching for in a panic. */
+  }
+  <div class="mh-ticker group relative overflow-hidden">
+    <div class="mh-ticker-track flex w-max items-center">
+      {
+        [0, 1].map((copy) => (
+          <ul class="flex shrink-0 items-center" aria-hidden={copy === 1 ? 'true' : undefined}>
+            {NUMBERS.map((n) => (
+              <li class="flex items-center">
+                <a
+                  href={`tel:${n}`}
+                  data-testid={copy === 0 ? `tel-${n}` : undefined}
+                  tabindex={copy === 1 ? -1 : undefined}
+                  class="flex min-h-12 items-center gap-2 whitespace-nowrap px-4 text-blue-600 no-underline"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="shrink-0">
+                    <path
+                      d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span class="mono text-[1rem] font-bold tracking-tight">{n}</span>
+                  <span class="text-[0.875rem] text-ink" data-i18n={`helpline.${n}`}>
+                    {t(`helpline.${n}`, lang)}
+                  </span>
+                  <span class="text-[0.875rem] text-muted" data-i18n="helpline.callHint">
+                    {t('helpline.callHint', lang)}
+                  </span>
+                </a>
+                <span class="text-blue-600/25" aria-hidden="true">·</span>
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .mh-ticker-track {
+    animation: mh-marquee 46s linear infinite;
+  }
+
+  /* Stop the moment she reaches for it — a moving tel: link is a usability failure,
+     not a flourish. */
+  .mh-ticker:hover .mh-ticker-track,
+  .mh-ticker:focus-within .mh-ticker-track,
+  .mh-ticker:active .mh-ticker-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes mh-marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mh-ticker {
+      overflow-x: auto;
+    }
+    .mh-ticker-track {
+      animation: none;
+    }
+  }
+</style>

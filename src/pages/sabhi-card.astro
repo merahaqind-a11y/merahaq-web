@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Header from '../components/chrome/Header.astro';
-import HelplineStrip from '../components/chrome/HelplineStrip.astro';
 import DraftBanner from '../components/chrome/DraftBanner.astro';
 import HaqCard from '../components/card/HaqCard.astro';
 import { CARD_LIST } from '../lib/cards';
@@ -17,7 +16,6 @@ const lang = 'hi' as const;
 }
 <Base title="सबसे ज़रूरी हक़ — मेरा हक़" lang={lang} rights>
   <Header lang={lang} />
-  <HelplineStrip lang={lang} />
   <DraftBanner lang={lang} />
 
   <main id="main" class="relative overflow-hidden px-5 pt-10 pb-16">

@@ -3,60 +3,39 @@ import { t, LANGS } from '../../lib/i18n';
 import type { Lang } from '../../lib/types';
 import MenuOverlay from './MenuOverlay.astro';
 import Logo from './Logo.astro';
+import QuickExit from './QuickExit.astro';
+import HelplineTicker from './HelplineTicker.astro';
 
 interface Props {
   lang?: Lang;
-  /** Home and institutional routes only. Never on app routes — it would crowd the
-   *  two fixed safety controls, and login is never required for anything. */
+  /** Home and institutional routes only. Never on app routes — login is never
+   *  required for anything and must not crowd the two safety controls. */
   showLogin?: boolean;
 }
 const { lang = 'hi', showLogin = false } = Astro.props;
 
 const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' };
+
+/** The rights routes, shown inline on desktop and inside ☰ on phones. */
+const NAV = [
+  { key: 'menu.diagnostic', href: '/shuru' },
+  { key: 'menu.allCards', href: '/sabhi-card' },
+  { key: 'menu.madad', href: '/madad' },
+  { key: 'menu.about', href: '/hamare-baare-mein' },
+  { key: 'menu.impact', href: '/asar' },
+] as const;
 ---
 
 {
-  /* ☰ top-left · language pill top-centre · ✘ top-right (rendered by Base).
-     These three never move and never swap, on any screen (PRD §5.5 r1). The header
-     sits below the quick exit in the stacking order so the exit stays tappable while
-     the menu overlay is open. */
+  /* ── language bar, above everything ──────────────────────────────────────────
+     Language is the first decision on the page, so it sits above the masthead in
+     its own band rather than competing for room inside it. Dark, so the header
+     below reads as the start of the site proper. */
 }
-<header
-  class="sticky top-0 z-40 border-b border-border bg-surface/85 backdrop-blur-md
-         supports-[not(backdrop-filter:blur(0))]:bg-surface"
-  data-testid="header"
->
-  <div class="mx-auto flex max-w-6xl items-center gap-2 px-3 py-2">
-    <Logo />
-
-    <button
-      type="button"
-      data-testid="menu-toggle"
-      aria-label={t('menu.open', lang)}
-      aria-expanded="false"
-      aria-controls="mh-menu"
-      class="grid tap shrink-0 place-items-center rounded-action text-ink"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d="M4 7h16M4 12h16M4 17h16"
-          stroke="currentColor"
-          stroke-width="2.2"
-          stroke-linecap="round"></path>
-      </svg>
-    </button>
-
-  {
-    /* Language is a first decision, not a settings-menu item — hence top-centre and
-       not inside ☰. Positioned so it never competes with the two safety controls. */
-  }
-    {
-      /* Full language names, not two-letter codes. «हिं / Hg / EN» asks a woman who
-         reads slowly to decode an abbreviation before she can even choose how to read
-         the page. The short form only appears where there is genuinely no room. */
-    }
+<div class="bg-ink" data-testid="topbar">
+  <div class="mx-auto flex max-w-6xl items-center justify-center px-3 py-0.5">
     <div
-      class="mx-auto flex items-center gap-1 rounded-pill bg-bg p-1"
+      class="flex items-center gap-1 rounded-pill bg-surface/10 p-0.5"
       data-testid="lang-pill"
       role="group"
       aria-label={t('lang.label', lang)}
@@ -68,8 +47,8 @@ const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' 
             data-lang={l}
             data-testid={`lang-${l}`}
             aria-pressed={l === lang ? 'true' : 'false'}
-            class="min-h-12 rounded-pill px-3 text-[0.9375rem] font-bold whitespace-nowrap text-muted
-                   aria-pressed:bg-surface aria-pressed:text-ink aria-pressed:shadow-header"
+            class="min-h-12 rounded-pill px-4 text-[0.9375rem] font-bold whitespace-nowrap
+                   text-surface/70 aria-pressed:bg-surface aria-pressed:text-ink"
           >
             <span class="hidden sm:inline" data-i18n={`lang.${l}`}>
               {t(`lang.${l}`, lang)}
@@ -79,37 +58,84 @@ const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' 
         ))
       }
     </div>
+  </div>
+</div>
 
-  {
-    /* Login is hidden below `sm` and surfaced in the ☰ menu instead. On a 360px header
-       there is room for exactly three things, and the owner override is explicit that
-       Login must never displace the two fixed safety controls. The spacer holds the
-       language pill optically centred against the quick exit, which is fixed-positioned
-       and therefore outside this flex row. */
-  }
-    <div class="flex w-12 shrink-0 justify-end sm:w-auto">
+{/* ── masthead ─────────────────────────────────────────────────────────────── */}
+{
+  /* z-60 puts the masthead ABOVE the menu overlay (z-50), not below it. That is not a
+     styling preference: the quick exit lives in this row, and §5.5 r5 requires it to
+     keep working while the menu is open. At z-40 the overlay covered it and the tap
+     landed on a menu link instead — the panic control was dead exactly when the menu
+     was in the way. The menu now fills the space beneath the masthead. */
+}
+<header
+  class="sticky top-0 z-60 border-b border-border bg-surface/90 backdrop-blur-md
+         supports-[not(backdrop-filter:blur(0))]:bg-surface"
+  data-testid="header"
+>
+  <div class="mx-auto flex max-w-6xl items-center gap-3 px-3 py-2">
+    <Logo />
+
+    {
+      /* Phones get ☰; from lg up the same routes are simply visible, because there is
+         room and a menu you have to open is a menu you might not. */
+    }
+    <button
+      type="button"
+      data-testid="menu-toggle"
+      aria-label={t('menu.open', lang)}
+      aria-expanded="false"
+      aria-controls="mh-menu"
+      class="grid tap shrink-0 place-items-center rounded-action text-ink lg:hidden"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+      </svg>
+    </button>
+
+    <nav class="hidden lg:block" aria-label={t('menu.open', lang)} data-testid="desktop-nav">
+      <ul class="flex items-center gap-1">
+        {
+          NAV.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                data-testid={`nav-${item.key.split('.')[1]}`}
+                class="flex tap items-center rounded-action px-3 font-bold whitespace-nowrap
+                       text-ink no-underline hover:bg-bg"
+                data-i18n={item.key}
+              >
+                {t(item.key, lang)}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="ms-auto flex shrink-0 items-center gap-1">
       {
         showLogin && (
           <a
             href="/login"
             data-testid="login-header"
-            class="me-14 hidden tap shrink-0 items-center gap-2 rounded-action px-3 text-[0.9375rem]
-                   font-bold whitespace-nowrap text-ink no-underline sm:inline-flex"
+            class="hidden tap items-center gap-2 rounded-action px-3 text-[0.9375rem] font-bold
+                   whitespace-nowrap text-ink no-underline sm:inline-flex"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M12 12a4 4 0 100-8 4 4 0 000 8zM4.5 20a7.5 7.5 0 0115 0"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"></path>
+              <path d="M12 12a4 4 0 100-8 4 4 0 000 8zM4.5 20a7.5 7.5 0 0115 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
             </svg>
             <span data-i18n="login.header">{t('login.header', lang)}</span>
           </a>
         )
       }
+      <QuickExit />
     </div>
   </div>
 </header>
+
+<HelplineTicker lang={lang} />
 
 <MenuOverlay lang={lang} />
 
@@ -117,22 +143,33 @@ const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' 
   import { initLang } from '../../lib/lang';
   import { readPrefs, writePrefs, clearPrefs, hasDeck } from '../../lib/prefs';
 
-  // ── language pill ───────────────────────────────────────────────────────────
   initLang();
 
-  // ── menu overlay ────────────────────────────────────────────────────────────
   const menu = document.getElementById('mh-menu');
   const toggle = document.querySelector<HTMLButtonElement>('[data-testid="menu-toggle"]');
 
   /**
-   * Deactivate the page behind a modal — but NEVER the quick exit. It lives in its own
-   * rail outside <main>, precisely so it stays reachable while anything is open. §5.5 r5
-   * is explicit that ✘ keeps working while the menu is up.
+   * Deactivate the page behind a modal — but NEVER the quick exit. §5.5 r5 is explicit
+   * that ✘ keeps working while the menu is up.
+   *
+   * `inert` is INHERITED, so inerting <header> would kill the exit that now lives
+   * inside it, and setting inert=false on a descendant does not bring it back. So the
+   * header's siblings are inerted individually and the exit's shell is left alone.
+   * A test drives this: open the menu, tap ✘, expect to leave the site.
    */
+  const INERT_TARGETS = [
+    'main',
+    'footer',
+    '[data-testid="topbar"]',
+    '[data-testid="logo"]',
+    '[data-testid="menu-toggle"]',
+    '[data-testid="desktop-nav"]',
+    '[data-testid="login-header"]',
+  ];
+
   function setBackgroundInert(on: boolean): void {
-    for (const sel of ['header', 'main', 'footer']) {
-      const el = document.querySelector<HTMLElement>(sel);
-      if (el) el.inert = on;
+    for (const sel of INERT_TARGETS) {
+      for (const el of Array.from(document.querySelectorAll<HTMLElement>(sel))) el.inert = on;
     }
     document.body.style.overflow = on ? 'hidden' : '';
   }
@@ -154,15 +191,12 @@ const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' 
     if (e.key === 'Escape' && !e.shiftKey && menu && !menu.hidden) openMenu(false);
   });
 
-  // Deck-only rows (आपके कार्ड, सवाल दोबारा करें) appear only once a deck exists, so
-  // the menu a first-time visitor sees is identical to everyone else's.
   if (hasDeck()) {
     for (const li of Array.from(document.querySelectorAll<HTMLElement>('[data-deck-only]'))) {
       li.hidden = false;
     }
   }
 
-  // ── mute (F-06) ─────────────────────────────────────────────────────────────
   const muteBtn = document.querySelector<HTMLButtonElement>('[data-menu-mute]');
   function paintMute(): void {
     muteBtn?.setAttribute('aria-pressed', String(readPrefs().muted));
@@ -174,15 +208,12 @@ const SHORT: Record<Lang, string> = { hi: 'हिं', hinglish: 'Hg', en: 'EN' 
     document.dispatchEvent(new CustomEvent('mh:mutechange'));
   });
 
-  // ── reset (§5.5 r4 — confirms first) ────────────────────────────────────────
   const confirmEl = document.querySelector<HTMLElement>('[data-reset-confirm]');
   function showConfirm(open: boolean): void {
     if (!confirmEl) return;
     confirmEl.hidden = !open;
     confirmEl.classList.toggle('hidden', !open);
     confirmEl.classList.toggle('grid', open);
-    // The confirm opens on top of the menu, so the menu is deactivated too — but the
-    // quick exit, in its own rail, is not.
     if (menu) menu.inert = open;
     setBackgroundInert(true);
     if (open) confirmEl.querySelector<HTMLElement>('[data-reset-no]')?.focus();

@@ -60,7 +60,7 @@ const isEmph = (w: string): boolean =>
         }
       </h1>
 
-      <p class="mt-4 max-w-xl text-lead text-muted" data-i18n="hero.sub">{t('hero.sub', lang)}</p>
+      <p class="mt-5 max-w-xl text-lead text-muted" data-i18n="hero.sub">{t('hero.sub', lang)}</p>
 
       {
         /* सुनिए as a circular play control with its label beside it. For this user
@@ -71,7 +71,7 @@ const isEmph = (w: string): boolean =>
         type="button"
         data-testid="sunie"
         data-sunie="hero"
-        class="mt-5 inline-flex tap items-center gap-3 rounded-pill border border-blue-600/25
+        class="mt-6 inline-flex tap items-center gap-3 rounded-pill border border-blue-600/25
                bg-surface py-1 pe-5 ps-1 font-bold text-blue-600 disabled:border-border disabled:text-muted"
       >
         <span
@@ -120,19 +120,11 @@ const isEmph = (w: string): boolean =>
       </div>
 
       {
-        /* Returning visitor with a stored deck (F-14). Hidden in the static HTML and
-           revealed client-side, so the page the server sends is identical for everyone
-           and nothing about her is baked into it. */
+        /* F-14's returning-visitor link is deliberately NOT here. It said «आपके कार्ड
+           देखें» right beside «सीधे सारे कार्ड देखें» — two links, four words apart,
+           that read as the same offer. A returning visitor reaches her deck from the
+           ☰ menu and from the desktop nav, where it appears once a deck exists. */
       }
-      <a
-        href="/aapke-card"
-        data-testid="hero-mycards"
-        data-i18n="cta.myCards"
-        hidden
-        class="mt-3 tap w-fit items-center font-bold text-pink-700 underline underline-offset-4"
-      >
-        {t('cta.myCards', lang)}
-      </a>
     </div>
 
     <HeroDeck lang={lang} />

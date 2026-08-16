@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/chrome/Header.astro';
-import HelplineStrip from '../../components/chrome/HelplineStrip.astro';
 import CardTemplate from '../../components/card/CardTemplate.astro';
 import { CARD_LIST, type CardMeta } from '../../lib/cards';
 
@@ -23,7 +22,6 @@ const lang = 'hi' as const;
 }
 <Base title={`${card.title.hi} — मेरा हक़`} lang={lang} rights description={card.summary.hi}>
   <Header lang={lang} />
-  <HelplineStrip lang={lang} />
   <main id="main">
     <CardTemplate card={card} lang={lang} />
   </main>

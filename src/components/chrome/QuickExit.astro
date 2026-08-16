@@ -18,17 +18,17 @@
 ---
 
 {
-  /* The rail exists so ✘ lands in exactly the same content container as ☰, at every
-     width. The obvious alternative — a fixed element positioned with `100vw` maths —
-     is subtly wrong: `100vw` INCLUDES the scrollbar while a fixed element is laid out
-     EXCLUDING it, so on any browser with classic scrollbars the two controls drift
-     apart by half a scrollbar. This uses layout width, so they cannot.
+  /* Lives inside the sticky masthead rather than in a fixed rail of its own. The header
+     is sticky, so ✘ is on screen at every scroll position anyway — and being in the
+     same row as everything else means it can never drift out of alignment or collide
+     with the language bar above.
 
-     The rail is pointer-events:none so it never intercepts a tap meant for the page. */
+     It is deliberately the last child of the header row, so on every route it is the
+     rightmost control. */
 }
-<div class="pointer-events-none fixed inset-x-0 top-0 z-90">
-  <div class="mx-auto flex max-w-6xl justify-end px-3 pt-3">
-    <div class="group pointer-events-auto relative">
+<div class="contents">
+  <div>
+    <div class="group relative">
       <button
         type="button"
         id="mh-quick-exit"

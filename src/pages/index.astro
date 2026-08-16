@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Header from '../components/chrome/Header.astro';
-import HelplineStrip from '../components/chrome/HelplineStrip.astro';
 import Hero from '../components/home/Hero.astro';
 import HowTo from '../components/home/HowTo.astro';
 import Value from '../components/home/Value.astro';
@@ -21,7 +20,6 @@ const lang = 'hi' as const;
   description="पाँच छोटे सवाल, एक मिनट। जानिए कौन से हक़ पहले से आपके हैं।"
 >
   <Header lang={lang} showLogin />
-  <HelplineStrip lang={lang} />
 
   {/* Order is fixed and asserted by test: hero → howto → value → impact →
       cards → features → faq → footer. */}
