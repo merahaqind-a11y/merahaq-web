@@ -13,6 +13,10 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwind()],
+    server: {
+      host: '0.0.0.0',
+      allowedHosts: true,
+    },
   },
 
   build: {

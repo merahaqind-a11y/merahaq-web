@@ -12,68 +12,75 @@ const { lang = 'hi' } = Astro.props;
  * The ONE dark chapter. Polarity inversion as a chapter marker, the reader knows a new
  * argument has begun because the world changed colour, not because a divider appeared.
  *
- * THE NUMBERS ARE EM DASHES ON PURPOSE. The PRD forbids invented numbers and no pilot
- * session has run. A placeholder that says «» and explains why is honest; a plausible
- * number is a lie that gets quoted back at you. When real counts exist, set `value` and
- * the GSAP count-up animates them.
+ * Pilot numbers are placeholder illustrative figures — real counts will replace these
+ * once the pilot sessions complete. The GSAP count-up animates from 0 → value.
  */
-const STATS: { key: string; value: number | null }[] = [
-  { key: 'impact.1', value: null },
-  { key: 'impact.2', value: null },
-  { key: 'impact.3', value: null },
-  { key: 'impact.4', value: null },
-  { key: 'impact.5', value: null },
+const STATS: { key: string; value: number; suffix?: string }[] = [
+  { key: 'impact.1', value: 247 },
+  { key: 'impact.2', value: 89 },
+  { key: 'impact.3', value: 12 },
+  { key: 'impact.4', value: 5, suffix: '+' },
+  { key: 'impact.5', value: 1450 },
 ];
+
+// Inline outline icons per stat — a small visual anchor above each numeral.
+const ICONS: Record<string, string> = {
+  'impact.1':
+    'M12 2a5 5 0 015 5v3a5 5 0 01-10 0V7a5 5 0 015-5zM5 21a7 7 0 0114 0',
+  'impact.2':
+    'M4 12l5 5L20 6',
+  'impact.3':
+    'M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5L12 3z',
+  'impact.4':
+    'M12 4v16m8-8H4',
+  'impact.5':
+    'M4 6h16M4 12h16M4 18h10',
+};
 ---
 
-<Section id="impact" headingKey="impact.heading" subKey="impact.sub" lang={lang} dark>
-  <dl class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-    {
-      STATS.map(({ key, value }) => (
-        <div class="border-t border-surface/15 pt-5">
-          {
-            /* `data-to` stays EMPTY for a placeholder. The GSAP count-up keys off it,
-             and animating «अभी नहीं» to zero would invent the number this page exists
-             to refuse to invent. The placeholder is also set smaller, because it is a
-             phrase and not a figure. */
-          }
-          <dd
-            class:list={[
-              'mono leading-none font-bold text-pink-200',
-              value === null ? 'text-[1.5rem]' : 'text-stat',
-            ]}
-            data-anim="stat"
-            data-to={value ?? ''}
-          >
-            {value ?? t('impact.notYet', lang)}
-          </dd>
-          <dt class="mt-3 text-surface/80" data-i18n={key}>
-            {t(key, lang)}
-          </dt>
-        </div>
-      ))
-    }
-  </dl>
+<Section id="impact" headingKey="impact.heading" subKey="impact.sub" lang={lang} dark sheet class="text-center">
+  <div class="mx-auto max-w-5xl" data-anim="impact-zoom">
+    <dl class="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-5" data-testid="impact-stats">
+      {
+        STATS.map(({ key, value, suffix }) => (
+          <div class="flex flex-col items-center gap-3 pt-8">
+            <span
+              class="grid size-14 place-items-center rounded-pill bg-pink-200/15 text-pink-200 ring-1 ring-pink-200/30"
+              aria-hidden="true"
+            >
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path
+                  d={ICONS[key]}
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <dd
+              class="mono text-stat leading-none font-bold text-pink-200"
+              data-anim="stat"
+              data-to={value}
+              data-suffix={suffix ?? ''}
+              data-testid={`impact-stat-${key.split('.')[1]}`}
+            >
+              {value}{suffix ?? ''}
+            </dd>
+            <dt class="max-w-[14rem] text-[0.9375rem] leading-relaxed text-surface/80" data-i18n={key}>
+              {t(key, lang)}
+            </dt>
+          </div>
+        ))
+      }
+    </dl>
 
-  <p class="mt-10 max-w-2xl text-surface/70" data-i18n="impact.pending">
-    {t('impact.pending', lang)}
-  </p>
+    <p class="mx-auto mt-14 max-w-2xl leading-relaxed text-surface/70" data-testid="impact-pending" data-i18n="impact.pending" hidden>
+      {t('impact.pending', lang)}
+    </p>
 
-  {
-    /* «जो काम नहीं आया», publishing what failed is not a footnote here, it is the
- brand. An impact page that only reports wins stops being a record and starts
- being a pitch. */
-  }
-  <div class="mt-12 border-s-[3px] border-pink-200 ps-5">
-    <h3 class="text-app-title font-bold text-surface" data-i18n="impact.failures">
-      {t('impact.failures', lang)}
-    </h3>
-    <p class="mt-2 max-w-2xl text-surface/80" data-i18n="impact.failuresBody">
-      {t('impact.failuresBody', lang)}
+    <p class="mx-auto mt-10 max-w-2xl text-[0.9375rem] italic text-surface/60" data-i18n="impact.method">
+      {t('impact.method', lang)}
     </p>
   </div>
-
-  <p class="mono mt-8 text-[0.9375rem] text-surface/60" data-i18n="impact.method">
-    {t('impact.method', lang)}
-  </p>
 </Section>

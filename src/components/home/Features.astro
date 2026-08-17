@@ -24,30 +24,48 @@ const FEATURES = [
 ---
 
 <Section id="features" headingKey="features.heading" lang={lang}>
-  <ul class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+  <ul class="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" data-testid="features-grid">
     {
-      FEATURES.map(({ key, d }) => (
-        <li data-anim="feature">
-          <span
-            class="grid size-11 place-items-center rounded-action bg-pink-050 text-pink-700"
-            aria-hidden="true"
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path
-                d={d}
-                stroke="currentColor"
-                stroke-width="1.7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
-          <h3 class="mt-4 text-app-title font-bold text-ink" data-i18n={`features.${key}.title`}>
-            {t(`features.${key}.title`, lang)}
-          </h3>
-          <p class="mt-2 text-muted" data-i18n={`features.${key}.body`}>
-            {t(`features.${key}.body`, lang)}
-          </p>
+      FEATURES.map(({ key, d }, i) => (
+        <li
+          class="group relative"
+          data-anim="feature"
+          data-testid={`feature-${key}`}
+        >
+          <div class="relative border-t-2 border-border pt-6 transition-colors duration-300 group-hover:border-pink-600">
+            <span
+              class:list={[
+                'relative grid size-16 place-items-center rounded-card border border-pink-200 bg-pink-050 text-pink-700 transition-all duration-300 group-hover:-translate-y-1 group-hover:border-pink-600/50 group-hover:shadow-[0_10px_24px_-12px_rgba(214,51,108,0.35)]',
+              ]}
+              aria-hidden="true"
+            >
+              {/* Tilted-frame motif, applied once (i === 0), only when this tile
+                is the illustrative example — enough to establish the motif
+                without turning the grid into a pattern. */}
+              {i === 0 && (
+                <span
+                  class="absolute inset-0 -z-10 rounded-card border border-pink-200/70 bg-pink-200/25"
+                  style="transform: rotate(-4deg)"
+                  aria-hidden="true"
+                />
+              )}
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                <path
+                  d={d}
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <h3 class="mt-5 text-app-title font-bold tracking-tight text-ink" data-i18n={`features.${key}.title`}>
+              {t(`features.${key}.title`, lang)}
+            </h3>
+            <p class="mt-2 leading-relaxed text-muted" data-i18n={`features.${key}.body`}>
+              {t(`features.${key}.body`, lang)}
+            </p>
+          </div>
         </li>
       ))
     }

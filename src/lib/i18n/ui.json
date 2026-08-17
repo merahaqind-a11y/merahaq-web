@@ -1,13 +1,13 @@
 {
   "hero.question": {
+    "hi": "आपका हक़, अब आपके पास",
+    "hinglish": "Aapka haq, ab aapke paas",
+    "en": "Your rights, now in your hands"
+  },
+  "hero.sub": {
     "hi": "आपके लिए कौन से हक़ बहुत ज़रूरी हैं?",
     "hinglish": "Aapke liye kaun se haq bahut zaroori hain?",
     "en": "Which rights already belong to you?"
-  },
-  "hero.sub": {
-    "hi": "नीचे दिए बटन पर दबाएँ और अभी जानें",
-    "hinglish": "Neeche diye button par dabayein aur abhi jaanein",
-    "en": "Press the button below and find out now"
   },
   "cta.primary": {
     "hi": "मेरा हक़ बताओ",

@@ -1,80 +1,59 @@
 ---
-import { CARDS } from '../../lib/cards';
-import CardIcon from '../card/CardIcon.astro';
-import Logo from '../chrome/Logo.astro';
-import { t } from '../../lib/i18n';
 import type { Lang } from '../../lib/types';
 
 interface Props {
   lang?: Lang;
 }
-const { lang = 'hi' } = Astro.props;
-
-/**
- * The hero artwork: the brand mark, large, with one Haq Card floating over it.
- *
- * There is deliberately no photograph. Stock imagery of Indian women is both the
- * generic-NGO cliché and a genuine risk on a product where distress imagery is
- * forbidden, and any real face invites the reader to decide whether this is "for
- * someone like her". The brand mark carries the warmth without making that claim,
- * and it is already the product's own drawing rather than a purchased one.
- *
- * The floating card is the same component that appears everywhere else. It shows what
- * the product actually hands her, in the first screen, before she taps anything.
- */
-const TOP = CARDS.C1;
+const { lang: _lang = 'hi' } = Astro.props;
 ---
 
-<div class="relative mx-auto w-full max-w-[21rem] pb-12 lg:max-w-[29rem]" data-testid="hero-art">
-  {
-    /* The mark, set back and offset right so the card can overlap its lower-left without
- covering the face. Sized so the card still clears the fold at 360×740. */
-  }
-  <div class="relative ms-auto w-[64%] opacity-95 lg:w-[72%]" data-anim="hero-mark">
-    <Logo variant="mark" />
-  </div>
+{
+  /* Full-bleed image on the right. On lg+ it fills 100% of the hero height and touches
+   the header/helpline strip at the top with zero gap. Below lg it renders as a normal
+   contained rounded photo below the actions.
 
-  {/* one card, floating over it */}
+   The reveal — GSAP animates clip-path from `inset(0 100% 0 0)` → `inset(0 0 0 0)`
+   so the image "opens" from LEFT to RIGHT: the leftmost part of the image appears
+   first, growing rightward. During the animation the un-revealed right area shows the
+   section's pink-050 background (which sits behind), so no grey is ever visible.
+
+   Two blend layers on the left, stacked, make the image feel like it's PART of the
+   section rather than pasted on top of it:
+     · a wide gradient from pink-050 → transparent over the leftmost ~35% of the image
+     · a narrow feathered edge (pink-050 → transparent) right at the boundary */
+}
+<div class="relative w-full lg:h-full" data-testid="hero-art">
   <div
-    class="absolute inset-x-0 bottom-10 mx-auto w-[94%] sm:w-[88%] lg:bottom-8"
-    data-anim="deck-face"
+    class="relative h-64 overflow-hidden sm:h-80 lg:h-full lg:min-h-[42rem]"
+    data-anim="hero-photo"
+    style="clip-path: inset(0 0 0 0)"
   >
-    <div class="relative">
-      {/* two behind, wider than the face so the rotation actually shows */}
-      <div
-        class="absolute inset-x-0 top-2 h-full rounded-card border border-pink-200/70 bg-pink-200/25"
-        style="transform: rotate(-4.5deg)"
-        data-anim="deck-back"
-        aria-hidden="true"
-      >
-      </div>
-      <div
-        class="absolute inset-x-0 top-2 h-full rounded-card border border-pink-200/70 bg-pink-200/40"
-        style="transform: rotate(4.5deg)"
-        data-anim="deck-back"
-        aria-hidden="true"
-      >
-      </div>
+    <img
+      src="/images/hero-women.webp"
+      width="1600"
+      height="1200"
+      alt=""
+      aria-hidden="true"
+      class="block h-full w-full object-cover object-center"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
 
-      <a
-        href={`/card/${TOP.slug}`}
-        class="relative flex flex-col gap-2 rounded-card border border-pink-200 bg-surface/92 p-5
- text-ink no-underline shadow-[0_10px_30px_rgb(31_42_68/0.10)] backdrop-blur-sm"
-      >
-        <CardIcon name={TOP.icon} />
-        <h2 class="text-app-title leading-snug font-bold text-ink" data-card-title={TOP.id}>
-          {TOP.title[lang]}
-        </h2>
-        <p class="text-[0.9375rem] leading-relaxed text-muted" data-card-summary={TOP.id}>
-          {TOP.summary[lang]}
-        </p>
-      </a>
+    {/* Wide primary blend — pink-050 fades to transparent across the leftmost portion
+       of the image. This is what does the heavy lifting on the "blend" feel. */}
+    <div
+      class="pointer-events-none absolute inset-y-0 left-0 hidden w-[45%] bg-gradient-to-r from-pink-050 via-pink-050/60 to-transparent lg:block"
+      aria-hidden="true"
+    >
+    </div>
+
+    {/* Feathered edge right at the boundary — a narrow, dense pink-050 strip that
+       kills any hard vertical line where the image starts. */}
+    <div
+      class="pointer-events-none absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r from-pink-050 to-pink-050/0 lg:block"
+      aria-hidden="true"
+    >
     </div>
   </div>
-
-  {/* «1 / 10 कार्ड», tells her the deck has a size before she commits to anything */}
-  <p class="mono absolute inset-x-0 bottom-0 text-center text-[0.875rem] text-muted">
-    <span class="font-bold text-ink">1</span> / 10
-    <span data-i18n="gallery.counter"> {t('gallery.counter', lang)}</span>
-  </p>
 </div>

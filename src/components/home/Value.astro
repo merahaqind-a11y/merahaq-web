@@ -7,65 +7,89 @@ interface Props {
 }
 const { lang = 'hi' } = Astro.props;
 
-const ROWS = [1, 2, 3, 4] as const;
+/**
+ * Four value rows. Each carries an icon that matches WHAT the claim is about, not
+ * a generic check. The blue check is preserved as a small dot indicator inside the
+ * icon tile so the visual language is still "trust / verified" but the icon is
+ * legible on its own.
+ *
+ * 1. वकील ने जाँचा है         → gavel + document (lawyer-reviewed)
+ * 2. कोई लॉग-इन नहीं         → open lock (no login required)
+ * 3. डेटा ख़त्म हो तब भी      → phone with cross (works offline)
+ * 4. सारे नंबर मुफ़्त         → phone with heart (free helpline calls)
+ */
+const ROWS = [
+  {
+    n: 1,
+    icon: 'M6 3h9l3 3v6M14 3v4h4M8 21l-2-2M6 19v-8m10 8v-4M6 15h4m6-2h4M4 21h16M11 11l6 6',
+    stroke: 1.6,
+  },
+  {
+    n: 2,
+    icon: 'M8 11V7a4 4 0 018 0M5 11h14a1 1 0 011 1v8a1 1 0 01-1 1H5a1 1 0 01-1-1v-8a1 1 0 011-1zM12 15v2',
+    stroke: 1.6,
+  },
+  {
+    n: 3,
+    icon: 'M7 3h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2zM11 18h2M3 3l18 18',
+    stroke: 1.6,
+  },
+  {
+    n: 4,
+    icon: 'M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1zM15 3.5a3.5 3.5 0 013.5 3.5c0 2-3.5 4-3.5 4s-3.5-2-3.5-4A3.5 3.5 0 0115 3.5z',
+    stroke: 1.6,
+  },
+] as const;
 ---
 
-{
-  /* The Amaranth pattern: the claim pins on the left while the evidence scrolls past on
- the right. Pin 1 of 2 on this page, desktop only, and GSAP owns it. Without JS or
- under reduced motion this is simply a two-column layout that still reads correctly. */
-}
 <section
   data-section="value"
-  class="relative bg-surface px-5 py-16 sm:py-24"
+  class="relative bg-pink-050 px-5 py-24 sm:px-8 sm:py-28 lg:px-10 lg:py-32"
   aria-labelledby="value-heading"
 >
   <div
-    class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16"
+    class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20"
   >
     <div class="lg:self-start" data-anim="value-claim">
       <h2
         id="value-heading"
-        class="shirorekha text-section leading-tight font-medium text-ink"
-        style="--shirorekha-width:3.5rem"
+        class="text-section leading-tight font-medium tracking-tight text-ink"
         data-i18n="value.claim"
       >
         {t('value.claim', lang)}
       </h2>
-      <p class="mt-4 max-w-sm text-lead text-muted" data-i18n="value.sub">{t('value.sub', lang)}</p>
+      <p class="mt-4 max-w-sm text-lead leading-relaxed text-muted" data-i18n="value.sub">{t('value.sub', lang)}</p>
     </div>
 
-    <ul class="grid">
+    <ul class="grid gap-6">
       {
-        ROWS.map((n, i) => (
+        ROWS.map(({ n, icon, stroke }) => (
           <li
-            class:list={['grid gap-2 py-7', i > 0 && 'border-t border-border']}
+            class="group flex items-start gap-5 rounded-card border border-pink-200/60 bg-surface p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-pink-600/40 hover:shadow-[0_14px_30px_-14px_rgba(214,51,108,0.25)]"
             data-anim="value-row"
           >
-            <span class="flex items-center gap-3">
-              {/* blue = trust / verified. The chip is the Verdant Civic move: a tint,
- not a border, so it survives a cheap screen and a greyscale print. */}
-              <span
-                class="grid size-9 shrink-0 place-items-center rounded-pill bg-blue-050 text-blue-600"
-                aria-hidden="true"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M4.5 12.5l5 5 10-11"
-                    stroke="currentColor"
-                    stroke-width="2.6"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </span>
+            <span
+              class="grid size-14 shrink-0 place-items-center rounded-card bg-blue-050 text-blue-600 ring-1 ring-blue-600/10 transition-transform duration-300 group-hover:scale-105"
+              aria-hidden="true"
+            >
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path
+                  d={icon}
+                  stroke="currentColor"
+                  stroke-width={stroke}
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <div class="flex-1">
               <h3 class="text-app-title font-bold text-ink" data-i18n={`value.${n}.title`}>
                 {t(`value.${n}.title`, lang)}
               </h3>
-            </span>
-            <p class="ms-12 text-muted" data-i18n={`value.${n}.body`}>
-              {t(`value.${n}.body`, lang)}
-            </p>
+              <p class="mt-2 leading-relaxed text-muted" data-i18n={`value.${n}.body`}>
+                {t(`value.${n}.body`, lang)}
+              </p>
+            </div>
           </li>
         ))
       }

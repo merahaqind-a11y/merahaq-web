@@ -70,7 +70,7 @@
    * square box with a heavy left rule survives a photocopy; a rounded tint does
    * not. So the two boxes that must survive print are the two with zero radius. */
   --radius-sheet: 3.5rem; /* 56px — section sheets meeting the dark chapter */
-  --radius-card: 1.25rem; /* 20px — Haq Cards, surfaces */
+  --radius-card: 1rem; /* 16px — repeated cards and framed surfaces */
   --radius-action: 0.75rem; /* 12px — buttons, tappable things */
   --radius-pill: 999px; /* language pill, chips */
 
@@ -78,7 +78,7 @@
    * Depth comes from tint, which survives a cheap LCD at 40% brightness AND a
    * greyscale print. Shadows survive neither. */
   --shadow-header: 0 1px 0 0 rgb(31 42 68 / 0.06);
-  --shadow-fab: 0 6px 20px rgb(31 42 68 / 0.22);
+  --shadow-fab: 0 14px 34px rgb(31 42 68 / 0.16);
 }
 
 /* ── tap targets ──────────────────────────────────────────────────────────────

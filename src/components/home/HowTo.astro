@@ -10,37 +10,71 @@ const { lang = 'hi' } = Astro.props;
 
 // Numbered because this genuinely IS a sequence, she does these in this order, once.
 // Numbering anything that is not a sequence is decoration pretending to be structure.
-const STEPS = [1, 2, 3] as const;
+// Each step also carries a small icon that reinforces what actually happens at that
+// step: a question-bubble for asking, a card-stack for the answer, a walking-figure
+// for the first small step she takes today.
+const STEPS = [
+  {
+    n: 1,
+    // Speech bubble with three dots — she is being asked something small.
+    icon: 'M4 5a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2h-6l-5 4v-4H6a2 2 0 01-2-2V5zM8 9h.01M12 9h.01M16 9h.01',
+  },
+  {
+    n: 2,
+    // Stack of cards — the deck she gets back.
+    icon: 'M6 5h11a2 2 0 012 2v11M4 8h11a2 2 0 012 2v11H6a2 2 0 01-2-2V8z',
+  },
+  {
+    n: 3,
+    // Walking figure — one small step today (एक कदम आज).
+    icon: 'M13 3a2 2 0 11-4 0 2 2 0 014 0zM8 21l1.5-6 3-3-2-5-3 3-2 4M15 21l-1-6-2-4M15 9l4 2',
+  },
+] as const;
 ---
 
 <Section id="howto" headingKey="howto.heading" lang={lang}>
-  <ol class="relative grid gap-8 sm:grid-cols-3 sm:gap-6">
+  <ol class="relative grid gap-10 sm:grid-cols-3 sm:gap-8">
     {
       /* The progress line between the steps. Drawn only where there is a next step,
  and only at widths where the steps sit side by side. GSAP scrubs its scaleX. */
     }
     <span
-      class="absolute inset-x-[16%] top-6 hidden h-[2px] origin-left bg-pink-200 sm:block"
+      class="absolute inset-x-[16%] top-8 hidden h-[2px] origin-left bg-pink-200 sm:block"
       data-anim="howto-line"
       aria-hidden="true"></span>
 
     {
-      STEPS.map((n) => (
+      STEPS.map(({ n, icon }) => (
         <li class="relative" data-anim="howto-step">
-          {/* NOT pink-600. In this system pink-600 means "this is the action", a step
- number is structure, not something to press. Mono because it is a numeral
- carrying data, tinted because tint is how this system shows depth. */}
-          <span
-            class="mono relative z-10 grid size-12 place-items-center rounded-pill bg-pink-050
- text-[1.25rem] font-bold text-pink-700 ring-2 ring-pink-200"
-            aria-hidden="true"
-          >
-            {n}
-          </span>
-          <h3 class="mt-4 text-app-title font-bold text-ink" data-i18n={`howto.${n}.title`}>
+          {/* Number chip + icon chip, side-by-side. The number is structure, the icon
+              is what actually happens. Together they read as one step marker, and the
+              icon is what gives each step a face. */}
+          <div class="relative z-10 flex items-center gap-3">
+            <span
+              class="mono grid size-16 place-items-center rounded-pill bg-pink-050 text-[1.5rem] font-bold text-pink-700 ring-2 ring-pink-200"
+              aria-hidden="true"
+            >
+              {n}
+            </span>
+            <span
+              class="grid size-11 place-items-center rounded-pill bg-surface text-pink-700 ring-1 ring-pink-200"
+              aria-hidden="true"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path
+                  d={icon}
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+          <h3 class="mt-5 text-app-title font-bold text-ink" data-i18n={`howto.${n}.title`}>
             {t(`howto.${n}.title`, lang)}
           </h3>
-          <p class="mt-2 text-muted" data-i18n={`howto.${n}.body`}>
+          <p class="mt-2 leading-relaxed text-muted" data-i18n={`howto.${n}.body`}>
             {t(`howto.${n}.body`, lang)}
           </p>
         </li>

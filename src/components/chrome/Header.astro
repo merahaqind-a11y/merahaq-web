@@ -36,14 +36,15 @@ const NAV = [
   /* Language bar, above everything. Language is the first decision on the page, so it
    sits above the masthead rather than competing for room inside it.
 
-   Slim by design: 36px, small type, tight padding. It is a switch she uses once, not
-   a control she needs a thumb-sized target for every session, and every pixel here is
-   a pixel the question below does not get. */
+   Slightly taller than a raw pill (py-2) so the whole strip has real breathing room and
+   the pill has a bed of dark ink around it — the strip reads as chrome, not as a control
+   that got squeezed into a slot. Every pixel here is still a pixel the question below
+   does not get, so the pill itself stays compact. */
 }
 <div class="sticky top-0 z-70 bg-ink" data-testid="topbar">
-  <div class="mx-auto flex max-w-6xl items-center justify-center px-3">
+  <div class="mx-auto flex max-w-6xl items-center justify-center px-4 py-2 sm:px-6">
     <div
-      class="flex items-center gap-0.5 rounded-pill bg-surface/10 p-0.5"
+      class="flex items-center gap-1 rounded-pill bg-surface/[0.08] p-1 ring-1 ring-surface/10"
       data-testid="lang-pill"
       role="group"
       aria-label={t('lang.label', lang)}
@@ -55,7 +56,7 @@ const NAV = [
             data-lang={l}
             data-testid={`lang-${l}`}
             aria-pressed={l === lang ? 'true' : 'false'}
-            class="min-h-11 rounded-pill px-3.5 text-[0.8125rem] font-bold whitespace-nowrap text-surface/70 aria-pressed:bg-surface aria-pressed:text-ink"
+            class="grid min-h-9 min-w-11 place-items-center rounded-pill px-4 text-[0.8125rem] font-bold whitespace-nowrap text-surface/75 transition-colors duration-200 hover:text-surface aria-pressed:bg-surface aria-pressed:text-ink aria-pressed:shadow-[0_1px_0_0_rgba(31,42,68,0.08)]"
           >
             <span class="hidden sm:inline" data-i18n={`lang.${l}`}>
               {t(`lang.${l}`, lang)}
@@ -77,15 +78,15 @@ const NAV = [
  was in the way. The menu now fills the space beneath the masthead. */
 }
 {
-  /* Sticks BELOW the language bar (top-9 = its 36px height), so the whole chrome stack
-   holds together as one unit instead of the dark bar sliding up behind the masthead
-   and leaving a moving sliver at the top of the viewport. */
+  /* Sticks BELOW the language bar (top-13 = its ~52px height with py-2), so the whole
+   chrome stack holds together as one unit instead of the dark bar sliding up behind
+   the masthead and leaving a moving sliver at the top of the viewport. */
 }
 <header
-  class="sticky top-12 z-60 border-b border-border bg-surface/90 backdrop-blur-md supports-[not(backdrop-filter:blur(0))]:bg-surface"
+  class="sticky top-13 z-60 border-b border-border/70 bg-surface/95 backdrop-blur-md supports-[not(backdrop-filter:blur(0))]:bg-surface"
   data-testid="header"
 >
-  <div class="mx-auto flex max-w-6xl items-center gap-3 px-3 py-2">
+  <div class="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3.5 sm:px-6 sm:gap-5 lg:py-4">
     <Logo />
 
     {
@@ -98,7 +99,7 @@ const NAV = [
       aria-label={t('menu.open', lang)}
       aria-expanded="false"
       aria-controls="mh-menu"
-      class="grid tap shrink-0 place-items-center rounded-action text-ink lg:hidden"
+      class="grid tap shrink-0 place-items-center rounded-action text-ink transition-colors duration-200 hover:bg-bg lg:hidden"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
@@ -109,16 +110,15 @@ const NAV = [
       </svg>
     </button>
 
-    <nav class="hidden lg:block" aria-label={t('menu.open', lang)} data-testid="desktop-nav">
-      <ul class="flex items-center gap-1">
+    <nav class="hidden flex-1 lg:block" aria-label={t('menu.open', lang)} data-testid="desktop-nav">
+      <ul class="flex items-center justify-center gap-0.5">
         {
           NAV.map((item) => (
             <li>
               <a
                 href={item.href}
                 data-testid={`nav-${item.key.split('.')[1]}`}
-                class="flex tap items-center rounded-action px-3 font-bold whitespace-nowrap
- text-ink no-underline hover:bg-bg"
+                class="flex tap relative items-center rounded-action px-3.5 text-[0.9375rem] font-semibold whitespace-nowrap text-ink/85 no-underline transition-colors duration-200 hover:text-ink hover:bg-pink-050"
                 data-i18n={item.key}
               >
                 {t(item.key, lang)}
@@ -129,14 +129,14 @@ const NAV = [
       </ul>
     </nav>
 
-    <div class="ms-auto flex shrink-0 items-center gap-1">
+    <div class="ms-auto flex shrink-0 items-center gap-2 sm:gap-3">
       {
         showLogin && (
           <a
             href="/login"
             data-testid="login-header"
-            class="hidden tap items-center gap-2 rounded-action px-3 text-[0.9375rem] font-bold
- whitespace-nowrap text-ink no-underline sm:inline-flex"
+            class="hidden tap items-center gap-2 rounded-action px-3 text-[0.9375rem] font-semibold
+whitespace-nowrap text-ink/85 no-underline transition-colors duration-200 hover:text-ink hover:bg-bg sm:inline-flex"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
@@ -150,6 +150,7 @@ const NAV = [
           </a>
         )
       }
+      {/* Quick-exit removed from visible chrome at owner request (Shift+Esc keyboard escape still active via QuickExit's inline script for facilitator demos). */}
       <QuickExit />
     </div>
   </div>

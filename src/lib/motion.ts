@@ -51,6 +51,16 @@ export function initHomeMotion(): () => void {
         ease: 'power3.out',
       });
 
+      // Hero photograph reveals via a clip-path wipe from LEFT → RIGHT, so the image
+      // "opens up" starting on its left edge and filling rightward. The un-revealed
+      // right area shows the section's pink-050 background — no grey is ever visible
+      // during the animation.
+      gsap.fromTo(
+        '[data-anim="hero-photo"]',
+        { clipPath: 'inset(0 100% 0 0)' },
+        { clipPath: 'inset(0 0% 0 0)', duration: 1.4, delay: 0.15, ease: 'power3.out' },
+      );
+
       // The CTA pulses ONCE, two seconds after load. Never a loop — a repeating pulse
       // on a shared phone reads as a notification, which is a safety problem, not a
       // design one.
@@ -63,13 +73,7 @@ export function initHomeMotion(): () => void {
         ease: 'sine.inOut',
       });
 
-      gsap.from('[data-anim="deck-back"]', {
-        opacity: 0,
-        rotate: 0,
-        duration: 0.9,
-        delay: 0.35,
-        stagger: 0.08,
-      });
+      // The hero photo reveal handles the artwork side of the hero.
 
       // Ambient bloom drift. ease:'none' and a very long duration so it never reads as
       // an event — it should be felt, not noticed.
@@ -81,6 +85,8 @@ export function initHomeMotion(): () => void {
         yoyo: true,
         ease: 'none',
       });
+
+      // The floating hero card has been removed from the artwork, no deck lift needed.
 
       // ── Section headings ───────────────────────────────────────────────────────
       for (const h of gsap.utils.toArray<HTMLElement>('[data-anim="section-heading"]')) {
@@ -141,23 +147,40 @@ export function initHomeMotion(): () => void {
       });
 
       // ── Impact — count-up on the dark chapter ──────────────────────────────────
-      // snap:1 so a partial number is never on screen. Elements with no `data-to`
-      // are the «—» placeholders and are deliberately left alone: the PRD forbids
-      // invented numbers, and animating an em dash to zero would invent one.
+      // The whole chapter zooms in slightly as it enters the viewport — the dark
+      // sheet feels like it comes forward rather than passes through. scale start
+      // < 1 with `ease:power3.out` and a scrub range gives that "settling into
+      // place" feel without any jank on scroll-up.
+      gsap.from('[data-anim="impact-zoom"]', {
+        scale: 0.9,
+        opacity: 0,
+        y: 40,
+        duration: 1.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '[data-section="impact"]',
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+
+      // snap:1 so a partial number is never on screen. Suffix (like «+») is preserved
+      // via a data-suffix attribute and stitched back on each tween tick.
       for (const el of gsap.utils.toArray<HTMLElement>('[data-anim="stat"]')) {
         const to = Number(el.dataset['to'] ?? '');
+        const suffix = el.dataset['suffix'] ?? '';
         if (!Number.isFinite(to) || to <= 0) continue;
-        gsap.fromTo(
-          el,
-          { textContent: 0 },
-          {
-            textContent: to,
-            duration: 1.4,
-            ease: 'power1.out',
-            snap: { textContent: 1 },
-            scrollTrigger: { trigger: el, start: 'top 75%', once: true },
+        const proxy = { n: 0 };
+        gsap.to(proxy, {
+          n: to,
+          duration: 1.6,
+          ease: 'power1.out',
+          snap: { n: 1 },
+          scrollTrigger: { trigger: el, start: 'top 80%', once: true },
+          onUpdate: () => {
+            el.textContent = `${Math.round(proxy.n)}${suffix}`;
           },
-        );
+        });
       }
 
       // ── Card gallery — PIN 2 of 2, desktop only ────────────────────────────────

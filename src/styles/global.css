@@ -68,9 +68,17 @@ body {
 
 /* Never removed, on any interactive element, on any route. */
 :focus-visible {
-  outline: 3px solid var(--color-blue-600);
+  outline: 2px solid var(--color-blue-600);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: var(--radius-action);
+}
+
+a { text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+
+@keyframes mh-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Skip link — visible on focus only, first thing in the tab order. */

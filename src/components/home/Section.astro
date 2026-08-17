@@ -30,12 +30,16 @@ const {
 {
   /* Flat hierarchy by design: every section heading is the same size. No section
  outranks another, appropriate for a product where each route is equally valid.
- Hierarchy below this level is carried by weight and colour, never by size. */
+ Hierarchy below this level is carried by weight and colour, never by size.
+
+ One rhythm scale across the whole home page: 96px on phones, 128px on tablets,
+ 160px on desktop. Even every-section spacing is what makes the page feel
+ composed rather than assembled. */
 }
 <section
   data-section={id}
   class:list={[
-    'relative px-5 py-16 sm:py-24',
+    'relative px-5 py-14 sm:px-8 sm:py-16 lg:px-10 lg:py-20',
     dark && 'bg-ink text-surface',
     tint && !dark && 'bg-pink-050',
     !dark && !tint && 'bg-surface',
@@ -48,10 +52,9 @@ const {
     <h2
       id={`${id}-heading`}
       class:list={[
-        'shirorekha text-section leading-tight font-bold',
+        'text-section leading-tight font-bold tracking-tight',
         dark ? 'text-surface' : 'text-ink',
       ]}
-      style="--shirorekha-width:3.5rem"
       data-i18n={headingKey}
       data-anim="section-heading"
     >
@@ -61,7 +64,7 @@ const {
     {
       subKey && (
         <p
-          class:list={['mt-3 max-w-2xl text-lead', dark ? 'text-surface/80' : 'text-muted']}
+          class:list={['mt-4 max-w-2xl text-lead leading-relaxed', dark ? 'text-surface/80' : 'text-muted']}
           data-i18n={subKey}
         >
           {t(subKey, lang)}
@@ -69,7 +72,7 @@ const {
       )
     }
 
-    <div class="mt-10">
+    <div class="mt-10 sm:mt-12 lg:mt-14">
       <slot />
     </div>
   </div>

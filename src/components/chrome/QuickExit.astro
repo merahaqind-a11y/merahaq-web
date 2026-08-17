@@ -18,51 +18,22 @@
 ---
 
 {
-  /* Lives inside the sticky masthead rather than in a fixed rail of its own. The header
- is sticky, so ✘ is on screen at every scroll position anyway, and being in the
- same row as everything else means it can never drift out of alignment or collide
- with the language bar above.
-
- It is deliberately the last child of the header row, so on every route it is the
- rightmost control. */
+  /* Owner override: the visible top-right ✘ has been removed from chrome. The Shift+Esc
+   keyboard escape (bound at capture-phase from the inline script below) remains active
+   so facilitators can still demo the panic flow without a visible affordance. */
 }
-<div class="contents">
-  <div>
-    <div class="group relative">
-      <button
-        type="button"
-        id="mh-quick-exit"
-        data-testid="quick-exit"
-        aria-label="सुरक्षित बाहर निकलें"
-        translate="no"
-        class="grid tap place-items-center rounded-action border border-border bg-surface text-ink
- shadow-header"
-      >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="M6 6l12 12M18 6L6 18"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"></path>
-        </svg>
-      </button>
-
-      {
-        /* What this button does is not obvious from a ✘, and getting it wrong in a
- hurry is the worst possible moment to be guessing. The label appears on
- hover and on keyboard focus, never on tap, where it would just delay her. */
-      }
-      <span
-        class="pointer-events-none absolute end-0 top-full mt-1 hidden w-max max-w-[11rem] rounded-action
- bg-ink px-3 py-2 text-end text-[0.8125rem] leading-snug text-surface
- group-hover:block group-focus-within:block"
-        role="tooltip"
-        aria-hidden="true"
-      >
-        सुरक्षित बाहर निकलें
-      </span>
-    </div>
-  </div>
+<div class="hidden">
+  <button
+    type="button"
+    id="mh-quick-exit"
+    data-testid="quick-exit"
+    aria-label="सुरक्षित बाहर निकलें"
+    translate="no"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    Exit
+  </button>
 </div>
 
 <script is:inline>

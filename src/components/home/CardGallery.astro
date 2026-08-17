@@ -19,16 +19,30 @@ const { lang = 'hi' } = Astro.props;
  All ten are here and reachable regardless. Personalisation curates the deck; it
  never censors the library. */
 }
-<Section id="cards" headingKey="gallery.heading" subKey="gallery.sub" lang={lang} tint>
-  <div class="-mx-5 overflow-x-auto px-5 pb-4 [scrollbar-width:thin] lg:overflow-hidden">
-    <ul class="flex snap-x snap-mandatory gap-4 lg:snap-none" data-anim="gallery-track">
-      {
-        CARD_LIST.map((card) => (
-          <li class="snap-start">
-            <HaqCard card={card} lang={lang} tilt={0} universal={card.role === 'universal'} />
-          </li>
-        ))
-      }
-    </ul>
+<Section id="cards" headingKey="gallery.heading" subKey="gallery.sub" lang={lang}>
+  <div class="relative -mx-5 sm:-mx-8 lg:-mx-10" data-testid="card-gallery-frame">
+    <div
+      class="overflow-x-auto px-5 pb-6 [scrollbar-width:thin] sm:px-8 lg:overflow-hidden lg:px-10"
+      data-testid="card-gallery-scroller"
+    >
+      <ul
+        class="flex snap-x snap-mandatory gap-5 pt-1 lg:snap-none lg:gap-6"
+        data-anim="gallery-track"
+        data-testid="card-gallery-track"
+      >
+        {
+          CARD_LIST.map((card) => (
+            <li class="snap-start" data-testid={`gallery-item-${card.slug}`}>
+              <HaqCard card={card} lang={lang} tilt={0} universal={card.role === 'universal'} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+  <div class="mt-6 flex items-center gap-3 lg:hidden" aria-label="Gallery progress" data-testid="gallery-dots">
+    <span class="h-1.5 w-10 rounded-pill bg-pink-600"></span>
+    <span class="mono text-xs text-muted">1 / 10</span>
+    <span class="text-xs text-muted">स्वाइप करें</span>
   </div>
 </Section>
